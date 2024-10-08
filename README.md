@@ -1,5 +1,7 @@
 # LokaKarya - Website Informasi Kerajinan Tangan di Kota Jepara
 
+Tautan untuk menuju Lokakarya -> [http://belva-ghani-lokakarya.pbp.cs.ui.ac.id/](http://belva-ghani-lokakarya.pbp.cs.ui.ac.id/)
+
 ## Nama-nama Anggota Kelompok
 - Muhammad Yahya Ayyas - 2306212083
 - Azzahra Salsabila - 2306219934
