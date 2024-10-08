@@ -46,7 +46,7 @@ Kategori produk yang akan ditampilkan di website:
 - *Keramik*
 - *Batik Jepara*
 <br>
-List initial dataset dapat diakses pada tautan berikut -> [ristek.link/LokaKaryaDataset](ristek.link/LokaKaryaDataset)
+List initial dataset dapat diakses pada tautan berikut -> <a href="ristek.link/LokaKaryaDataset">ristek.link/LokaKaryaDatase</a>
 
 ## Role Pengguna
 1. *Pembeli*:
