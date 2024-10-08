@@ -46,8 +46,7 @@ Kategori produk yang akan ditampilkan di website:
 - *Keramik*
 - *Batik Jepara*
 <br>
-List initial dataset dapat diakses pada tautan berikut:
-[Initial Dataset](https://docs.google.com/spreadsheets/d/1iwVvKY70utZZBPC0xP1HDhbXZJZnOaFHTg-w9wlMwY0/edit?usp=sharing)
+List initial dataset dapat diakses pada tautan berikut: [Dataset](https://docs.google.com/spreadsheets/d/1iwVvKY70utZZBPC0xP1HDhbXZJZnOaFHTg-w9wlMwY0/edit?usp=sharing)
 
 ## Role Pengguna
 1. *Pembeli*:
