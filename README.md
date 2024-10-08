@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# LokaKarya
-=======
 # LokaKarya - Website Informasi Kerajinan Tangan di Kota Jepara
 
 ## Deskripsi Aplikasi
@@ -57,4 +54,3 @@ Kategori produk yang akan ditampilkan di website:
 
 ## Conclusion
 Website ini diharapkan mampu memberikan solusi praktis bagi pembeli yang ingin menemukan produk kerajinan tangan di Jepara. Di sisi lain, pemilik toko juga mendapatkan keuntungan dari visibilitas produk mereka yang lebih luas, sehingga memperluas jangkauan pasar mereka.
->>>>>>> 1c0ce43 (README.md tahap 1)
