@@ -44,8 +44,9 @@ Kategori produk yang akan ditampilkan di website:
 - *Aksesoris*
 - *Fashion*
 - *Keramik*
-- *Batik Jepara*
-<br>List initial dataset dapat diakses pada tautan berikut ->  [ristek.link/LokaKaryaDataset](https://docs.google.com/spreadsheets/d/1iwVvKY70utZZBPC0xP1HDhbXZJZnOaFHTg-w9wlMwY0/edit?gid=0#gid=0)
+- *Batik Jepara*<br/>
+
+List initial dataset dapat diakses pada tautan berikut ->  [ristek.link/LokaKaryaDataset](https://docs.google.com/spreadsheets/d/1iwVvKY70utZZBPC0xP1HDhbXZJZnOaFHTg-w9wlMwY0/edit?gid=0#gid=0)
 
 ## Role Pengguna
 1. *Pembeli*:
