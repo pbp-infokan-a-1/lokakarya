@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Landing Page{% endblock %}
 
 {% block content %}
@@ -12,12 +11,12 @@
     {% endif %}
 
     <!-- Hero Section -->
-    <section class="hero relative overflow-hidden h-screen">
-        <div class="hero-slider flex transition-transform duration-500">
-            <img src="{% static 'images/hero1.png' %}" class="hero-img w-full h-screen object-cover" alt="Hero Image 1">
-            <img src="{% static 'images/hero2.png' %}" class="hero-img w-full h-screen object-cover" alt="Hero Image 2">
-            <img src="{% static 'images/hero3.png' %}" class="hero-img w-full h-screen object-cover" alt="Hero Image 3">
-            <img src="{% static 'images/hero1.png' %}" class="hero-img w-full h-screen object-cover" alt="Hero Image 1 Clone">
+    <section class="hero">
+        <div class="hero-slider">
+            <img src="{% static 'images/hero1.png' %}" class="hero-img" alt="Hero Image 1">
+            <img src="{% static 'images/hero2.png' %}" class="hero-img" alt="Hero Image 2">
+            <img src="{% static 'images/hero3.png' %}" class="hero-img" alt="Hero Image 3">
+            <img src="{% static 'images/hero1.png' %}" class="hero-img" alt="Hero Image 1 Clone">
         </div>
         <div class="slider-controls absolute top-1/2 transform -translate-y-1/2 w-full flex justify-between px-4">
             <button class="prev text-white bg-gray-800 rounded-full p-2">&#10094;</button>
@@ -27,20 +26,61 @@
 
     <!-- Product Categories Section -->
     <section class="categories py-8">
-        <h2 class="text-2xl font-bold text-center mb-6">Product Categories</h2>
-        <div class="card-grid grid gap-6 grid-cols-2 md:grid-cols-4 px-4">
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Ukiran Kayu</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Anyaman Bambu</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Patung</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Cendera mata</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Aksesoris</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Fashion</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Keramik</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Batik Jepara</div>
+        <h2 class="text-2xl font-bold text-center mb-2">Product Categories</h2>
+        <p class="text-center text-gray-500 mb-6">Explore our wide range of products</p>
+        <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4">
+            <div class="category-item relative">
+                <img src="{% static 'images/ukiran_kayu.jpg' %}" alt="Ukiran Kayu" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Ukiran Kayu</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/anyaman_bambu.jpeg' %}" alt="Anyaman Bambu" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Anyaman Bambu</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/patung.jpg' %}" alt="Patung" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Patung</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/cenderamata.jpg' %}" alt="Cendera Mata" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Cendera Mata</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/aksesoris.jpg' %}" alt="Aksesoris" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Aksesoris</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/fashion.jpg' %}" alt="Fashion" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Fashion</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/keramik.jpg' %}" alt="Keramik" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Keramik</span>
+                </div>
+            </div>
+            <div class="category-item relative">
+                <img src="{% static 'images/batik_jepara.jpg' %}" alt="Batik Jepara" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Batik Jepara</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Affiliate Store Section -->
+
     <section class="affiliate-stores py-8">
         <h2 class="text-2xl font-bold text-center mb-6">Affiliate Stores</h2>
         <div class="card-grid grid gap-6 grid-cols-1 md:grid-cols-3 px-4">
@@ -51,11 +91,23 @@
     </section>
 
     <footer class="bg-gray-800 text-white text-center py-4">
-        <p>&copy; 2024 Lokakarya. All Rights Reserved.</p>
+        <p>&copy; 2024 LokaKarya. All Rights Reserved.</p>
         <div class="social-links">
             <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">Instagram</a>
             <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">Facebook</a>
             <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">LinkedIn</a>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinksMobile = document.querySelector('.nav-links-mobile');
+    
+            hamburger.addEventListener('click', () => {
+                navLinksMobile.classList.toggle('hidden');
+            });
+        });
+    </script>
+    
 {% endblock %}
