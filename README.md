@@ -42,6 +42,9 @@ Website "LokaKarya" bertujuan untuk mempermudah pengguna menemukan kerajinan tan
    - Fitur untuk menambahkan forum dan halaman ulasan
    - Role Pembeli dapat membuat ulasan dan menambahkan forum untuk toko.
 
+8. *Customer's Favorite Things Page*:
+   - Fitur untuk menambahkan barang favorit role Pembeli
+
 ## Sumber Initial Dataset
 Kategori produk yang akan ditampilkan di website:
 - *Ukiran Kayu*
