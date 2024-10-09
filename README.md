@@ -35,6 +35,13 @@ Website "LokaKarya" bertujuan untuk mempermudah pengguna menemukan kerajinan tan
 5. *Admin Dashboard* (untuk pemilik toko):
    - Fitur untuk menambahkan, memperbarui, atau menghapus produk yang dijual.
 
+6. *User Profile*:
+   - Informasi lengkap mengenai profil user (Pembeli, pemilik toko, admin)
+     
+7. *Forum and Review Page*:
+   - Fitur untuk menambahkan forum dan halaman ulasan
+   - Role Pembeli dapat membuat ulasan dan menambahkan forum untuk toko.
+
 ## Sumber Initial Dataset
 Kategori produk yang akan ditampilkan di website:
 - *Ukiran Kayu*
