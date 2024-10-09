@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!n5f81yk&+d50p$z1jq(6x51k@ek@#y%8#l!2+cg0qwg2*uv!z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PRODUCTION = os.getenv("PRODUCTION", False)
+DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "belva-ghani-lokakarya.pbp.cs.ui.ac.id"]
 
@@ -37,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authentication',
+    'main'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -54,7 +59,7 @@ ROOT_URLCONF = 'lokakarya.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,9 +120,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static' # merujuk ke /static root project pada mode development
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://pbp.cs.ui.ac.id/belva.ghani/lokakarya", "https://pbp.cs.ui.ac.id/belva.ghani/lokakarya"]
