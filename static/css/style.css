@@ -26,7 +26,7 @@ body {
 }
 
 .nav-links {
-    display: flex;
+    display: none;
     gap: 2rem; /* Mengatur jarak antar item */
     list-style: none;
 }
@@ -63,7 +63,7 @@ body {
 .hero {
     position: relative;
     overflow: hidden;
-    height: 100vh; /* Full viewport height */
+    height: 100vh; /* Default full viewport height */
     margin-top: 72px; /* Adjust to account for fixed navbar */
 }
 
@@ -74,17 +74,19 @@ body {
 
 .hero-img {
     min-width: 100%;
-    height: 100%; /* Full height to ensure full coverage */
+    height: 100%;
     object-fit: cover;
 }
 
 .slider-controls {
     position: absolute;
     top: 50%;
-    width: 100%;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     transform: translateY(-50%);
+    padding: 0 1rem; /* Add padding to ensure buttons are not too close to the edges */
 }
 
 .slider-controls .prev,
@@ -92,15 +94,56 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     border: none;
-    padding: 0.75rem;
+    padding: 0.7rem; /* Default padding */
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* Default size */
     border-radius: 50%;
+    transition: background-color 0.3s;
 }
 
 .slider-controls .prev:hover,
 .slider-controls .next:hover {
     background-color: rgba(0, 0, 0, 0.7);
+}
+
+.category-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Ukuran minimal yang lebih kecil */
+    padding: 1rem; /* Sesuaikan padding untuk kompak */
+}
+
+.category-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem; /* Lebih kecil dari sebelumnya */
+}
+
+.category-item img {
+    transition: transform 0.3s ease-in-out;
+    border-radius: 0.75rem; /* Pastikan gambar mengikuti border-radius */
+}
+
+.category-item:hover img {
+    transform: scale(1.05); /* Efek zoom saat hover */
+}
+
+.category-overlay {
+    background: rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease-in-out;
+    border-radius: 0.75rem;
+}
+
+.category-item:hover .category-overlay {
+    background: rgba(0, 0, 0, 0.5); /* Overlay lebih gelap saat hover */
+}
+
+.category-overlay span {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.3rem 0.75rem; /* Padding yang lebih kecil untuk teks */
+    border-radius: 9999px;
+    color: #333;
+    font-weight: 600;
 }
 
 .card-grid {
@@ -115,7 +158,7 @@ body {
     padding: 1.5rem;
     border: 1px solid #ddd;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -139,7 +182,7 @@ body {
 
 @media (max-width: 768px) {
     .nav-links {
-        display: none;
+        display: none; /* Hidden by default */
         flex-direction: column;
         background: #fff;
         position: absolute;
@@ -151,7 +194,7 @@ body {
     }
 
     .nav-links.show {
-        display: flex;
+        display: flex; /* Show when toggled */
     }
 
     .hamburger {
@@ -160,5 +203,43 @@ body {
 
     .logo img {
         height: 35px; /* Adjust logo size for smaller screens */
+    }
+
+    .hero {
+        height: 50vh; /* Adjust to a smaller height on mobile */
+    }
+
+    .hero-img {
+        height: 50vh; /* Match the container's height */
+    }
+
+    .slider-controls {
+        padding: 0 0.5rem; /* Adjust the padding for smaller screens */
+    }
+
+    .slider-controls .prev,
+    .slider-controls .next {
+        padding: 0.4rem; /* Smaller padding for mobile */
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 40vh; /* Adjust for smaller screens */
+    }
+
+    .hero-img {
+        height: 40vh; /* Match the container's height */
+    }
+
+    .slider-controls {
+        padding: 0 0.2rem; /* More padding reduction for very small screens */
+    }
+
+    .slider-controls .prev,
+    .slider-controls .next {
+        padding: 0.3rem; /* Make buttons smaller */
+        font-size: 1rem; /* Smaller font size for small screens */
     }
 }
