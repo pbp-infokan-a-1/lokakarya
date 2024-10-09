@@ -70,6 +70,3 @@ List initial dataset dapat diakses pada tautan berikut ->  [ristek.link/LokaKary
 3. *Admin*:
    - Mengelola data produk dan toko yang terdaftar di platform.
    - Memantau aktivitas pengguna dan memoderasi konten.
-
-## Conclusion
-Website ini diharapkan mampu memberikan solusi praktis bagi pembeli yang ingin menemukan produk kerajinan tangan di Jepara. Di sisi lain, pemilik toko juga mendapatkan keuntungan dari visibilitas produk mereka yang lebih luas, sehingga memperluas jangkauan pasar mereka.
