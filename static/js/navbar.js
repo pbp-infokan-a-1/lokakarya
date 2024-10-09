@@ -1,6 +1,8 @@
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinksMobile = document.querySelector('.nav-links-mobile');
 
-hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
+    hamburger.addEventListener('click', () => {
+        navLinksMobile.classList.toggle('hidden');
+    });
 });
