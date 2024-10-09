@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokakarya - {% block title %}Home{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'js/slider.js' %}" defer></script>
+    <script src="{% static 'js/navbar.js' %}" defer></script>
+</head>
+<body class="bg-gray-100">
+    <main>
+        {% block content %}
+        <!-- Halaman spesifik akan dimasukkan di sini -->
+        {% endblock %}
+    </main>
+</body>
+</html>
