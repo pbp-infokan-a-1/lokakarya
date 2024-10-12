@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Caruban';
+    src: url('../fonts/Caruban-EBK8.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -6,29 +13,26 @@ body {
 }
 
 .navbar {
-    background-color: #fff;
+    background-color: #f0e3ce; /* Light background for contrast */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    padding: 0.5rem 2rem;
 }
 
-.navbar .logo {
+.navbar-content {
     display: flex;
+    justify-content: space-between; /* Ensures logo is on the left, links on the right */
     align-items: center;
 }
 
-.navbar .logo img {
-    height: 40px;
-    margin-right: 8px; /* Jarak antara logo dan teks */
-}
-
 .nav-links {
-    display: none;
-    gap: 2rem; /* Mengatur jarak antar item */
+    display: none; /* Hide by default */
     list-style: none;
+    gap: 2rem; /* Space between each link */
 }
 
 .nav-links li {
@@ -37,17 +41,17 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: #333;
+    color: #3B3B3B; /* Default color */
     font-size: 1rem;
     transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: #007bff;
+    color: #f0e3ce; /* Light brown on hover */
 }
 
 .hamburger {
-    display: none;
+    display: none; /* Hidden on larger screens */
     cursor: pointer;
     flex-direction: column;
     gap: 5px;
@@ -58,6 +62,31 @@ body {
     width: 25px;
     height: 3px;
     background: #333;
+}
+
+.hero-text-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    height: 100vh; /* Same height as the other slides */
+    background: url("{% static 'images/background-hero-1.jpg' %}");
+}
+
+.text-box {
+    background-color: rgba(245, 245, 220, 0.9); /* Semi-transparent cream */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 600px;
+}
+
+.text-dark-brown {
+    color: #6b4226;
+}
+
+.text-accent-brown {
+    color: #8b4513;
 }
 
 .hero {
@@ -74,9 +103,12 @@ body {
 
 .hero-img {
     min-width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: 100vh; /* Keeps the height of the hero section full-screen */
+    object-fit: cover; /* Ensures the image covers the entire area without distorting */
+    background-size: cover; /* Ensures the background image covers the whole section */
+    background-position: center; /* Centers the image */
 }
+
 
 .slider-controls {
     position: absolute;
@@ -180,6 +212,16 @@ body {
     color: #007bff;
 }
 
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex; /* Show navigation links on medium and larger screens */
+    }
+
+    .hamburger {
+        display: none; /* Hide the hamburger icon on larger screens */
+    }
+}
+
 @media (max-width: 768px) {
     .nav-links {
         display: none; /* Hidden by default */
@@ -243,3 +285,4 @@ body {
         font-size: 1rem; /* Smaller font size for small screens */
     }
 }
+

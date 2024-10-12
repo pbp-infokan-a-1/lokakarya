@@ -13,11 +13,33 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-slider">
+            <!-- Hero Slide with Background Image and Text -->
+            <!-- Hero Slide with Background Image and Text -->
+            <div class="hero-img relative flex justify-center items-center h-screen">
+                <img src="{% static 'images/background-hero-1.jpg' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box max-w-lg p-8 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-center relative z-10">
+                    <h1 class="text-lg md:text-6xl text-dark-brown" style="font-family: 'Caruban'">Sugeng Rawuh</h1>
+                    <h2 class="text-lg md:text-4xl text-accent-brown mt-2" style="font-family: 'Caruban'">
+                        Kulo Nuwun, Ini <span class="text-accent-brown">LokaKarya!</span>
+                    </h2>
+                    <p class="text-base md:text-sm text-gray-700 mt-4">
+                        Temukan beragam produk kerajinan tangan asli Jepara yang penuh keindahan dan ketelatenan tangan pengrajin lokal. Nggak sekedar belanja, ini adalah bentuk apresiasi budaya kita!
+                    </p>
+                    <button class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Mulai Jelajah
+                    </button>
+                </div>
+            </div>            
+
+            <!-- Image-based Slide 1 -->
             <img src="{% static 'images/hero1.png' %}" class="hero-img" alt="Hero Image 1">
+            <!-- Image-based Slide 2 -->
             <img src="{% static 'images/hero2.png' %}" class="hero-img" alt="Hero Image 2">
+            <!-- Image-based Slide 3 -->
             <img src="{% static 'images/hero3.png' %}" class="hero-img" alt="Hero Image 3">
-            <img src="{% static 'images/hero1.png' %}" class="hero-img" alt="Hero Image 1 Clone">
         </div>
+
+        <!-- Slider Controls -->
         <div class="slider-controls absolute top-1/2 transform -translate-y-1/2 w-full flex justify-between px-4">
             <button class="prev text-white bg-gray-800 rounded-full p-2">&#10094;</button>
             <button class="next text-white bg-gray-800 rounded-full p-2">&#10095;</button>
@@ -26,52 +48,52 @@
 
     <!-- Product Categories Section -->
     <section class="categories py-8">
-        <h2 class="text-2xl font-bold text-center mb-2">Product Categories</h2>
-        <p class="text-center text-gray-500 mb-6">Explore our wide range of products</p>
-        <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4">
-            <div class="category-item relative">
+        <h2 class="text-2xl font-bold text-center mb-2" style="font-family: 'Poppins', sans-serif; color: #6F4E37;">Product Categories</h2>
+        <p class="text-center mb-6" style="font-family: 'Poppins', sans-serif; color: #5E5E5E;">Explore our wide range of products</p>
+        <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4 lg:px-32 xl:px-64">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/ukiran_kayu.jpg' %}" alt="Ukiran Kayu" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Ukiran Kayu</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/anyaman_bambu.jpeg' %}" alt="Anyaman Bambu" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Anyaman Bambu</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/patung.jpg' %}" alt="Patung" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Patung</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/cenderamata.jpg' %}" alt="Cendera Mata" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Cendera Mata</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/aksesoris.jpg' %}" alt="Aksesoris" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Aksesoris</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/fashion.jpg' %}" alt="Fashion" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Fashion</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/keramik.jpg' %}" alt="Keramik" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Keramik</span>
                 </div>
             </div>
-            <div class="category-item relative">
+            <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/batik_jepara.jpg' %}" alt="Batik Jepara" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
                     <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Batik Jepara</span>
@@ -80,9 +102,8 @@
         </div>
     </section>
 
-
     <section class="affiliate-stores py-8">
-        <h2 class="text-2xl font-bold text-center mb-6">Affiliate Stores</h2>
+        <h2 class="text-2xl font-bold text-center mb-6" style="font-family: 'Poppins', sans-serif;">Affiliate Stores</h2>
         <div class="card-grid grid gap-6 grid-cols-1 md:grid-cols-3 px-4">
             <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 1</div>
             <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 2</div>
