@@ -33,6 +33,7 @@ body {
     display: none; /* Hide by default */
     list-style: none;
     gap: 2rem; /* Space between each link */
+    text-align: center; /* Ensure text is centered in the dropdown */
 }
 
 .nav-links li {
@@ -108,7 +109,6 @@ body {
     background-size: cover; /* Ensures the background image covers the whole section */
     background-position: center; /* Centers the image */
 }
-
 
 .slider-controls {
     position: absolute;
@@ -222,23 +222,67 @@ body {
     }
 }
 
+/* For mobile view */
+.mobile-menu {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    position: absolute;
+    top: 100%; /* Posisi di bawah navbar */
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Pastikan muncul di atas elemen lainnya */
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.tab {
+    cursor: pointer;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tab:hover,
+.active-tab {
+    background-color: #f0e3ce;
+}
+
+.hidden {
+    display: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+ul li {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+ul li:hover {
+    background-color: #f0e3ce;
+}
+
+/* Ensure only one list is visible */
+#categories-list,
+#menu-list {
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 8px;
+}
+
 @media (max-width: 768px) {
-    .nav-links {
-        display: none; /* Hidden by default */
-        flex-direction: column;
-        background: #fff;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 200px;
-        padding: 1rem;
-    }
-
-    .nav-links.show {
-        display: flex; /* Show when toggled */
-    }
-
     .hamburger {
         display: flex;
     }
@@ -249,6 +293,15 @@ body {
 
     .hero {
         height: 50vh; /* Adjust to a smaller height on mobile */
+    }
+
+    .text-box {
+        padding: 0.5rem; /* Lebih sedikit padding untuk mobile */
+        max-width: 95%; /* Lebih lebar di tampilan mobile */
+    }
+    .hero-text-slide {
+        height: auto; /* Ubah menjadi auto jika height terlalu besar di HP */
+        min-height: 100vh; /* Pastikan minimal setinggi layar */
     }
 
     .hero-img {
@@ -285,4 +338,3 @@ body {
         font-size: 1rem; /* Smaller font size for small screens */
     }
 }
-
