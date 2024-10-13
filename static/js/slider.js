@@ -3,7 +3,7 @@ const slides = document.querySelectorAll('.hero-img');
 const totalSlides = slides.length;
 const slider = document.querySelector('.hero-slider');
 const slideWidth = 100; // percentage width of each slide
-const autoSlideInterval = 5000;
+const autoSlideInterval = 10000;
 
 // Clone the first and last slide
 const firstClone = slides[0].cloneNode(true);
