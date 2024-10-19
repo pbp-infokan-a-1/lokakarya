@@ -1,0 +1,60 @@
+{% extends 'baseprofile.html' %}
+
+{% block meta %}
+<title>Update Profile</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'loginnavbar.html' %}
+<div class="container mx-auto mt-5 max-w-lg">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold text-center mb-4">Update Your Profile</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" name="username" value="{{ profile.user.username }}" readonly class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Bio -->
+            <div class="mb-4">
+                <label for="bio" class="block text-gray-700 text-sm font-bold mb-2">Bio</label>
+                <textarea name="bio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ form.bio.value }}</textarea>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-4">
+                <label for="location" class="block text-gray-700 text-sm font-bold mb-2">Location</label>
+                <input type="text" name="location" value="{{ form.location.value }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Birth Date -->
+            <div class="mb-4">
+                <label for="birth_date" class="block text-gray-700 text-sm font-bold mb-2">Birth Date</label>
+                <input type="date" name="birth_date" 
+                    value="{{ profile.birth_date|date:'Y-m-d' }}" 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="mb-4">
+                <label for="avatar" class="block text-gray-700 text-sm font-bold mb-2">Profile Picture</label>
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="Current Profile Picture" class="rounded-circle mb-4" width="150" height="150">
+                    <p class="text-gray-600 text-sm mb-2">Current file: {{ profile.avatar.name }}</p>
+                {% endif %}
+                <input type="file" name="avatar" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
