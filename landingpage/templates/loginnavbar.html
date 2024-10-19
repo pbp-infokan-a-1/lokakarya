@@ -11,7 +11,7 @@
         <ul class="nav-links hidden md:flex space-x-6">
             <li><a href="#" class="text-gray-700 hover:text-blue-500">About Us</a></li>
             <li><a href="#" class="text-gray-700 hover:text-blue-500">Categories</a></li>
-            <li><a href="#" class="text-gray-700 hover:text-blue-500">Profile</a></li>
+            <li><a href="{% url 'userprofile:profile' %}" class="text-gray-700 hover:text-blue-500">Profile</a></li>
             <li><a href="#" class="text-gray-700 hover:text-blue-500">Favorites</a></li>
             <li><a href="#" class="text-gray-700 hover:text-blue-500">Forum & Review</a></li>
             <li><a href="{% url 'authentication:logout' %}" class="text-gray-700 hover:text-blue-500">Logout</a></li>
@@ -48,7 +48,7 @@
         <!-- Menu List (hidden by default) -->
         <ul id="menu-list" class="bg-white text-gray-700 p-4 space-y-2 hidden">
             <li><a href="#">About Us</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="{% url 'userprofile:profile' %}">Profile</a></li>
             <li><a href="#">Favorites</a></li>
             <li><a href="#">Forum & Review</a></li>
             <li><a href="{% url 'authentication:logout' %}">Logout</a></li>
