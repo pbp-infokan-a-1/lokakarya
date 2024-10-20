@@ -3,8 +3,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <!-- Logo on the Left -->
         <div class="flex items-center">
-            <img src="{% static 'images/lokakarya_logo.png' %}" alt="Lokakarya Logo" class="h-10">
-            <span class="ml-2 text-lg font-bold">Lokakarya</span>
+            <a href="{% url 'landingpage:home' %}" class="flex items-center">
+                <img src="{% static 'images/lokakarya_logo.png' %}" alt="Lokakarya Logo" class="h-10">
+                <span class="ml-2 text-lg font-bold">Lokakarya</span>
+            </a>
         </div>
 
         <!-- Navigation Links on the Right (only for desktop) -->

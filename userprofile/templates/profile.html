@@ -8,35 +8,125 @@
 {% block content %}
 {% include 'loginnavbar.html' %}
 
-<div class="container mt-5">
-    <div class="card profile-card mx-auto p-5 shadow-md" style="max-width: 700px; border-radius: 15px;">
-        <!-- Profile Header -->
-        <div class="text-center mb-4">
+<div class="profile-container mx-auto mt-5">
+    <div class="profile-header flex items-center justify-start" style="max-width: 700px;">
+        <!-- Profile Picture on the Left -->
+        <div class="profile-picture mr-10">
             {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="rounded-full" style="width: 180px; height: 180px; object-fit: cover;">
             {% else %}
-                <img src="{% static 'images/default-avatar.png' %}" alt="Default Profile Picture" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                <img src="{% static 'images/default-avatar.png' %}" alt="Default Profile Picture" class="rounded-full" style="width: 180px; height: 180px; object-fit: cover;">
             {% endif %}
-            <h2 class="mt-2" style="font-size: 1.8rem; font-weight: bold;">{{ profile.user.username }}</h2>
-            <p class="text-muted" style="font-size: 1rem;">{{ profile.user.email }}</p>
         </div>
 
-        <!-- Profile Details -->
-        <div class="profile-details">
-            <h5 class="font-weight-bold mb-3">Profile Information</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Bio:</strong> {{ profile.bio|default:"No bio available" }}</li>
-                <li class="list-group-item"><strong>Location:</strong> {{ profile.location|default:"Not specified" }}</li>
-                <li class="list-group-item"><strong>Birth Date:</strong> {{ profile.birth_date|date:"F j, Y" }}</li>
-            </ul>
-        </div>
-
-        <!-- Profile Actions -->
-        <div class="mt-4 text-center">
-            <a href="{% url 'userprofile:update_profile' %}" class="btn btn-primary btn-lg" style="background-color: #007BFF; border-color: #007BFF;">
-                Update Profile
-            </a>
+        <!-- Username and Buttons on the Right -->
+        <div class="profile-info">
+            <h2 class="font-bold text-3xl">{{ profile.user.username }}</h2>
+            <div class="flex space-x-2 mt-2">
+                <a href="{% url 'userprofile:update_profile' %}" class="btn btn-primary">Edit Profile</a>
+                <a href="{% url 'authentication:logout' %}" class="btn btn-secondary">Logout</a>
+            </div>
+            <!-- Bio, Location, Birth Date below username -->
+            <div class="mt-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Bio:</strong> {{ profile.bio|default:"No bio available" }}</li>
+                    <li class="list-group-item"><strong>Location:</strong> {{ profile.location|default:"Not specified" }}</li>
+                    <li class="list-group-item"><strong>Birth Date:</strong> {{ profile.birth_date|date:"F j, Y" }}</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 700px; /* Adjusted width */
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .profile-picture img {
+        border-radius: 50%;
+        border: 3px solid #6c757d;
+    }
+
+    .rounded-full{
+        border-radius: 50%
+    }
+
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-info h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .profile-info .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 5px;
+        text-transform: uppercase;
+    }
+
+    .profile-info .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .profile-info .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+    .profile-info .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .profile-info .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 5px 0;
+        font-size: 14px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-info {
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-picture {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
 {% endblock content %}
