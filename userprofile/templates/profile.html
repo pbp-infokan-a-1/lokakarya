@@ -1,4 +1,4 @@
-{% extends 'baseprofile.html' %}
+{% extends 'base.html' %}
 
 {% block meta %}
 <title>Your Profile</title>
@@ -6,7 +6,7 @@
 {% load static %}
 
 {% block content %}
-{% include 'loginnavbar.html' %}
+{% include 'header.html' %}
 
 <div class="profile-container mx-auto mt-5">
     <div class="profile-header flex items-center justify-start" style="max-width: 700px;">
@@ -37,7 +37,7 @@
         </div>
     </div>
 </div>
-
+{% include 'footer.html' %}
 <style>
     .profile-container {
         display: flex;
@@ -57,6 +57,7 @@
         align-items: flex-start;
         justify-content: space-between;
         width: 100%;
+        margin-bottom: 450px;
     }
 
     .profile-picture img {
@@ -89,26 +90,32 @@
 
     .profile-info .btn-primary {
         background-color: #007bff;
+        color: #ffffff;
         border: none;
     }
 
     .profile-info .btn-secondary {
-        background-color: #6c757d;
+        background-color: #E4080A;
+        color: #ffffff;
         border: none;
     }
 
     .profile-info .btn-primary:hover {
         background-color: #0056b3;
+        color: #000000;
     }
 
     .profile-info .btn-secondary:hover {
-        background-color: #5a6268;
+        background-color: #680001;
+        color: #000000;
     }
 
     .list-group-item {
+        width: 450px; /* Lebar tetap untuk container */
         border: none;
         padding: 5px 0;
         font-size: 14px;
+        word-wrap: break-word;
     }
 
     /* Responsive adjustments */
@@ -116,6 +123,8 @@
         .profile-header {
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 150px;
         }
 
         .profile-info {
@@ -124,9 +133,20 @@
         }
 
         .profile-picture {
-            margin-bottom: 20px;
+            margin-bottom: 0px;
+            margin-left: 40px;
+            text-align: center;
+        }
+
+        .list-group-item {
+            width: 390px; /* Lebar tetap untuk container */
+            border: none;
+            padding: 5px 0;
+            font-size: 14px;
+            word-wrap: break-word;
         }
     }
 </style>
-
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="{% static 'js/navbar.js' %}" defer></script>
 {% endblock content %}

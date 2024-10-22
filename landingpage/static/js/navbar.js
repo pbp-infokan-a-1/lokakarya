@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', function () {
         mobileMenu.classList.toggle('hidden');
     });
 
+    menuTab.addEventListener('click', () => {
+        menuList.classList.remove('hidden');
+        categoriesList.classList.add('hidden');
+        menuTab.classList.add('active-tab');
+        categoriesTab.classList.remove('active-tab');
+    });
+
     // Switch between Categories and Menu lists
     categoriesTab.addEventListener('click', () => {
         categoriesList.classList.remove('hidden');
         menuList.classList.add('hidden');
         categoriesTab.classList.add('active-tab');
         menuTab.classList.remove('active-tab');
-    });
-
-    menuTab.addEventListener('click', () => {
-        menuList.classList.remove('hidden');
-        categoriesList.classList.add('hidden');
-        menuTab.classList.add('active-tab');
-        categoriesTab.classList.remove('active-tab');
     });
 });
