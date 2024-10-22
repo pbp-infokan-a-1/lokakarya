@@ -265,13 +265,13 @@ ul {
 }
 
 ul li {
-    padding: 0.75rem 1.5rem;
     border-bottom: 1px solid #ddd;
     transition: background-color 0.3s;
 }
 
 ul li:hover {
     background-color: #f0e3ce;
+    color: #000000;
 }
 
 /* Ensure only one list is visible */
@@ -317,6 +317,12 @@ ul li:hover {
         padding: 0.4rem; /* Smaller padding for mobile */
         font-size: 1.2rem; /* Adjusted font size for smaller screens */
     }
+
+    ul li {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
 }
 
 @media (max-width: 480px) {
