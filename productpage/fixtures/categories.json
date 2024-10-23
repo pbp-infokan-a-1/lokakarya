@@ -1,0 +1,59 @@
+
+[
+    {
+      "model": "productpage.category",
+      "pk": 1,
+      "fields": {
+        "name": "Ukiran Kayu"
+      }
+    },
+    {
+      "model": "productpage.category",
+      "pk": 2,
+      "fields": {
+        "name": "Anyaman Bambu"
+      }
+    },
+    {
+      "model": "productpage.category",
+      "pk": 3,
+      "fields": {
+        "name": "Patung"
+      }
+    },
+    {
+        "model": "productpage.category",
+        "pk": 4,
+        "fields": {
+          "name": "Cendera Mata"
+        }
+      },
+      {
+        "model": "productpage.category",
+        "pk": 5,
+        "fields": {
+          "name": "Aksesoris"
+        }
+      },
+      {
+        "model": "productpage.category",
+        "pk": 6,
+        "fields": {
+          "name": "Fashion"
+        }
+      },
+      {
+        "model": "productpage.category",
+        "pk": 7,
+        "fields": {
+          "name": "Keramik"
+        }
+      },
+      {
+        "model": "productpage.category",
+        "pk": 8,
+        "fields": {
+          "name": "Batik Jepara"
+        }
+      }
+  ]

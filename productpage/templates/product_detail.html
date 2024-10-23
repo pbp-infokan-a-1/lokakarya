@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <img src="{{ product.image.url }}" class="w-full object-cover">
+    <h2 class="text-3xl font-bold mt-4">{{ product.name }}</h2>
+    <p>{{ product.description }}</p>
+    <p>Sold by {{ product.store.name }}</p>
+    <p>${{ product.price }}</p>
+    <p>{{ product.rating }} stars ({{ product.num_reviews }} reviews)</p>
+
+    {% if user.is_authenticated and not user.is_storeowner and not user.is_admin %}
+    <form method="post" action="{% url 'add_to_favourites' product.id %}">
+        {% csrf_token %}
+        <button class="bg-blue-500 text-white p-2 mt-4">Add to Favourites</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,32 +1,66 @@
-{% extends 'base.html' %}
-
+{% extends 'authentication.html' %}
+{% load static %}
 {% block meta %}
 <title>Register</title>
 {% endblock meta %}
 
 {% block content %}
+<div class="login-container">
+    <div class="login-form">
+        <!-- Logo and title -->
+        <div class="form-header">
+            <img src="{% static 'images/lokakarya_logo.png' %}" alt="UI Logo" class="h-24 mx-auto">
+            <h2>Create Your Account.</h2>
+            <p>Discover the essence of craftsmanship and embrace local pride with LokaKarya – where every creation tells a story.</p>
+        </div>
 
-<div class="login">
-  <h1>Register</h1>
+        <form method="POST" action="{% url 'authentication:register' %}">
+            {% csrf_token %}
+            <!-- Username Input -->
+            <div class="input-group">
+                <label for="username">Username</label>
+                <div class="input-icon-wrapper">
+                    <i class="input-icon uil uil-at"></i>
+                    {{ form.username }}
+                </div>
+            </div>
 
-  <form method="POST">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input type="submit" name="submit" value="Daftar" /></td>
-      </tr>
-    </table>
-  </form>
+            <!-- Password Input -->
+            <div class="input-group">
+                <label for="password1">Password</label>
+                <div class="input-icon-wrapper">
+                    <i class="input-icon uil uil-lock-alt"></i>
+                    {{ form.password1 }}
+                </div>
+            </div>
+            
+            <!-- Confirm Password Input -->
+            <div class="input-group">
+                <label for="password2">Confirm Password</label>
+                <div class="input-icon-wrapper">
+                    <i class="input-icon uil uil-lock-alt"></i>
+                    {{ form.password2 }}
+                </div>
+            </div>
+        
+            <!-- Register Button -->
+            <button class="btn login-btn" type="submit" style="color: black;">
+                Register <i class="uil uil-user-plus"></i>
+            </button>
+        </form>        
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Sign In Prompt -->
+        <div class="signup">
+            <p>Already have an account? <a href="{% url 'authentication:login' %}">Sign In</a></p>
+        </div>
+    </div>
 </div>
-
 {% endblock content %}

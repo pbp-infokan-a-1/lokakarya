@@ -4,32 +4,28 @@
 
 {% block content %}
     <!-- Conditional Navbar -->
-    {% if user.is_authenticated %}
-        {% include 'loginnavbar.html' %}
-    {% else %}
-        {% include 'navbar.html' %}
-    {% endif %}
+    {% include 'header.html' %}
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-slider">
             <!-- Hero Slide with Background Image and Text -->
-            <!-- Hero Slide with Background Image and Text -->
-            <div class="hero-img relative flex justify-center items-center h-screen">
+            <div class="hero-img relative flex justify-center items-center">
                 <img src="{% static 'images/background-hero-1.jpg' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
-                <div class="text-box max-w-lg p-8 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-center relative z-10">
-                    <h1 class="text-lg md:text-6xl text-dark-brown" style="font-family: 'Caruban'">Sugeng Rawuh</h1>
-                    <h2 class="text-lg md:text-4xl text-accent-brown mt-2" style="font-family: 'Caruban'">
+                <div class="text-box p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-center relative z-10">
+                    <h1 class="text-2xl md:text-6xl text-dark-brown" style="font-family: 'Caruban'">Sugeng Rawuh</h1>
+                    <h2 class="text-xl md:text-4xl text-accent-brown mt-2" style="font-family: 'Caruban'">
                         Kulo Nuwun, Ini <span class="text-accent-brown">LokaKarya!</span>
                     </h2>
-                    <p class="text-base md:text-sm text-gray-700 mt-4">
+                    <p class="text-sm md:text-base text-gray-700 mt-4">
                         Temukan beragam produk kerajinan tangan asli Jepara yang penuh keindahan dan ketelatenan tangan pengrajin lokal. Nggak sekedar belanja, ini adalah bentuk apresiasi budaya kita!
                     </p>
                     <button class="mt-6 text-accent-brown hover:text-dark-brown underline">
                         Mulai Jelajah
                     </button>
                 </div>
-            </div>            
+            </div>
+            
 
             <!-- Image-based Slide 1 -->
             <img src="{% static 'images/hero1.png' %}" class="hero-img" alt="Hero Image 1">
@@ -51,12 +47,14 @@
         <h2 class="text-2xl font-bold text-center mb-2" style="font-family: 'Poppins', sans-serif; color: #6F4E37;">Product Categories</h2>
         <p class="text-center mb-6" style="font-family: 'Poppins', sans-serif; color: #5E5E5E;">Explore our wide range of products</p>
         <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4 lg:px-32 xl:px-64">
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/ukiran_kayu.jpg' %}" alt="Ukiran Kayu" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Ukiran Kayu</span>
+            <a href = "#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/ukiran_kayu.jpg' %}" alt="Ukiran Kayu" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Ukiran Kayu</span>
+                    </div>
                 </div>
-            </div>
+            </a>
             <div class="category-item relative h-48 sm:h-56">
                 <img src="{% static 'images/anyaman_bambu.jpeg' %}" alt="Anyaman Bambu" class="w-full h-full object-cover rounded-xl">
                 <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
@@ -111,24 +109,92 @@
         </div>
     </section>
 
-    <footer class="bg-gray-800 text-white text-center py-4">
-        <p>&copy; 2024 LokaKarya. All Rights Reserved.</p>
-        <div class="social-links">
-            <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">Instagram</a>
-            <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">Facebook</a>
-            <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">LinkedIn</a>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const hamburger = document.querySelector('.hamburger');
-            const navLinksMobile = document.querySelector('.nav-links-mobile');
+            const navLinksMobile = document.querySelector('.nav-links');
     
             hamburger.addEventListener('click', () => {
-                navLinksMobile.classList.toggle('hidden');
+                navLinksMobile.classList.toggle('show');
             });
         });
     </script>
     
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-img');
+        const totalSlides = slides.length;
+        const slider = document.querySelector('.hero-slider');
+        const slideWidth = 100; // percentage width of each slide
+        const autoSlideInterval = 10000;
+
+        // Clone the first and last slide
+        const firstClone = slides[0].cloneNode(true);
+        const lastClone = slides[slides.length - 1].cloneNode(true);
+        slider.appendChild(firstClone);
+        slider.insertBefore(lastClone, slides[0]);
+
+        // Update total slides to include clones
+        const totalSlidesWithClones = totalSlides + 2;
+
+        // Adjust the initial position to show the first slide properly
+        slider.style.transform = `translateX(-${slideWidth}%)`;
+
+        // Function to move to the next slide
+        function goToNextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                slider.style.transform = `translateX(-${(currentSlide + 1) * slideWidth}%)`;
+            } else {
+                // Move to the cloned first slide
+                currentSlide++;
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                slider.style.transform = `translateX(-${(currentSlide + 1) * slideWidth}%)`;
+
+                // After the transition, jump back to the real first slide without animation
+                setTimeout(() => {
+                    slider.style.transition = 'none';
+                    currentSlide = 0;
+                    slider.style.transform = `translateX(-${slideWidth}%)`;
+                }, 500);
+            }
+        }
+
+        // Function to move to the previous slide
+        function goToPrevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                slider.style.transform = `translateX(-${(currentSlide + 1) * slideWidth}%)`;
+            } else {
+                // Move to the cloned last slide
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                currentSlide--;
+                slider.style.transform = `translateX(0%)`;
+                // After the transition, jump back to the real last slide without animation
+                setTimeout(() => {
+                    slider.style.transition = 'none';
+                    currentSlide = totalSlides - 1;
+                    slider.style.transform = `translateX(-${totalSlides * slideWidth}%)`;
+                }, 500);
+            }
+        }
+
+        // Event listeners for the next and prev buttons
+        document.querySelector('.next').addEventListener('click', goToNextSlide);
+        document.querySelector('.prev').addEventListener('click', goToPrevSlide);
+
+        // Automatically switch slides every few seconds
+        let autoSlide = setInterval(goToNextSlide, autoSlideInterval);
+
+        // Pause auto-slide when the user interacts with the slider (optional)
+        slider.addEventListener('mouseover', () => clearInterval(autoSlide));
+        slider.addEventListener('mouseout', () => {
+            autoSlide = setInterval(goToNextSlide, autoSlideInterval);
+        });
+    </script>
+    <script src="{% static 'js/navbar.js' %}"></script>
 {% endblock %}
