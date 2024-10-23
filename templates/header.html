@@ -1,0 +1,79 @@
+{% load static %}
+<nav class="navbar fixed top-0 w-full bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <!-- Logo on the Left -->
+        <div class="flex items-center justify-start">
+            <a href="{% url 'landingpage:home' %}" class="flex items-center">
+                <img src="{% static 'images/lokakarya_logo.png' %}" alt="Lokakarya Logo" class="h-10">
+                <span class="ml-2 text-lg font-bold">Lokakarya</span>
+            </a>
+        </div>
+
+        <!-- Navigation Links on the Right (only for desktop) -->
+        <ul class="nav-links hidden md:flex space-x-6 ml-40">
+            <li><a href="{% url 'landingpage:home' %}" class="text-gray-700 hover:text-blue-500">Main Menu</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="{% url 'productpage:product_page' %}" class="text-gray-700 hover:text-blue-500">Categories</a></li>
+
+            {% if user.is_authenticated %}
+                <!-- Links for logged-in users -->
+                <li><a href="{% url 'userprofile:profile' %}" class="text-gray-700 hover:text-blue-500">Profile</a></li>
+                <li><a href="{% url 'productpage:favorite_page' %}" class="text-gray-700 hover:text-blue-500">Favorites</a></li>
+                <li><a href="#" class="text-gray-700 hover:text-blue-500">Forum & Review</a></li>
+                <li><a href="{% url 'authentication:logout' %}" class="text-gray-700 hover:text-blue-500">Logout</a></li>
+            {% else %}
+                <!-- Links for guests -->
+                <li><a href="{% url 'authentication:login' %}" class="text-gray-700 hover:text-blue-500">Login</a></li>
+                <li><a href="{% url 'authentication:register' %}" class="text-gray-700 hover:text-blue-500">Register</a></li>
+            {% endif %}
+        </ul>
+
+        <!-- Hamburger menu for mobile view -->
+        <div class="hamburger md:hidden flex flex-col cursor-pointer">
+            <span class="bg-gray-800 h-1 w-6 mb-1"></span>
+            <span class="bg-gray-800 h-1 w-6 mb-1"></span>
+            <span class="bg-gray-800 h-1 w-6"></span>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (only visible when clicking the hamburger) -->
+    <div class="mobile-menu hidden">
+        <!-- Tabs -->
+        <div class="tabs flex justify-center space-x-4 bg-gray-100 p-2">
+            <button id="menu-tab" class="tab bg-gray-200 p-2 rounded-lg">Menu</button>
+            <button id="categories-tab" class="tab active-tab bg-gray-200 p-2 rounded-lg">Categories</button>
+        </div>
+
+        <!-- Menu List (hidden by default) -->
+        <ul id="menu-list" class="bg-white text-gray-700 p-4 space-y-2">
+            <li><a href="#">About Us</a></li>
+            <li><a href="{% url 'landingpage:home' %}">Main Menu</a></li>
+
+            {% if user.is_authenticated %}
+                <!-- Links for logged-in users -->
+                <li><a href="{% url 'userprofile:profile' %}">Profile</a></li>
+                <li><a href="#">Favorites</a></li>
+                <li><a href="#">Forum & Review</a></li>
+                <li><a href="{% url 'authentication:logout' %}">Logout</a></li>
+            {% else %}
+                <!-- Links for guests -->
+                <li><a href="{% url 'authentication:login' %}">Login</a></li>
+                <li><a href="{% url 'authentication:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+        <!-- Categories List -->
+        <ul id="categories-list" class="bg-white text-gray-700 p-4 space-y-2 hidden">
+            <li>Ukiran Kayu</li>
+            <li>Anyaman Bambu</li>
+            <li>Patung</li>
+            <li>Cendera Mata</li>
+            <li>Aksesoris</li>
+            <li>Fashion</li>
+            <li>Keramik</li>
+            <li>Batik Jepara</li>
+        </ul>
+    </div>
+
+<script src="{% static 'js/navbar.js' %}"></script>
+
+</nav>

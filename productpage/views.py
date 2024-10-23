@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from productpage.models import Product, Rating, Category
+from productpage.models import Product, Rating, Category, Favorite
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
@@ -74,3 +74,10 @@ def delete_product(request, product_id):
 def is_admin(user):
     return user.groups.filter(role='Admin').exists()
 
+@login_required
+def favorite_page(request):
+    favorites = Favorite.objects.filter(user=request.user)
+    context = {
+        'favorites': favorites
+    }
+    return render(request, 'favorite_page.html', context)

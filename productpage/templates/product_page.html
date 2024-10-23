@@ -3,12 +3,7 @@
 {% block title %}Product Page{% endblock %}
 
 {% block content %}
-  {% if user.is_authenticated %}
-    {% include 'loginnavbar.html' %}
-  {% else %}
-    {% include 'navbar.html' %}
-  {% endif %}
-
+  {% include 'header.html' %}
   <!-- Search Bar Section -->
   <div class="container mx-auto mt-10" style="padding-top: 50px;">
     <section class="container mx-auto" id="searchbar">
@@ -57,7 +52,7 @@
           {% for category in categories %}
             <div class="checkbox-item mb-2">
               <input type="checkbox" name="category" value="{{ category.id }}"
-                     {% if category.id|stringformat:"s" in selected_categories %} checked {% endif %}>  <!-- Ensure the selected categories are checked -->
+                {% if category.id|stringformat:"s" in selected_categories %} checked {% endif %}>  <!-- Ensure the selected categories are checked -->
               <label>{{ category.name }}</label>
             </div>
           {% endfor %}
@@ -89,9 +84,9 @@
 
   </div>
 
-  <!-- Button to show/hide sidebar for smaller screens -->
+  <!-- Button to show/hide sidebar for smaller screens
   <button id="toggleSidebar" class="fixed bottom-4 left-4 bg-gray-700 text-white p-2 rounded-md md:hidden">
     <span id="sidebarIcon">⬅️</span> Categories
-  </button>
+  </button> -->
 
 {% endblock %}
