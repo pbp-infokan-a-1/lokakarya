@@ -9,6 +9,3 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('profile/update/', update_profile, name='update_profile'),  # This is the missing pattern
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
