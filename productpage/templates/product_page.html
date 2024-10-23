@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Page{% endblock %}
+
+{% block content %}
+  {% include 'header.html' %}
+  <!-- Search Bar Section -->
+  <div class="container mx-auto mt-10" style="padding-top: 50px;">
+    <section class="container mx-auto" id="searchbar">
+      <!-- Showing Search Query -->
+      <div class="text-center mb-4">
+        {% if request.GET.q %}
+          <p>Showing searches for "{{ request.GET.q }}"</p>
+        {% else %}
+          <p>Browse our Products</p>
+        {% endif %}
+      </div>
+
+      <!-- Search Bar (centered with dynamic placeholder) -->
+      <div class="flex justify-center mb-8">
+        <form method="GET" action="{% url 'productpage:product_page' %}" class="flex space-x-2 w-full max-w-lg">
+          <input
+            type="text"
+            name="q"
+            value="{% if query %}{{ query }}{% else %}{% endif %}"
+            placeholder="Search for {% if selected_category %}{{ selected_category.name }} Products{% else %}Products{% endif %}..."
+            class="border p-2 pl-4 rounded w-full">
+          
+          <!-- Preserve selected categories -->
+          {% for category in request.GET.category %}
+            <input type="hidden" name="category" value="{{ category }}">
+          {% endfor %}
+          
+          <button type="submit" class="p-2 bg-blue-500 text-white rounded">Search</button>
+        </form>
+      </div>
+      
+    </section>
+  </div>
+
+  <!-- Main Content Section (Sidebar and Product List) -->
+  <div class="container mx-auto flex flex-col md:flex-row gap-4">
+
+    <!-- Sidebar for Categories (Accordion style with checkboxes) -->
+    <section id="sidebar" class="w-full md:w-1/5 bg-white border rounded p-4">
+      <h2 class="font-bold text-lg mb-4">Filter by Category</h2>
+      <form method="GET" action="{% url 'productpage:product_page' %}">
+        <!-- Preserve the search query -->
+        <input type="hidden" name="q" value="{{ query }}">
+        
+        <div class="accordion">
+          {% for category in categories %}
+            <div class="checkbox-item mb-2">
+              <input type="checkbox" name="category" value="{{ category.id }}"
+                     {% if category.id|stringformat:"s" in selected_categories %} checked {% endif %}>  <!-- Ensure the selected categories are checked -->
+              <label>{{ category.name }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      
+        <button type="submit" class="p-2 bg-green-500 text-white rounded mt-2 w-full">Apply</button>
+      </form>
+    </section>
+
+    <!-- Product List -->
+    <section id="productlist" class="w-full md:w-4/5">
+      <!-- Show message if no products found -->
+      {% if products %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {% for product in products %}
+        <div class="product-card border p-4 rounded">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-48 w-full object-cover mb-2">
+          <h3 class="text-xl font-bold">{{ product.name }}</h3>
+          <p>${{ product.price }}</p>
+          <p>{{ product.rating }} stars ({{ product.num_reviews }} reviews)</p>
+          <a href="{% url 'productpage:product_detail' product.id %}" class="text-blue-500">View Details</a>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-gray-500 text-center">No products found...</p>
+      {% endif %}
+    </section>
+
+  </div>
+
+  <!-- Button to show/hide sidebar for smaller screens -->
+  <button id="toggleSidebar" class="fixed bottom-4 left-4 bg-gray-700 text-white p-2 rounded-md md:hidden">
+    <span id="sidebarIcon">⬅️</span> Categories
+  </button>
+
+{% endblock %}
