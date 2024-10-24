@@ -11,7 +11,7 @@
     <p>${{ product.price }}</p>
     <p>{{ product.rating }} stars ({{ product.num_reviews }} reviews)</p>
 
-    {% if user.is_authenticated and not user.is_storeowner and not user.is_admin %}
+    {% if user.is_authenticated %}
     <form method="post" action="{% url 'add_to_favourites' product.id %}">
         {% csrf_token %}
         <button class="bg-blue-500 text-white p-2 mt-4">Add to Favourites</button>
