@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from productpage.models import Product, Rating, Category, Favorite
-from django.db.models import Avg, Q
+from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
@@ -14,10 +14,16 @@ def product_page(request):
     if selected_categories:
         products = products.filter(category__id__in=selected_categories)
 
-    # Search products by name if query is not empty
+    # Search products by name
     query = request.GET.get('q')
-    if query and query.strip():  # If query is not None and not empty after stripping whitespace
+    if query:
         products = products.filter(name__icontains=query)
+
+    # Prefetch the average rating and number of reviews for each product
+    products = products.annotate(
+        average_rating=Avg('ratings__rating'),  # Assuming related name is 'ratings'
+        num_reviews=Count('ratings')
+    )
 
     selected_category = None
     if selected_categories:
@@ -27,7 +33,7 @@ def product_page(request):
         'products': products,
         'categories': categories,
         'selected_categories': selected_categories,
-        'query': query if query else '',  # Pass the query to the template, empty if None
+        'query': query,
         'selected_category': selected_category,
     }
     return render(request, 'product_page.html', context)
