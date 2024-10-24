@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'storepage',
     'userprofile',
     'productpage',
+    'forumandreviewpage',
 ]
 
 MIDDLEWARE = [
@@ -129,10 +130,6 @@ if DEBUG:
     ]
 else:
     STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
-
-# Media files (User uploads like profile pictures)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
