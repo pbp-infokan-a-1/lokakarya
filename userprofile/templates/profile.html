@@ -10,15 +10,6 @@
 
 <div class="profile-container mx-auto mt-5">
     <div class="profile-header flex items-center justify-start" style="max-width: 700px;">
-        <!-- Profile Picture on the Left -->
-        <div class="profile-picture mr-10">
-            {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="rounded-full" style="width: 180px; height: 180px; object-fit: cover;">
-            {% else %}
-                <img src="{% static 'defaults.jpeg' %}" alt="Default Profile Picture" class="rounded-full" style="width: 180px; height: 180px; object-fit: cover;">
-            {% endif %}
-        </div>
-
         <!-- Username and Buttons on the Right -->
         <div class="profile-info">
             <h2 class="font-bold text-3xl">{{ profile.user.username }}</h2>
@@ -54,8 +45,8 @@
 
     .profile-header {
         display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         margin-bottom: 450px;
     }
@@ -72,7 +63,7 @@
     .profile-info {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .profile-info h2 {
