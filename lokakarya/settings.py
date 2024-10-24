@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'landingpage',
     'userprofile',
     'productpage',
+    'forumandreviewpage',
 ]
 
 MIDDLEWARE = [
