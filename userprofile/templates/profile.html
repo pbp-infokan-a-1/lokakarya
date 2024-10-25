@@ -8,147 +8,197 @@
 {% block content %}
 {% include 'header.html' %}
 
-<div class="profile-container mx-auto mt-5">
-    <div class="profile-header flex items-center justify-start" style="max-width: 700px;">
-        <!-- Profile Picture on the Left -->
-        <div class="profile-picture mr-10">
-            {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="rounded-full" style="width: 180px; height: 180px; object-fit: cover;">
-            {% else %}
-                <img src="{% static 'defaults.jpeg' %}" alt="Default Profile Picture" class="rounded-full" style="width: 180px; height: 180px; object-fit: cover;">
-            {% endif %}
-        </div>
+<!-- Banner Section -->
+<div class="banner-container bg-white flex justify-center rounded-lg items-center h-24">
+    <img src="{% static 'images/banner2.jpg' %}" alt="Banner Image" class="w-full object-cover">
+</div>
 
-        <!-- Username and Buttons on the Right -->
-        <div class="profile-info">
-            <h2 class="font-bold text-3xl">{{ profile.user.username }}</h2>
-            <p class="text-sm text-gray-600 mt-1">Last login: {{ last_login }}</p>
-            <div class="flex space-x-2 mt-2">
-                <a href="{% url 'userprofile:update_profile' %}" class="btn btn-primary">Edit Profile</a>
-                <a href="{% url 'authentication:logout' %}" class="btn btn-secondary">Logout</a>
-            </div>
-            <!-- Bio, Location, Birth Date below username -->
-            <div class="mt-4">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Bio:</strong> {{ profile.bio|default:"No bio available" }}</li>
-                    <li class="list-group-item"><strong>Location:</strong> {{ profile.location|default:"Not specified" }}</li>
-                    <li class="list-group-item"><strong>Birth Date:</strong> {{ profile.birth_date|date:"F j, Y" }}</li>
+<!-- Profile Info Section -->
+<div class="profile-container mx-auto mt-5 h-[calc(30vh)]">
+    <div class="profile-header flex items-start justify-between w-full">
+        <!-- Username and Profile Info -->
+        <div class="profile-info bg-brown p-6 rounded-lg shadow-lg">
+            <h2 class="font-bold text-3xl text-black">{{ profile.user.username }}</h2>
+            <p class="text-sm text-black mt-2">Last login: {{ last_login }}</p>
+
+            <!-- Bio, Location, Birth Date -->
+            <div class="mt-4 text-black">
+                <ul>
+                    <li><strong>Bio:</strong> {{ profile.bio|default:"No bio available" }}</li>
+                    <li class="inline-item"><i class="fas fa-map-marker-alt"></i> {{ profile.location|default:"Not specified" }}</li>
+                    <li class="inline-item"><i class="fas fa-birthday-cake ml-5"></i> {{ profile.birth_date|date:"F j, Y" }}</li>
                 </ul>
             </div>
         </div>
+
+        <!-- Buttons on the Right -->
+        <div class="profile-actions ml-5 flex flex-row space-x-2">
+            <a href="{% url 'userprofile:update_profile' %}" class="btn btn-primary">Edit Profile</a>
+            <a href="{% url 'authentication:logout' %}" class="btn btn-secondary">Logout</a>
+        </div>        
     </div>
 </div>
-{% include 'footer.html' %}
+
+<!-- Tabs Section -->
+<div class="tabs-section mt-5 flex justify-center space-x-6 bg-brown-light p-4">
+    <a href="#" class="tab-item px-4 py-2 text-white bg-brown-dark">Status</a>
+    <a href="#" class="tab-item px-4 py-2 text-white bg-brown-dark">Activity</a>
+    <a href="#" class="tab-item px-4 py-2 text-white bg-brown-dark">Your Wishlist</a>
+</div>
+
+<!-- Main Content Section -->
+<div class="main-content bg-brown-light p-10 mt-5">
+    <!-- Additional content goes here -->
+</div>
+
 <style>
-    .profile-container {
+        /* Banner Section */
+    .banner-container {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        height: 300px;
+        width: 1300px;
+        margin-left: 190px;
         display: flex;
         justify-content: center;
         align-items: center;
-        max-width: 700px; /* Adjusted width */
+        margin-top: 80px;
+    }
+
+    .banner-container .text-xl {
+        padding: 20px;
+        border: 1px solid black;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    /* Profile Info Section */
+    .profile-container {
         margin: 0 auto;
         padding: 20px;
-        background-color: #fff;
+        background-color: #fae7d0
         border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
+        width: 1300px;
     }
 
     .profile-header {
         display: flex;
-        align-items: flex-start;
         justify-content: space-between;
-        width: 100%;
-        margin-bottom: 450px;
-    }
-
-    .profile-picture img {
-        border-radius: 50%;
-        border: 3px solid #6c757d;
-    }
-
-    .rounded-full{
-        border-radius: 50%
     }
 
     .profile-info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+        color: black;
+        margin-bottom: 500px;
+        width: 950px;
     }
 
     .profile-info h2 {
         font-size: 2rem;
-        font-weight: bold;
         margin-bottom: 10px;
     }
 
-    .profile-info .btn {
+    .profile-info ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .profile-info ul li {
+        margin-bottom: 10px;
+    }
+
+    /* Profile Action Buttons */
+    .profile-actions {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .profile-actions .btn {
         padding: 10px 20px;
         font-size: 14px;
         border-radius: 5px;
         text-transform: uppercase;
+        font-weight: bold;
+        text-align: center;
     }
 
-    .profile-info .btn-primary {
+    .btn-primary {
         background-color: #007bff;
-        color: #ffffff;
+        color: white;
         border: none;
     }
 
-    .profile-info .btn-secondary {
-        background-color: #E4080A;
-        color: #ffffff;
-        border: none;
-    }
-
-    .profile-info .btn-primary:hover {
+    .btn-primary:hover {
         background-color: #0056b3;
-        color: #000000;
     }
 
-    .profile-info .btn-secondary:hover {
-        background-color: #680001;
-        color: #000000;
-    }
-
-    .list-group-item {
-        width: 450px; /* Lebar tetap untuk container */
+    .btn-secondary {
+        background-color: #E4080A;
+        color: white;
         border: none;
-        padding: 5px 0;
-        font-size: 14px;
-        word-wrap: break-word;
     }
 
-    /* Responsive adjustments */
+    .btn-secondary:hover {
+        background-color: #680001;
+    }
+
+    /* Tabs Section */
+    .tabs-section {
+        background-color: #f5f5dc;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .tab-item {
+        background-color: #8b4513;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    /* Main Content Section */
+    .main-content {
+        background-color: #f5f5dc;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .inline-item {
+        display: inline-flex;
+    }
+
+    .inline-item i {
+        margin-right: 8px; /* Memberikan jarak antara ikon dan teks */
+    }
+
+    /* Responsive Adjustments */
     @media (max-width: 768px) {
         .profile-header {
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 150px;
         }
 
-        .profile-info {
+        .profile-actions {
+            margin: 0;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .tabs-section {
+            flex-direction: column;
             align-items: center;
-            text-align: center;
         }
-
-        .profile-picture {
-            margin-bottom: 0px;
-            margin-left: 40px;
-            text-align: center;
-        }
-
-        .list-group-item {
-            width: 390px; /* Lebar tetap untuk container */
-            border: none;
-            padding: 5px 0;
-            font-size: 14px;
-            word-wrap: break-word;
-        }
-    }
+}
 </style>
+
+{% include 'footer.html' %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="{% static 'js/navbar.js' %}" defer></script>
 <script src="{% static 'js/profile.js' %}" defer></script>
 {% endblock content %}
