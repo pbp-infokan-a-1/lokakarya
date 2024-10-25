@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
+from storepage.models import Toko
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -13,15 +14,23 @@ class Rating(models.Model):
     # product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rating = models.FloatField(default=0)
 
+class Toko(models.Model):
+    nama = models.CharField(max_length=200)
+    hari_buka = models.CharField(max_length=100)
+    alamat = models.TextField()
+    email = models.EmailField()
+    telepon = models.CharField(max_length=20)
+    # produk = models.ManyToManyField(Product, related_name='toko')
+
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to='product_images/')
     category = models.ManyToManyField(Category)
-    # store = models.ForeignKey('store.Store', on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    store = models.ManyToManyField(Toko, related_name='products')
+    price = models.CharField(max_length=20)
     description = models.TextField()
-    rating = models.ForeignKey(Rating, on_delete=models.CASCADE)
+    rating = models.ForeignKey(Rating, on_delete=models.CASCADE, null=True, blank=True)
     num_reviews = models.IntegerField(default=0)
 
     def __str__(self):
