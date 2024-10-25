@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+{% include 'header.html' %}
+{% load tz %}
 
-<div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+<div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-24">
     <h1 class="text-3xl font-bold mb-2">{{ post.title }}</h1>
-    <p class="text-gray-500 mb-4">by {{ post.author }} | {{ post.created_at }}</p>
+    <p class="text-gray-500 mb-2">by {{ post.author }} | {% timezone "Asia/Jakarta" %}{{ post.created_at|date:"F j, Y, g:i a" }}{% endtimezone %}</p>
     <p class="mb-6">{{ post.content }}</p>
     
     <div class="flex items-center space-x-2 mb-4">
