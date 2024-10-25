@@ -1,0 +1,159 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(45deg, #eef2ff, #f9f9f9);
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-size: cover;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Ensure the container has a maximum width */
+    padding: 20px;
+    background-color: white; /* Ensure it's visible */
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+}
+
+.login-form {
+    width: 100%; /* Make sure the form takes full width */
+}
+
+.form-header .logo {
+    width: 100px;  /* Adjusted size */
+    margin-bottom: 10px;
+}
+
+.form-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center; /* Center the text */
+}
+
+.form-header p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center; /* Center the text */
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    left: 10px; /* Adjust this value as necessary */
+    font-size: 18px;
+    color: #666;
+}
+
+.input-group input {
+    padding-left: 35px; /* Make space for the icon */
+    height: 45px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input-group input:focus {
+    border-color: #6a67ce;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-me input {
+    margin-right: 8px;
+}
+
+.forgot-password {
+    font-size: 14px;
+    color: #6a67ce;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #FFECA1;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.btn.login-btn i {
+    font-size: 18px;
+}
+
+.btn.login-btn:hover {
+    background-color: #4a45c7;
+    color: #4a45c7; /* Change the text color to make it visible on white */
+    border: 1px solid #4a45c7; /* Optional: Add a border to maintain contrast */
+}
+
+.btn i {
+    margin-left: 8px; /* Adjust the spacing between the text and the icon */
+}
+
+.signup {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup a {
+    color: #6a67ce;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup a:hover {
+    text-decoration: underline;
+}

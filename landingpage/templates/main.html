@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Landing Page{% endblock %}
+
+{% block content %}
+    <!-- Conditional Navbar -->
+    {% include 'header.html' %}
+
+    <!-- Hero Section -->
+    <section class="hero lg:h-[calc(87vh)] xl:h-[calc(87vh)]">
+        <div class="hero-slider">
+            <!-- Hero Slide with Background Image and Text -->
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/background-hero-1.jpg' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-center relative z-10">
+                    <h1 class="text-2xl md:text-6xl text-dark-brown" style="font-family: 'Caruban'">Sugeng Rawuh</h1>
+                    <h2 class="text-xl md:text-4xl text-accent-brown mt-2" style="font-family: 'Caruban'">
+                        Kulo Nuwun, Ini <span class="text-accent-brown">LokaKarya!</span>
+                    </h2>
+                    <p class="text-sm md:text-base text-gray-700 mt-4">
+                        Temukan beragam produk kerajinan tangan asli Jepara yang penuh keindahan dan ketelatenan tangan pengrajin lokal. Nggak sekedar belanja, ini adalah bentuk apresiasi budaya kita!
+                    </p>
+                    <button class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Mulai Jelajah
+                    </button>
+                </div>
+            </div>
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/hero1.png' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box-two p-2 lg:p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-left relative z-10 ml-auto xl:mr-40 mb-10">
+
+                    <h2 style="font-family: 'TTMoonsThin'; font-size: 1.5rem; letter-spacing: 0.1em;">TODAY'S TOP PRODUCT</h2>
+                    <hr style="border: 1px solid #000; width: 100%; margin: 10px auto;">
+                    <h1 class="text-lg md:text-4xl lg:text-5xl text-dark-brown" style="font-family: 'TTMoons'">KURSI UKIR JATI</h1>
+                    <p class="text-xs md:text-sm lg:text-base xl:text-base text-gray-700 mt-2">
+                        Kursi yang terbuat dari kayu jati dengan ukiran tradisional yang rumit. Cocok untuk digunakan di ruang tamu atau ruang makan, memberikan kesan mewah dan tradisional. Kekuatan kayu jati menjamin keawetan dan kenyamanan.
+                    </p>
+                    <a href="#" class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Show more!
+                    </a>
+                </div>
+            </div>
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/hero2.png' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box-two p-2 lg:p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-left relative z-10 ml-auto xl:mr-40 mb-10">
+                    <h2 style="font-family: 'TTMoonsThin'; font-size: 1.5rem; letter-spacing: 0.1em;">TODAY'S TOP PRODUCT</h2>
+                    <hr style="border: 1px solid #000; width: 100%; margin: 10px auto;">
+                    <h1 class="text-lg md:text-4xl lg:text-5xl text-dark-brown" style="font-family: 'TTMoons'">MUG KERAMIK UNIK</h1>
+                    <p class="text-xs md:text-sm lg:text-base xl:text-base text-gray-700 mt-2">
+                        Gelas mug dari keramik dengan desain dan bentuk yang unik, cocok untuk digunakan sehari-hari atau sebagai koleksi. Tahan panas dan mudah dibersihkan, menjadikannya pilihan sempurna untuk minuman panas atau dingin.
+                    </p>
+                    <a href="#" class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Show more!
+                    </a>
+                </div>
+            </div>
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/hero3.png' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box-two p-2 lg:p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-left relative z-10 ml-auto xl:mr-40 mb-10">
+                    <h2 style="font-family: 'TTMoonsThin'; font-size: 1.5rem; letter-spacing: 0.1em;">TODAY'S TOP PRODUCT</h2>
+                    <hr style="border: 1px solid #000; width: 100%; margin: 10px auto;">
+                    <h1 class="text-lg md:text-4xl lg:text-5xl text-dark-brown" style="font-family: 'TTMoons'">KAIN BLANGKET TROSO</h1>
+                    <p class="text-xs md:text-sm lg:text-base xl:text-base text-gray-700 mt-2">
+                        Kain tenun blangket khas Troso dengan tekstur halus dan pola tradisional. Cocok digunakan sebagai selimut atau hiasan dinding. Setiap helai dibuat dengan teknik tenun yang rumit dan berkualitas.
+                    </p>
+                    <a href="#" class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Show more!
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="slider-controls absolute top-1/2 transform -translate-y-1/2 w-full flex justify-between px-4">
+            <button class="prev text-white bg-gray-800 rounded-full p-2">&#10094;</button>
+            <button class="next text-white bg-gray-800 rounded-full p-2">&#10095;</button>
+        </div>
+    </section>
+
+    <!-- Product Categories Section -->
+    <section class="categories py-8">
+        <h2 class="text-5xl font-bold text-center mb-2" style="font-family: 'TTMoonsThin', sans-serif; color: #6F4E37;">Product Categories</h2>
+        <p class="text-center mb-6" style="font-family: 'Poppins', sans-serif; color: #5E5E5E;">Explore our wide range of products</p>
+        <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4 lg:px-32 xl:px-64">
+            <a href = "#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/ukiran_kayu.jpg' %}" alt="Ukiran Kayu" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Ukiran Kayu</span>
+                    </div>
+                </div>
+            </a>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/anyaman_bambu.jpeg' %}" alt="Anyaman Bambu" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Anyaman Bambu</span>
+                </div>
+            </div>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/patung.jpg' %}" alt="Patung" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Patung</span>
+                </div>
+            </div>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/cenderamata.jpg' %}" alt="Cendera Mata" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Cendera Mata</span>
+                </div>
+            </div>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/aksesoris.jpg' %}" alt="Aksesoris" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Aksesoris</span>
+                </div>
+            </div>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/fashion.jpg' %}" alt="Fashion" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Fashion</span>
+                </div>
+            </div>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/keramik.jpg' %}" alt="Keramik" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Keramik</span>
+                </div>
+            </div>
+            <div class="category-item relative h-48 sm:h-56">
+                <img src="{% static 'images/batik_jepara.jpg' %}" alt="Batik Jepara" class="w-full h-full object-cover rounded-xl">
+                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Batik Jepara</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="affiliate-stores py-8">
+        <h2 class="text-5xl font-bold text-center mb-2" style="font-family: 'TTMoonsThin', sans-serif; color: #6F4E37;">Affiliate Stores</h2>
+        <div class="card-grid grid gap-6 grid-cols-1 md:grid-cols-3 px-4">
+            <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 1</div>
+            <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 2</div>
+            <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 3</div>
+        </div>
+    </section>
+
+    {% include 'footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinksMobile = document.querySelector('.nav-links');
+    
+            hamburger.addEventListener('click', () => {
+                navLinksMobile.classList.toggle('show');
+            });
+        });
+    </script>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-img');
+        const totalSlides = slides.length;
+        const slider = document.querySelector('.hero-slider');
+        const slideWidth = 100; // percentage width of each slide
+        const autoSlideInterval = 10000;
+
+        // Clone the first and last slide
+        const firstClone = slides[0].cloneNode(true);
+        const lastClone = slides[slides.length - 1].cloneNode(true);
+        slider.appendChild(firstClone);
+        slider.insertBefore(lastClone, slides[0]);
+
+        // Update total slides to include clones
+        const totalSlidesWithClones = totalSlides + 2;
+
+        // Adjust the initial position to show the first slide properly
+        slider.style.transform = `translateX(-${slideWidth}%)`;
+
+        // Function to move to the next slide
+        function goToNextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                slider.style.transform = `translateX(-${(currentSlide + 1) * slideWidth}%)`;
+            } else {
+                // Move to the cloned first slide
+                currentSlide++;
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                slider.style.transform = `translateX(-${(currentSlide + 1) * slideWidth}%)`;
+
+                // After the transition, jump back to the real first slide without animation
+                setTimeout(() => {
+                    slider.style.transition = 'none';
+                    currentSlide = 0;
+                    slider.style.transform = `translateX(-${slideWidth}%)`;
+                }, 500);
+            }
+        }
+
+        // Function to move to the previous slide
+        function goToPrevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                slider.style.transform = `translateX(-${(currentSlide + 1) * slideWidth}%)`;
+            } else {
+                // Move to the cloned last slide
+                slider.style.transition = 'transform 0.5s ease-in-out';
+                currentSlide--;
+                slider.style.transform = `translateX(0%)`;
+                // After the transition, jump back to the real last slide without animation
+                setTimeout(() => {
+                    slider.style.transition = 'none';
+                    currentSlide = totalSlides - 1;
+                    slider.style.transform = `translateX(-${totalSlides * slideWidth}%)`;
+                }, 500);
+            }
+        }
+
+        // Event listeners for the next and prev buttons
+        document.querySelector('.next').addEventListener('click', goToNextSlide);
+        document.querySelector('.prev').addEventListener('click', goToPrevSlide);
+
+        // Automatically switch slides every few seconds
+        let autoSlide = setInterval(goToNextSlide, autoSlideInterval);
+
+        // Pause auto-slide when the user interacts with the slider (optional)
+        slider.addEventListener('mouseover', () => clearInterval(autoSlide));
+        slider.addEventListener('mouseout', () => {
+            autoSlide = setInterval(goToNextSlide, autoSlideInterval);
+        });
+    </script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+{% endblock %}

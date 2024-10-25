@@ -25,15 +25,25 @@ Website "LokaKarya" bertujuan untuk mempermudah pengguna menemukan kerajinan tan
    - Opsi login bagi pembeli dan pemilik toko.
    - Pemilik toko bisa mengelola produk mereka melalui dashboard.
 
-3. *Produk Page*:
+3. *Produk Page* (Orlando Devito):
    - Menampilkan daftar produk kerajinan tangan.
    - Setiap produk akan menunjukkan toko mana yang menjualnya beserta informasi harga dan deskripsi produk.
 
-4. *Toko Page*:
+4. *Toko Page* (Muhammad Yahya Ayyas):
    - Informasi lengkap mengenai toko: lokasi, jam buka, dan produk yang dijual.
 
-5. *Admin Dashboard* (untuk pemilik toko):
+5. *Admin Dashboard* (untuk pemilik toko) (Daffa Abyaz Tjiptadi):
    - Fitur untuk menambahkan, memperbarui, atau menghapus produk yang dijual.
+
+6. *User Profile* (Belva Ghani Abhinaya):
+   - Informasi lengkap mengenai profil user (Pembeli, pemilik toko, admin)
+     
+7. *Forum and Review Page* (Azzahra Salsabila):
+   - Fitur untuk menambahkan forum dan halaman ulasan
+   - Role Pembeli dapat membuat ulasan dan menambahkan forum untuk toko.
+
+8. *Customer's Favorite Things Page* (Harman Hakim):
+   - Fitur untuk menambahkan barang favorit role Pembeli
 
 ## Sumber Initial Dataset
 Kategori produk yang akan ditampilkan di website:
@@ -63,6 +73,3 @@ List initial dataset dapat diakses pada tautan berikut ->  [ristek.link/LokaKary
 3. *Admin*:
    - Mengelola data produk dan toko yang terdaftar di platform.
    - Memantau aktivitas pengguna dan memoderasi konten.
-
-## Conclusion
-Website ini diharapkan mampu memberikan solusi praktis bagi pembeli yang ingin menemukan produk kerajinan tangan di Jepara. Di sisi lain, pemilik toko juga mendapatkan keuntungan dari visibilitas produk mereka yang lebih luas, sehingga memperluas jangkauan pasar mereka.

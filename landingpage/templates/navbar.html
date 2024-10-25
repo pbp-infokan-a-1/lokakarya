@@ -1,0 +1,55 @@
+{% load static %}
+<nav class="navbar fixed top-0 w-full bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <!-- Logo on the Left -->
+        <div class="flex items-center">
+            <a href="{% url 'landingpage:home' %}" class="flex items-center">
+                <img src="{% static 'images/lokakarya_logo.png' %}" alt="Lokakarya Logo" class="h-10">
+                <span class="ml-2 text-lg font-bold">Lokakarya</span>
+            </a>
+        </div>
+
+        <!-- Navigation Links on the Right (only for desktop) -->
+        <ul class="nav-links hidden md:flex space-x-6">
+            <li><a href="#" class="text-gray-700 hover:text-blue-500">About Us</a></li>
+            <li><a href="{% url 'productpage:product_page' %}" class="text-gray-700 hover:text-blue-500">Categories</a></li>
+            <li><a href="{% url 'authentication:login' %}" class="text-gray-700 hover:text-blue-500">Login</a></li>
+            <li><a href="{% url 'authentication:register' %}" class="text-gray-700 hover:text-blue-500">Register</a></li>
+        </ul>
+
+        <!-- Hamburger menu for mobile view -->
+        <div class="hamburger md:hidden flex flex-col cursor-pointer">
+            <span class="bg-gray-800 h-1 w-6 mb-1"></span>
+            <span class="bg-gray-800 h-1 w-6 mb-1"></span>
+            <span class="bg-gray-800 h-1 w-6"></span>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (only visible when clicking the hamburger) -->
+    <div class="mobile-menu hidden">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button id="categories-tab" class="tab active-tab">Categories</button>
+            <button id="menu-tab" class="tab">Menu</button>
+        </div>
+
+        <!-- Categories List -->
+        <ul id="categories-list">
+            <li>Ukiran Kayu</li>
+            <li>Anyaman Bambu</li>
+            <li>Patung</li>
+            <li>Cendera Mata</li>
+            <li>Aksesoris</li>
+            <li>Fashion</li>
+            <li>Keramik</li>
+            <li>Batik Jepara</li>
+        </ul>
+
+        <!-- Menu List (hidden by default) -->
+        <ul id="menu-list" class="hidden">
+            <li><a href="#">About Us</a></li>
+            <li><a href="{% url 'authentication:login' %}">Login</a></li>
+            <li><a href="{% url 'authentication:register' %}">Register</a></li>
+        </ul>
+    </div>
+</nav>

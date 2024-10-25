@@ -1,0 +1,414 @@
+@font-face {
+    font-family: 'Caruban';
+    src: url('../fonts/Caruban-EBK8.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TTMoons';
+    src: url('../fonts/TT\ Moons\ Trial\ Black.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TTMoonsThin';
+    src: url('../fonts/TT\ Moons\ Trial\ Thin.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-color: #f9f9f9; /* Background warna terang untuk kontras */
+}
+
+.navbar {
+    background-color: #f0e3ce; /* Light background for contrast */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 0.5rem 2rem;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between; /* Ensures logo is on the left, links on the right */
+    align-items: center;
+}
+
+.nav-links {
+    display: none; /* Hide by default */
+    list-style: none;
+    gap: 2rem; /* Space between each link */
+    text-align: center; /* Ensure text is centered in the dropdown */
+}
+
+.nav-links li {
+    display: inline;
+}
+
+/* Dropdown Styling */
+.nav-links li.relative ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    width: 150px;
+    z-index: 50;
+}
+
+.nav-links li.relative ul li {
+    display: block;
+}
+
+.nav-links li.relative ul li a {
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav-links li.relative ul li a:hover {
+    background-color: #f3f4f6;
+}
+
+/* Show the dropdown when hovering over the parent li */
+.nav-links li.relative:hover ul {
+    display: block;
+}
+
+/* Ensure the dropdown stays visible when hovering over it */
+.nav-links li.relative ul:hover {
+    display: block;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #3B3B3B; /* Default color */
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #f0e3ce; /* Light brown on hover */
+}
+
+.hamburger {
+    display: none; /* Hidden on larger screens */
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #333;
+}
+
+.hero-text-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    height: 100vh; /* Same height as the other slides */
+    background: url("{% static 'images/background-hero-1.jpg' %}");
+}
+
+
+.text-box {
+    background-color: rgba(245, 245, 220, 0.9); /* Semi-transparent cream */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 600px;
+}
+
+.text-box-two {
+    background-color: rgba(245, 245, 220, 0.9); /* Semi-transparent cream */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 600px;
+}
+
+.text-dark-brown {
+    color: #6b4226;
+}
+
+.text-accent-brown {
+    color: #8b4513;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    height: 100vh; /* Default full viewport height */
+    margin-top: 72px; /* Adjust to account for fixed navbar */
+}
+
+.hero-slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.hero-img {
+    min-width: 100%;
+    height: 100vh; /* Keeps the height of the hero section full-screen */
+    object-fit: cover; /* Ensures the image covers the entire area without distorting */
+    background-size: cover; /* Ensures the background image covers the whole section */
+    background-position: center; /* Centers the image */
+}
+
+.slider-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 1rem; /* Add padding to ensure buttons are not too close to the edges */
+}
+
+.slider-controls .prev,
+.slider-controls .next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 0.7rem; /* Default padding */
+    cursor: pointer;
+    font-size: 1.5rem; /* Default size */
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.slider-controls .prev:hover,
+.slider-controls .next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.category-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Ukuran minimal yang lebih kecil */
+    padding: 1rem; /* Sesuaikan padding untuk kompak */
+}
+
+.category-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem; /* Lebih kecil dari sebelumnya */
+}
+
+.category-item img {
+    transition: transform 0.3s ease-in-out;
+    border-radius: 0.75rem; /* Pastikan gambar mengikuti border-radius */
+}
+
+.category-item:hover img {
+    transform: scale(1.05); /* Efek zoom saat hover */
+}
+
+.category-overlay {
+    background: rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease-in-out;
+    border-radius: 0.75rem;
+}
+
+.category-item:hover .category-overlay {
+    background: rgba(0, 0, 0, 0.5); /* Overlay lebih gelap saat hover */
+}
+
+.category-overlay span {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.3rem 0.75rem; /* Padding yang lebih kecil untuk teks */
+    border-radius: 9999px;
+    color: #333;
+    font-weight: 600;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem; /* Adjust spacing for better look */
+    padding: 2rem; /* Extra padding for better layout */
+}
+
+.card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+.social-links a {
+    color: #fff;
+    margin: 0 0.75rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #007bff;
+}
+
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex; /* Show navigation links on medium and larger screens */
+    }
+
+    .hamburger {
+        display: none; /* Hide the hamburger icon on larger screens */
+    }
+}
+
+/* For mobile view */
+.mobile-menu {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    position: absolute;
+    top: 100%; /* Posisi di bawah navbar */
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Pastikan muncul di atas elemen lainnya */
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.tab {
+    cursor: pointer;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tab:hover,
+.active-tab {
+    background-color: #f0e3ce;
+}
+
+.hidden {
+    display: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+ul li {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+ul li:hover {
+    background-color: #f0e3ce;
+}
+
+/* Ensure only one list is visible */
+#categories-list,
+#menu-list {
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .logo img {
+        height: 35px; /* Adjust logo size for smaller screens */
+    }
+
+    .hero {
+        height: 50vh; /* Adjust to a smaller height on mobile */
+    }
+
+    .text-box {
+        padding: 0.5rem; /* Lebih sedikit padding untuk mobile */
+        max-width: 95%; /* Lebih lebar di tampilan mobile */
+    }
+
+    .text-box-two {
+        margin-top: 50px;
+        padding: 0.5rem; /* Lebih sedikit padding untuk mobile */
+        max-width: 50%; /* Lebih lebar di tampilan mobile */
+    }
+
+    .text-box-two p {
+        /* Add your styles here */
+        font-size: 12px;  /* Example: Change font size */
+        line-height: 1.5;  /* Example: Adjust line height */
+        color: #333;  /* Example: Change text color */
+    }    
+
+    .hero-text-slide {
+        height: auto; /* Ubah menjadi auto jika height terlalu besar di HP */
+        min-height: 100vh; /* Pastikan minimal setinggi layar */
+    }
+
+    .hero-img {
+        height: 50vh; /* Match the container's height */
+    }
+
+    .slider-controls {
+        padding: 0 0.5rem; /* Adjust the padding for smaller screens */
+    }
+
+    .slider-controls .prev,
+    .slider-controls .next {
+        padding: 0.4rem; /* Smaller padding for mobile */
+        font-size: 1.2rem; /* Adjusted font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 40vh; /* Adjust for smaller screens */
+    }
+
+    .hero-img {
+        height: 40vh; /* Match the container's height */
+    }
+
+    .slider-controls {
+        padding: 0 0.2rem; /* More padding reduction for very small screens */
+    }
+
+    .slider-controls .prev,
+    .slider-controls .next {
+        padding: 0.3rem; /* Make buttons smaller */
+        font-size: 1rem; /* Smaller font size for small screens */
+    }
+}

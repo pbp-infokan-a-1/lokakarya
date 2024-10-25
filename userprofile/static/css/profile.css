@@ -1,0 +1,63 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    padding: 20px;
+}
+
+.card {
+    max-width: 700px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container img {
+    border: 3px solid #6c757d;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.profile-details h5 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.list-group-item {
+    border: none;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+}
+
+.list-group-item strong {
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 1000px; /* Adjust this as necessary */
+    margin: 0 auto; /* Center align horizontally */
+    padding: 20px; /* Add some padding for spacing */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100vh; /* Full viewport height */
+    background-color: #f8f9fa; /* Soft background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    overflow-y: auto; /* Scrollable content if needed */
+}

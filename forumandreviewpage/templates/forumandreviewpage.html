@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Forum</h1>
+        <a href="{% url 'forumandreviewpage:create_forum_entry' %}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            Create New Post
+        </a>
+    </div>
+
+    <ul class="space-y-6">
+        {% for post in posts %}
+            <li class="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">
+                            <a href="{% url 'forumandreviewpage:post_detail' post.id %}" class="hover:text-blue-500">
+                                {{ post.title }}
+                            </a>
+                        </h2>
+                        <p class="text-gray-500 mb-2">by {{ post.author }} | {{ post.created_at }}</p>
+                        <p class="mb-4">{{ post.content|truncatewords:30 }}</p>
+                    </div>
+
+                    <div class="flex flex-col items-center">
+                        <p class="font-semibold mb-2">Upvotes: {{ post.total_upvotes }}</p>
+                        <button onclick="upvotePost({{ post.id }})" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
+                            Upvote
+                        </button>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    function upvotePost(postId) {
+        const button = document.querySelector(`button[onclick="upvotePost(${postId})"]`);
+        button.classList.add('animate-pulse');
+        
+        fetch(`/post/${postId}/upvote/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        }).then(response => {
+            if (response.ok) {
+                button.classList.remove('animate-pulse');
+                location.reload();  // Refresh halaman untuk memperbarui jumlah upvote
+            }
+        });
+    }
+
+      function upvotePost(postId) {
+      const button = document.querySelector(`button[onclick="upvotePost(${postId})"]`);
+      button.classList.add('animate-pulse');
+      
+      fetch(`/post/${postId}/upvote/`, {
+          method: "POST",
+          headers: {
+              "X-CSRFToken": "{{ csrf_token }}"
+          }
+      }).then(response => {
+          if (response.ok) {
+              button.classList.remove('animate-pulse');
+              location.reload();  // Refresh the page to update the upvote count
+          }
+      });
+  }
+
+</script>
+
+{% endblock %}
