@@ -38,6 +38,6 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('authentication:login'))
+    response = HttpResponseRedirect("/")
     response.delete_cookie('last_login')
     return response
