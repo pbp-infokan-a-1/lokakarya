@@ -35,7 +35,7 @@ class Product(models.Model):
     store = models.ManyToManyField(Toko, related_name='products')
     price = models.CharField(max_length=20)
     description = models.TextField()
-    rating = models.ForeignKey(Rating, on_delete=models.CASCADE, null=True, blank=True)
+    rating = models.ForeignKey(Rating, on_delete=models.CASCADE, null=True, blank=True, related_name='product_ratings')
     num_reviews = models.IntegerField(default=0)
     image = models.ImageField(upload_to='product_images/', default=None)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=None)

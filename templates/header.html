@@ -13,10 +13,8 @@
         <ul class="nav-links hidden md:flex space-x-6 ml-40">
             <li><a href="{% url 'landingpage:home' %}" class="text-gray-700 hover:text-blue-500">Main Menu</a></li>
             <li><a href="#" class="text-gray-700 hover:text-blue-500">About Us</a></li>
-<<<<<<< HEAD
             <li><a href="{% url 'productpage:product_page' %}" class="text-gray-700 hover:text-blue-500">Categories</a></li>
             <li><a href="{% url 'storepage:storepage' %}" class="text-gray-700 hover:text-blue-500">Stores</a></li>
-=======
 
             <!-- Dropdown for Categories -->
             <li class="relative group">
@@ -26,7 +24,6 @@
                     <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Store</a></li>
                 </ul>
             </li>
->>>>>>> refs/remotes/origin/master
 
             {% if user.is_authenticated %}
                 <!-- Links for logged-in users -->
