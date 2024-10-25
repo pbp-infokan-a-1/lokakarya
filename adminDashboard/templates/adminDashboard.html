@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <h1>Admin Dashboard</h1>
+</head>
+<body>
+    <!-- Store Management Section -->
+    <h2>Store Management</h2>
+
+    <!-- Store Form for Creating New Stores -->
+    <form id="store-form">
+        <input type="text" id="store-name" name="name" placeholder="Store Name" required>
+        <input type="text" id="store-openDays" name="openDays" placeholder="Open Days" required>
+        <textarea id="store-address" name="address" placeholder="Store Address" required></textarea>
+        <input type="email" id="store-email" name="email" placeholder="Store Email" required>
+        <input type="text" id="store-phone" name="phone" placeholder="Store Phone" required>
+        <button type="submit">Add Store</button>
+    </form>
+
+    <!-- List of Stores -->
+    <div id="store-list">
+        <!-- Store items will be appended here -->
+    </div>
+
+    <!-- Product Management Section -->
+    <h2>Product Management</h2>
+
+    <!-- Product Form for Creating New Products -->
+    <form id="product-form" enctype="multipart/form-data">
+        <input type="text" id="product-name" name="name" placeholder="Product Name" required>
+        <textarea id="product-description" name="description" placeholder="Description" required></textarea>
+        <input type="number" id="product-price" name="price" placeholder="Price" step="0.01" required>
+        <input type="file" id="product-image" name="image">
+        <input type="text" id="product-category" name="category" placeholder="Category" required>
+        <input type="number" id="product-rating" name="rating" placeholder="Rating" step="0.01" required>
+        <input type="number" id="product-num_reviews" name="num_reviews" placeholder="Number of Reviews" required>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <!-- List of Products -->
+    <div id="product-list">
+        <!-- Product items will be appended here -->
+    </div>
+
+    <script>
+        // Function to render a store item in the store list
+        function renderStore(store) {
+            return `
+                <div id="store-${store.id}">
+                    <h3>${store.name}</h3>
+                    <p>Open Days: ${store.openDays}</p>
+                    <p>Address: ${store.address}</p>
+                    <p>Email: ${store.email}</p>
+                    <p>Phone: ${store.phone}</p>
+                    <button onclick="editStore(${store.id})">Edit Store</button>
+                    <button onclick="deleteStore(${store.id})">Delete Store</button>
+                </div>
+            `;
+        }
+
+        // Function to render a product item in the product list
+        function renderProduct(product) {
+            return `
+                <div id="product-${product.id}">
+                    <h3>${product.name}</h3>
+                    <p>Description: ${product.description}</p>
+                    <p>Price: ${product.price}</p>
+                    <p>Category: ${product.category.map(cat => cat.name).join(', ')}</p>
+                    <p>Rating: ${product.rating.rating_value}</p>
+                    <p>Number of Reviews: ${product.num_reviews}</p>
+                    <img src="${product.image}" alt="${product.name}" style="max-width: 100px;">
+                    <button onclick="editProduct(${product.id})">Edit Product</button>
+                    <button onclick="deleteProduct(${product.id})">Delete Product</button>
+                </div>
+            `;
+        }
+
+        // Load Stores
+        function loadStores() {
+            $.get('/stores/', function(response) {
+                $('#store-list').empty();
+                response.stores.forEach(function(store) {
+                    $('#store-list').append(renderStore(store));
+                });
+            });
+        }
+
+        // Load Products
+        function loadProducts() {
+            $.get('/products/', function(response) {
+                $('#product-list').empty();
+                response.products.forEach(function(product) {
+                    $('#product-list').append(renderProduct(product));
+                });
+            });
+        }
+
+        // Add Store
+        $('#store-form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/stores/create/',
+                data: {
+                    name: $('#store-name').val(),
+                    openDays: $('#store-openDays').val(),
+                    address: $('#store-address').val(),
+                    email: $('#store-email').val(),
+                    phone: $('#store-phone').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadStores();
+                        $('#store-form')[0].reset();
+                    }
+                }
+            });
+        });
+
+        // Add Product
+        $('#product-form').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            $.ajax({
+                type: 'POST',
+                url: '/products/create/',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadProducts();
+                        $('#product-form')[0].reset();
+                    }
+                }
+            });
+        });
+
+        // Edit Store
+        function editStore(storeId) {
+            let newName = prompt("Enter new name for store:");
+            let newOpenDays = prompt("Enter new open days for store:");
+            let newAddress = prompt("Enter new address for store:");
+
+            if (newName && newOpenDays && newAddress) {
+                $.ajax({
+                    type: 'POST',
+                    url: `/stores/update/${storeId}/`,
+                    data: {
+                        name: newName,
+                        openDays: newOpenDays,
+                        address: newAddress,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            loadStores();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Edit Product
+        function editProduct(productId) {
+            let newName = prompt("Enter new name for product:");
+            let newDescription = prompt("Enter new description for product:");
+            let newPrice = prompt("Enter new price for product:");
+            let newCategory = prompt("Enter new category for product:");
+            let newRating = prompt("Enter new rating for product:");
+            let newNumReviews = prompt("Enter new number of reviews for product:");
+
+            if (newName && newDescription && newPrice && newCategory && newRating && newNumReviews) {
+                $.ajax({
+                    type: 'POST',
+                    url: `/products/update/${productId}/`,
+                    data: {
+                        name: newName,
+                        description: newDescription,
+                        price: newPrice,
+                        category: newCategory,
+                        rating: newRating,
+                        num_reviews: newNumReviews,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            loadProducts();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Delete Store
+        function deleteStore(storeId) {
+            $.ajax({
+                type: 'POST',
+                url: `/stores/delete/${storeId}/`,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $(`#store-${storeId}`).remove();
+                    }
+                }
+            });
+        }
+
+        // Delete Product
+        function deleteProduct(productId) {
+            $.ajax({
+                type: 'POST',
+                url: `/products/delete/${productId}/`,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $(`#product-${productId}`).remove();
+                    }
+                }
+            });
+        }
+
+        // Initial load
+        loadStores();
+        loadProducts();
+    </script>
+</body>
+</html>
