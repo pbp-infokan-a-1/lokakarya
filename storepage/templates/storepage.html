@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Daftar Toko{% endblock %}
+{% block content %}
+    {% include 'header.html' %}
+<div class="container mx-auto px-4 py-8">
+    {% for toko in toko_list %}
+    <div class="store-card mb-16">
+        <h2 class="text-4xl font-bold mb-4">{{ toko.nama }}</h2>
+        
+        <div class="text-gray-600 mb-8">
+            {{ toko.deskripsi }}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {% if toko.foto %}
+            <div class="store-image rounded-lg overflow-hidden">
+                <img src="{{ toko.foto.url }}" alt="{{ toko.nama }}" class="w-full h-64 object-cover">
+            </div>
+            {% endif %}
+            {% if toko.foto_2 %}
+            <div class="store-image rounded-lg overflow-hidden">
+                <img src="{{ toko.foto_2.url }}" alt="{{ toko.nama }}" class="w-full h-64 object-cover">
+            </div>
+            {% endif %}
+            {% if toko.foto_3 %}
+            <div class="store-image rounded-lg overflow-hidden">
+                <img src="{{ toko.foto_3.url }}" alt="{{ toko.nama }}" class="w-full h-64 object-cover">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="store-info grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="info-section">
+                <div class="mb-4">
+                    <h3 class="font-semibold text-lg">Alamat</h3>
+                    <p class="text-gray-600">{{ toko.alamat }}</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="font-semibold text-lg">Jam Operasional</h3>
+                    <p class="text-gray-600">{{ toko.hari_buka }}</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <div class="mb-4">
+                    <h3 class="font-semibold text-lg">Email</h3>
+                    <p class="text-gray-600">{{ toko.email }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="font-semibold text-lg">Telepon</h3>
+                    <p class="text-gray-600">{{ toko.telepon }}</p>
+                </div>
+
+                <a href="#" class="make-route-button inline-block px-6 py-3 bg-[#ff7a42] text-white rounded-lg hover:bg-[#ff5a20] transition-colors">
+                    Make a route
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .store-card {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .store-image img {
+        transition: transform 0.3s ease;
+    }
+
+    .store-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .info-section, .contact-section {
+        padding: 1rem;
+    }
+
+    .make-route-button {
+        transition: all 0.3s ease;
+    }
+
+    .make-route-button:hover {
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .store-card {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}
