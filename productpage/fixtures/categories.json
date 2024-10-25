@@ -1,59 +1,69 @@
 
 [
-    {
+  {
+    "model": "productpage.category",
+    "pk": 1,
+    "fields": {
+      "name": "Ukiran Kayu"
+    }
+  },
+  {
+    "model": "productpage.category",
+    "pk": 2,
+    "fields": {
+      "name": "Anyaman Bambu"
+    }
+  },
+  {
+    "model": "productpage.category",
+    "pk": 3,
+    "fields": {
+      "name": "Patung"
+    }
+  },
+  {
       "model": "productpage.category",
-      "pk": 1,
+      "pk": 4,
       "fields": {
-        "name": "Ukiran Kayu"
+        "name": "Cendera Mata"
       }
     },
     {
       "model": "productpage.category",
-      "pk": 2,
+      "pk": 5,
       "fields": {
-        "name": "Anyaman Bambu"
+        "name": "Aksesoris"
       }
     },
     {
       "model": "productpage.category",
-      "pk": 3,
+      "pk": 6,
       "fields": {
-        "name": "Patung"
+        "name": "Fashion"
       }
     },
     {
-        "model": "productpage.category",
-        "pk": 4,
-        "fields": {
-          "name": "Cendera Mata"
-        }
-      },
-      {
-        "model": "productpage.category",
-        "pk": 5,
-        "fields": {
-          "name": "Aksesoris"
-        }
-      },
-      {
-        "model": "productpage.category",
-        "pk": 6,
-        "fields": {
-          "name": "Fashion"
-        }
-      },
-      {
-        "model": "productpage.category",
-        "pk": 7,
-        "fields": {
-          "name": "Keramik"
-        }
-      },
-      {
-        "model": "productpage.category",
-        "pk": 8,
-        "fields": {
-          "name": "Batik Jepara"
-        }
+      "model": "productpage.category",
+      "pk": 7,
+      "fields": {
+        "name": "Keramik"
       }
-  ]
+    },
+    {
+      "model": "productpage.category",
+      "pk": 8,
+      "fields": {
+        "name": "Batik Jepara"
+      }
+    },
+    {
+      "model": "productpage.product",
+      "fields":{
+      "name": "Gelang Kulit Etnik",
+      "category": 1,
+      "min_price": 50000,
+      "max_price": 150000,
+      "description": "terbuat dari kulit asli dengan motif etnik yang khas, memberikan tampilan yang alami dan autentik. Cocok untuk melengkapi gaya kasual sehari-hari. Fleksibel dan nyaman dipakai di pergelangan tangan."
+    }
+  }
+]
