@@ -4,6 +4,18 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'TTMoons';
+    src: url('../fonts/TT\ Moons\ Trial\ Black.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TTMoonsThin';
+    src: url('../fonts/TT\ Moons\ Trial\ Thin.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body {
     margin: 0;
@@ -40,6 +52,46 @@ body {
     display: inline;
 }
 
+/* Dropdown Styling */
+.nav-links li.relative ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    width: 150px;
+    z-index: 50;
+}
+
+.nav-links li.relative ul li {
+    display: block;
+}
+
+.nav-links li.relative ul li a {
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav-links li.relative ul li a:hover {
+    background-color: #f3f4f6;
+}
+
+/* Show the dropdown when hovering over the parent li */
+.nav-links li.relative:hover ul {
+    display: block;
+}
+
+/* Ensure the dropdown stays visible when hovering over it */
+.nav-links li.relative ul:hover {
+    display: block;
+}
+
 .nav-links a {
     text-decoration: none;
     color: #3B3B3B; /* Default color */
@@ -74,7 +126,16 @@ body {
     background: url("{% static 'images/background-hero-1.jpg' %}");
 }
 
+
 .text-box {
+    background-color: rgba(245, 245, 220, 0.9); /* Semi-transparent cream */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 600px;
+}
+
+.text-box-two {
     background-color: rgba(245, 245, 220, 0.9); /* Semi-transparent cream */
     padding: 2rem;
     border-radius: 1rem;
@@ -271,7 +332,6 @@ ul li {
 
 ul li:hover {
     background-color: #f0e3ce;
-    color: #000000;
 }
 
 /* Ensure only one list is visible */
@@ -299,6 +359,20 @@ ul li:hover {
         padding: 0.5rem; /* Lebih sedikit padding untuk mobile */
         max-width: 95%; /* Lebih lebar di tampilan mobile */
     }
+
+    .text-box-two {
+        margin-top: 50px;
+        padding: 0.5rem; /* Lebih sedikit padding untuk mobile */
+        max-width: 50%; /* Lebih lebar di tampilan mobile */
+    }
+
+    .text-box-two p {
+        /* Add your styles here */
+        font-size: 12px;  /* Example: Change font size */
+        line-height: 1.5;  /* Example: Adjust line height */
+        color: #333;  /* Example: Change text color */
+    }    
+
     .hero-text-slide {
         height: auto; /* Ubah menjadi auto jika height terlalu besar di HP */
         min-height: 100vh; /* Pastikan minimal setinggi layar */
@@ -317,12 +391,6 @@ ul li:hover {
         padding: 0.4rem; /* Smaller padding for mobile */
         font-size: 1.2rem; /* Adjusted font size for smaller screens */
     }
-
-    ul li {
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s;
-}
 }
 
 @media (max-width: 480px) {
