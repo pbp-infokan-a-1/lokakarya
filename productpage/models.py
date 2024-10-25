@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from storepage.models import Toko
+from storepage.models import Toko
 # from storepage.models import Store
 
 class Category(models.Model):
