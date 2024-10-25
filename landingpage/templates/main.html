@@ -7,7 +7,7 @@
     {% include 'header.html' %}
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero lg:h-[calc(87vh)] xl:h-[calc(87vh)]">
         <div class="hero-slider">
             <!-- Hero Slide with Background Image and Text -->
             <div class="hero-img relative flex justify-center items-center">
@@ -25,14 +25,49 @@
                     </button>
                 </div>
             </div>
-            
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/hero1.png' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box-two p-2 lg:p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-left relative z-10 ml-auto xl:mr-40 mb-10">
 
-            <!-- Image-based Slide 1 -->
-            <img src="{% static 'images/hero1.png' %}" class="hero-img" alt="Hero Image 1">
-            <!-- Image-based Slide 2 -->
-            <img src="{% static 'images/hero2.png' %}" class="hero-img" alt="Hero Image 2">
-            <!-- Image-based Slide 3 -->
-            <img src="{% static 'images/hero3.png' %}" class="hero-img" alt="Hero Image 3">
+                    <h2 style="font-family: 'TTMoonsThin'; font-size: 1.5rem; letter-spacing: 0.1em;">TODAY'S TOP PRODUCT</h2>
+                    <hr style="border: 1px solid #000; width: 100%; margin: 10px auto;">
+                    <h1 class="text-lg md:text-4xl lg:text-5xl text-dark-brown" style="font-family: 'TTMoons'">KURSI UKIR JATI</h1>
+                    <p class="text-xs md:text-sm lg:text-base xl:text-base text-gray-700 mt-2">
+                        Kursi yang terbuat dari kayu jati dengan ukiran tradisional yang rumit. Cocok untuk digunakan di ruang tamu atau ruang makan, memberikan kesan mewah dan tradisional. Kekuatan kayu jati menjamin keawetan dan kenyamanan.
+                    </p>
+                    <a href="#" class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Show more!
+                    </a>
+                </div>
+            </div>
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/hero2.png' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box-two p-2 lg:p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-left relative z-10 ml-auto xl:mr-40 mb-10">
+                    <h2 style="font-family: 'TTMoonsThin'; font-size: 1.5rem; letter-spacing: 0.1em;">TODAY'S TOP PRODUCT</h2>
+                    <hr style="border: 1px solid #000; width: 100%; margin: 10px auto;">
+                    <h1 class="text-lg md:text-4xl lg:text-5xl text-dark-brown" style="font-family: 'TTMoons'">MUG KERAMIK UNIK</h1>
+                    <p class="text-xs md:text-sm lg:text-base xl:text-base text-gray-700 mt-2">
+                        Gelas mug dari keramik dengan desain dan bentuk yang unik, cocok untuk digunakan sehari-hari atau sebagai koleksi. Tahan panas dan mudah dibersihkan, menjadikannya pilihan sempurna untuk minuman panas atau dingin.
+                    </p>
+                    <a href="#" class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Show more!
+                    </a>
+                </div>
+            </div>
+            <div class="hero-img relative flex justify-center items-center">
+                <img src="{% static 'images/hero3.png' %}" alt="Background" class="absolute inset-0 w-full h-full object-cover">
+                <div class="text-box-two p-2 lg:p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg text-left relative z-10 ml-auto xl:mr-40 mb-10">
+                    <h2 style="font-family: 'TTMoonsThin'; font-size: 1.5rem; letter-spacing: 0.1em;">TODAY'S TOP PRODUCT</h2>
+                    <hr style="border: 1px solid #000; width: 100%; margin: 10px auto;">
+                    <h1 class="text-lg md:text-4xl lg:text-5xl text-dark-brown" style="font-family: 'TTMoons'">KAIN BLANGKET TROSO</h1>
+                    <p class="text-xs md:text-sm lg:text-base xl:text-base text-gray-700 mt-2">
+                        Kain tenun blangket khas Troso dengan tekstur halus dan pola tradisional. Cocok digunakan sebagai selimut atau hiasan dinding. Setiap helai dibuat dengan teknik tenun yang rumit dan berkualitas.
+                    </p>
+                    <a href="#" class="mt-6 text-accent-brown hover:text-dark-brown underline">
+                        Show more!
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- Slider Controls -->
@@ -44,7 +79,7 @@
 
     <!-- Product Categories Section -->
     <section class="categories py-8">
-        <h2 class="text-2xl font-bold text-center mb-2" style="font-family: 'Poppins', sans-serif; color: #6F4E37;">Product Categories</h2>
+        <h2 class="text-2xl font-bold text-center mb-2" style="font-family: 'TTMoonsThin', sans-serif; color: #6F4E37;">Product Categories</h2>
         <p class="text-center mb-6" style="font-family: 'Poppins', sans-serif; color: #5E5E5E;">Explore our wide range of products</p>
         <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4 lg:px-32 xl:px-64">
             <a href = "#">
