@@ -55,5 +55,16 @@
         "fields": {
           "name": "Batik Jepara"
         }
+      },
+
+      {
+        "model": "productpage.product",
+        "fields":{
+        "name": "Gelang Kulit Etnik",
+        "category": 1,
+        "min_price": 50000,
+        "max_price": 150000,
+        "description": "terbuat dari kulit asli dengan motif etnik yang khas, memberikan tampilan yang alami dan autentik. Cocok untuk melengkapi gaya kasual sehari-hari. Fleksibel dan nyaman dipakai di pergelangan tangan."
       }
+    }
   ]

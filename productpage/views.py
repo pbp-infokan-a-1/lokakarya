@@ -21,7 +21,7 @@ def product_page(request):
 
     # Prefetch the average rating and number of reviews for each product
     products = products.annotate(
-        average_rating=Avg('ratings__rating'),  # Assuming related name is 'ratings'
+        average_rating=Avg('ratings__rating'),
         num_reviews=Count('ratings')
     )
 
@@ -47,7 +47,7 @@ def product_detail(request, product_id):
     average_rating = ratings.aggregate(Avg('rating'))['rating__avg'] or 0
     total_reviews = ratings.count()
 
-    return render(request, 'product/product_detail.html', {
+    return render(request, 'product_detail.html', {
         'product': product,
         'average_rating': average_rating,
         'total_reviews': total_reviews

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Product Page{% endblock %}
 
 {% block content %}
@@ -34,7 +34,6 @@
           <button type="submit" class="p-2 bg-blue-500 text-white rounded">Search</button>
         </form>
       </div>
-      
     </section>
   </div>
 
@@ -69,7 +68,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {% for product in products %}
         <div class="product-card border p-4 rounded">
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-48 w-full object-cover mb-2">
+          <img src="{% static 'avatars/defaults.jpeg' %}" alt="{{ product.name }}" class="h-48 w-full object-cover mb-2">
           <h3 class="text-xl font-bold">{{ product.name }}</h3>
           <p>${{ product.price }}</p>
           <p>{{ product.rating }} stars ({{ product.num_reviews }} reviews)</p>
