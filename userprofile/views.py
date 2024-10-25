@@ -65,6 +65,10 @@ def status_json(request):
     data = Status.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+def status_json_by_id(request, id):
+    data = Status.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
 def edit_status(request, id):
     # Get item entry berdasarkan id
     status = Status.objects.get(pk = id)
