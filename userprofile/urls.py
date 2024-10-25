@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import profile, update_profile_ajax, update_status_ajax, delete_status, edit_status, status_json
+from .views import profile, update_profile_ajax, update_status_ajax, delete_status, edit_status, status_json, status_json_by_id
 
 app_name = 'userprofile'
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('delete/<uuid:id>', delete_status, name='delete_status'),
     path('profile/updatestatus/ajax', update_status_ajax, name='update_status_ajax'),
     path('json/', status_json, name='status_json'),
+    path('json/<str:id>/', status_json_by_id, name='status_json_by_id'),
 ]
