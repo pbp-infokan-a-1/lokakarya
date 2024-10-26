@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body style="
+<body class="flex flex-col min-h-screen"style="
     background: linear-gradient(135deg, #ffffff, #f5f5dc, #fae7d0, #ffffff), 
             repeat;
     background-size: 200% 200%, auto;
@@ -26,9 +26,11 @@
             100% { background-position: 0% 50%; }
         }
     </style>
-    <main>
+    {% include 'header.html' %}
+    <main class = "flex-grow">
         {% block content %}
         {% endblock content %}
     </main>
+    {% include 'footer.html' %}
 </body>
 </html>
