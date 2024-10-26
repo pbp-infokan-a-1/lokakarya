@@ -44,7 +44,6 @@ body {
 .nav-links {
     display: none; /* Hide by default */
     list-style: none;
-    gap: 2rem; /* Space between each link */
     text-align: center; /* Ensure text is centered in the dropdown */
 }
 
