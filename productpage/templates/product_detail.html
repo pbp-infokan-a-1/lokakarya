@@ -1,21 +1,88 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto">
-    <img src="{{ product.image.url }}" class="w-full object-cover">
-    <h2 class="text-3xl font-bold mt-4">{{ product.name }}</h2>
-    <p>{{ product.description }}</p>
-    <p>Sold by {{ product.store.name }}</p>
-    <p>${{ product.price }}</p>
-    <p>{{ product.rating }} stars ({{ product.num_reviews }} reviews)</p>
+  {% include 'header.html' %}
 
-    {% if user.is_authenticated %}
-    <form method="post" action="{% url 'add_to_favourites' product.id %}">
-        {% csrf_token %}
-        <button class="bg-blue-500 text-white p-2 mt-4">Add to Favourites</button>
-    </form>
-    {% endif %}
+
+<div style="padding: 100px;">
+  <!-- Hero Section -->
+  <div class="container mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col justify-center">
+          <!-- Image Slider -->
+          <div class="overflow-hidden">
+              <img src="{% static 'avatars/defaults.jpeg' %}" alt="Product Image" class="w-full object-cover rounded-lg">
+          </div>
+      </div>
+      
+      <!-- Product Information Panel -->
+      <div class="flex flex-col justify-center p-4">
+          <h5 class="text-sm text-gray-700">{{product.category}}</h5>
+          <h1 class="text-2xl font-bold text-gray-900 mb-2">{{product.name}}</h1>
+          <p class="text-lg text-gray-700">Rp.{{product.min_price}} - Rp.{{product.max_price}}</p>
+          <p class="mt-4">{{product.description}}</p>
+          
+          <!-- Size Selection -->
+          <div class="mt-4">
+              <label class="block text-sm font-medium text-gray-700">Select Size</label>
+          </div>
+
+          <!-- Add to Cart / Favorite -->
+          <div class="flex space-x-4 mt-6">
+              <button class="bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800">Add to Cart</button>
+              <button class="border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200">Favorite</button>
+          </div>
+      </div>
+  </div>
+
+  <!-- Benefits Section -->
+  <div class="container mx-auto bg-gray-50 py-8">
+      <div class="container mx-auto">
+          <h2 class="text-xl font-bold mb-4">Affiliated Stores</h2>
+          <ul class="list-disc pl-5 space-y-2">
+              <li><a>Genuine and synthetic leathers for durability.</a></li>
+              <li>Iconic winged Air Jordan logo for branding.</li>
+              <li>Encapsulated Air unit for lightweight cushioning.</li>
+          </ul>
+      </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="container mx-auto py-8">
+      <h2 class="text-xl font-bold mb-4">Customer Reviews</h2>
+      <div class="bg-white shadow-lg rounded-lg p-4">
+          <p class="text-sm text-gray-600">No reviews yet.</p>
+      </div>
+  </div>
+  <h2 class="text-xl font-bold mb-4">You May Also Like</h2>
+  <div class="container mx-auto bg-white py-8">
+    <div class="container mx-auto">
+        <!-- Carousel Wrapper -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {% for same_product in same_category_products %}
+                <div class="swiper-slide">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                      <!-- placeholder image -->
+                        <img src="{% static 'avatars/defaults.jpeg' %}" alt="{{ same_product.name }}" class="w-full object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold">{{ same_product.name }}</h3>
+                            <p class="text-sm text-gray-600">IDR {{ same_product.min_price }} - {{ same_product.max_price }}</p>
+                            <a href="{% url 'productpage:product_detail' same_product.id %}" class="text-blue-500">View Product</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+  </div>
 </div>
+
+{% include 'footer.html' %}
 {% endblock %}
