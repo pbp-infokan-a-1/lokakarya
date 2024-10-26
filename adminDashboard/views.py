@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Product, Store, Category, Rating
@@ -7,10 +8,16 @@ from django.shortcuts import render
 def adminDashboard(request):
     return render(request, 'adminDashboard.html')
 
+import json
+
 @csrf_exempt
 def product_list(request):
     if request.method == 'GET':
-        products = Product.objects.all()
+        products = Product.objects.all().order_by('name')  # Order by 'name' or any other field
+        paginator = Paginator(products, 16)  # Paginate the ordered queryset
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
         product_list = [{
             'id': str(product.id),
             'name': product.name,
@@ -20,44 +27,45 @@ def product_list(request):
             'num_reviews': product.num_reviews,
             'categories': [category.name for category in product.category.all()],
             'stores': [store.name for store in product.stores.all()]  # Include related stores
-        } for product in products]
-        return JsonResponse({'products': product_list})
+        } for product in page_obj]
+        
+        response_data = {'products': product_list, 'page': page_obj.number, 'num_pages': paginator.num_pages}
+        print(json.dumps(response_data, indent=4))  # Log the response data
+        return JsonResponse(response_data)
 
 @csrf_exempt
 def create_product(request):
     if request.method == 'POST':
         try:
-            # Extract data from POST request
+            # Extract data from the request
             name = request.POST.get('name')
             description = request.POST.get('description')
             price = request.POST.get('price')
-            rating_id = request.POST.get('rating')
-            category_ids = request.POST.getlist('category')
-            store_ids = request.POST.getlist('stores')  # List for multiple stores
+            rating_id = request.POST.get('rating')  # this might be empty or None
 
-            # Check required fields
-            if not (name and price and rating_id):
-                return JsonResponse({'status': 'error', 'message': 'Missing required fields'}, status=400)
+            print(name, description, price, rating_id)
 
-            # Get related models
-            rating = get_object_or_404(Rating, id=rating_id)
+            # Get rating based on ID if provided, otherwise set to 0
+            if rating_id:
+                rating = get_object_or_404(Rating, id=rating_id)
+            else:
+                # Either get the existing 0.0 rating or create it
+                rating, created = Rating.objects.get_or_create(rating_value=0.0)
 
-            # Create product
+            # Create the new product with the default rating if needed
             new_product = Product.objects.create(
                 name=name,
                 description=description,
                 price=price,
-                rating=rating,
+                rating=rating
             )
 
-            # Set Many-to-Many relationships
-            if category_ids:
-                new_product.category.set(Category.objects.filter(id__in=category_ids))
-            if store_ids:
-                new_product.stores.set(Store.objects.filter(id__in=store_ids))
-
-            return JsonResponse({'status': 'success', 'product': {'id': str(new_product.id), 'name': new_product.name}})
-
+            # Return a success response
+            return JsonResponse({
+                'status': 'success',
+                'product': {'id': new_product.id, 'name': new_product.name}
+            })
+        
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 

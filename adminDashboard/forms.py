@@ -15,7 +15,7 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        fields = ['name', 'description', 'price', 'image', 'category', 'rating', 'num_reviews', 'stores']
+        fields = ['name', 'description', 'price', 'image', 'category', 'num_reviews', 'stores']
 
 class StoreForm(forms.ModelForm):
     products = forms.ModelMultipleChoiceField(
