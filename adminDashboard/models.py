@@ -19,7 +19,7 @@ class Store(models.Model):
     address = models.TextField(default='No address available.')
     email = models.EmailField(default='example@example.com')
     phone = models.CharField(max_length=20, default='000-000-0000')
-    product = models.ManyToManyField('Product', related_name='stores')
+    products = models.ManyToManyField('Product', related_name='stores')  # Many-to-Many field in Store
 
     def __str__(self):
         return self.name
@@ -33,7 +33,6 @@ class Product(models.Model):
     description = models.TextField(default='No description available.')
     rating = models.ForeignKey(Rating, on_delete=models.CASCADE, default=1)
     num_reviews = models.IntegerField(default=0)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
 
     def __str__(self):
         return self.name
