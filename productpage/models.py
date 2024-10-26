@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from storepage.models import Toko
-# from storepage.models import Store
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -19,14 +18,6 @@ class Rating(models.Model):
     def __str__(self):
         return f'Rating: {self.rating} by {self.user.username}'
 
-class Toko(models.Model):
-    nama = models.CharField(max_length=200)
-    hari_buka = models.CharField(max_length=100)
-    alamat = models.TextField()
-    email = models.EmailField()
-    telepon = models.CharField(max_length=20)
-    # produk = models.ManyToManyField(Product, related_name='toko')
-
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -37,7 +28,7 @@ class Product(models.Model):
     max_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     description = models.TextField()
 
-    def average_rating(self):
+    def count_average_rating(self):
         avg_rating = self.ratings.aggregate(models.Avg('rating'))['rating__avg']
         return avg_rating or 0  # Return 0 if no ratings
 

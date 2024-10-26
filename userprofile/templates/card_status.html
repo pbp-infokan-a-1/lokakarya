@@ -1,0 +1,23 @@
+<div class="relative break-inside-avoid">
+    <!-- Tidak perlu elemen yang ada di atas, simplifikasi desain -->
+    <div class="bg-indigo-100 shadow-md rounded-lg mb-6 break-inside-avoid flex flex-col border-2 border-indigo-300 transform rotate-1 hover:rotate-0 transition-transform duration-300">
+      <!-- Header Card: Nama dan harga produk -->
+      <div class="bg-indigo-200 text-gray-800 p-4 rounded-t-lg border-b-2 border-indigo-300">
+        <h3 class="font-bold text-xl">{{ status.title }}</h3>
+      </div>
+      <!-- Body Card: Deskripsi Produk -->
+      <div class="p-4">
+        <p class="text-gray-700">{{ status.description }}</p>
+      </div>
+      <!-- Footer Card: Tombol Aksi -->
+      <div class="flex justify-between p-4">
+        <a href="{% url 'main:edit_status' status.pk %}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
+          Edit
+        </a>
+        <a href="{% url 'main:delete_item' status.pk %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
+          Delete
+        </a>
+      </div>
+    </div>
+  </div>
+  

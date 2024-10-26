@@ -9,3 +9,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Status(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
