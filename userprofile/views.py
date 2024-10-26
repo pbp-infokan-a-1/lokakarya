@@ -65,13 +65,13 @@ def status_json(request):
     data = Status.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def status_json_by_id(request, id):
-    data = Status.objects.filter(pk=id)
+def status_json_by_id(request, status_id):
+    data = Status.objects.filter(pk=status_id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def edit_status(request, id):
+def edit_status(request, status_id):
     # Get item entry berdasarkan id
-    status = Status.objects.get(pk = id)
+    status = Status.objects.get(pk = status_id)
 
     # Set item entry sebagai instance dari form
     form = StatusForm(request.POST or None, instance=status)
@@ -84,9 +84,9 @@ def edit_status(request, id):
     context = {'form': form}
     return render(request, "edit_status.html", context)
 
-def delete_status(request, id):
+def delete_status(request, status_id):
     # Get item berdasarkan id
-    status = Status.objects.get(pk = id)
+    status = Status.objects.get(pk = status_id)
     # Hapus item
     status.delete()
     # Kembali ke halaman awal
