@@ -1,99 +1,184 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Daftar Toko{% endblock %}
 {% block content %}
-    {% include 'header.html' %}
-<div class="container mx-auto px-4 py-8">
-    {% for toko in toko_list %}
-    <div class="store-card mb-16">
-        <h2 class="text-4xl font-bold mb-4">{{ toko.nama }}</h2>
-        
-        <div class="text-gray-600 mb-8">
-            {{ toko.deskripsi }}
-        </div>
+{% include 'header.html' %}
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {% if toko.foto %}
-            <div class="store-image rounded-lg overflow-hidden">
-                <img src="{{ toko.foto.url }}" alt="{{ toko.nama }}" class="w-full h-64 object-cover">
-            </div>
-            {% endif %}
-            {% if toko.foto_2 %}
-            <div class="store-image rounded-lg overflow-hidden">
-                <img src="{{ toko.foto_2.url }}" alt="{{ toko.nama }}" class="w-full h-64 object-cover">
-            </div>
-            {% endif %}
-            {% if toko.foto_3 %}
-            <div class="store-image rounded-lg overflow-hidden">
-                <img src="{{ toko.foto_3.url }}" alt="{{ toko.nama }}" class="w-full h-64 object-cover">
-            </div>
-            {% endif %}
-        </div>
+<script>
+    // Definisikan URL-URL API sebagai variabel JavaScript
+    const STORE_API = {
+        get: (id) => `/api/store/${id}/`,
+        create: '/api/store/create/',
+        update: (id) => `/api/store/update/${id}/`,
+        delete: (id) => `/api/store/delete/${id}/`
+    };
+</script>
 
-        <div class="store-info grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="info-section">
-                <div class="mb-4">
-                    <h3 class="font-semibold text-lg">Alamat</h3>
-                    <p class="text-gray-600">{{ toko.alamat }}</p>
-                </div>
-                
-                <div class="mb-4">
-                    <h3 class="font-semibold text-lg">Jam Operasional</h3>
-                    <p class="text-gray-600">{{ toko.hari_buka }}</p>
-                </div>
-            </div>
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-            <div class="contact-section">
-                <div class="mb-4">
-                    <h3 class="font-semibold text-lg">Email</h3>
-                    <p class="text-gray-600">{{ toko.email }}</p>
-                </div>
-
-                <div class="mb-4">
-                    <h3 class="font-semibold text-lg">Telepon</h3>
-                    <p class="text-gray-600">{{ toko.telepon }}</p>
-                </div>
-
-                <a href="#" class="make-route-button inline-block px-6 py-3 bg-[#ff7a42] text-white rounded-lg hover:bg-[#ff5a20] transition-colors">
-                    Make a route
-                </a>
-            </div>
+<div class="bg-gradient-to-b from-[#f9f9f9] to-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="header-image relative mb-8" style="margin-top: 100px;">
+            <img src="{% static 'images/page_header.jpeg' %}" alt="Header Image" class="w-full h-64 object-cover">
+            <h1 class="absolute text-4xl font-bold text-white bottom-4 left-4">Kolaborator LokaKarya</h1>
         </div>
     </div>
-    {% endfor %}
+
+    <div class="main_content">
+        {% for toko in toko_list %}
+        <div class="store-card">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% if toko.image %}
+                <div class="store-image rounded-lg overflow-hidden">
+                    <img src="{% static toko.image %}" alt="{{ toko.nama }}" class="w-full h-full object-cover">
+                </div>
+                {% endif %}
+                
+                <div class="store-info flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-4xl font-bold mb-4">{{ toko.nama }}</h2>
+                        <div class="text-gray-600 mb-4">{{ toko.deskripsi }}</div>
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-lg">Alamat</h3>
+                            <p class="text-gray-600">{{ toko.alamat }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-lg">Jam Operasional</h3>
+                            <p class="text-gray-600">{{ toko.hari_buka }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-lg">Email</h3>
+                            <p class="text-gray-600">{{ toko.email }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-lg">Telepon</h3>
+                            <p class="text-gray-600">{{ toko.telepon }}</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="{{ toko.gmaps_link }}" target="_blank" class="make-route-button inline-block px-6 py-3 bg-[#ff7a42] text-white rounded-lg hover:bg-[#ff5a20] transition-colors">
+                            Make a route
+                        </a>
+                        <a href="{{ toko.page_link }}" target="_blank" class="view-products-button inline-block px-6 py-3 bg-[#1d72b8] text-white rounded-lg hover:bg-[#135a8b] transition-colors">                            Lihat Produk
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="store-actions">
+            <button onclick="showEditStoreForm({{ toko.id }})" class="edit-btn">
+                Edit
+            </button>
+            <button onclick="deleteStore({{ toko.id }})" class="delete-btn">
+                Delete
+            </button>
+        </div>
+                    <div class="w-1/3">
+                        <img src="{% static toko.image %}" 
+                            alt="{{ toko.nama }}"
+                            class="w-full h-full object-cover">
+                    </div>
+        {% endfor %}
+    </div>
+    <div class="fixed bottom-8 right-8">
+        <button onclick="showAddStoreForm()" 
+                class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
+            +
+        </button>
+    </div>
 </div>
 
+<div id="storeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-8 max-w-2xl w-full">
+        <h2 id="modalTitle" class="text-2xl font-bold mb-4">Add New Store</h2>
+        
+        <form id="storeForm" class="space-y-4">
+            <div>
+                <label class="block mb-1">Nama Toko</label>
+                <input type="text" name="nama" class="w-full border rounded px-3 py-2">
+            </div>
+            
+            <div>
+                <label class="block mb-1">Alamat</label>
+                <textarea name="alamat" class="w-full border rounded px-3 py-2"></textarea>
+            </div>
+            
+            <div>
+                <label class="block mb-1">Hari Operasional</label>
+                <input type="text" name="hari_buka" class="w-full border rounded px-3 py-2">
+            </div>
+            
+            <div>
+                <label class="block mb-1">Email</label>
+                <input type="email" name="email" class="w-full border rounded px-3 py-2">
+            </div>
+            
+            <div>
+                <label class="block mb-1">Telepon</label>
+                <input type="tel" name="telepon" class="w-full border rounded px-3 py-2">
+            </div>
+            
+            <div>
+                <label class="block mb-1">Link GMaps (Optional)</label>
+                <input type="url" name="gmaps_link" class="w-full border rounded px-3 py-2">
+            </div>
+            
+            <div>
+                <label class="block mb-1">Page Link</label>
+                <input type="url" name="page_link" class="w-full border rounded px-3 py-2">
+            </div>
+            
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeModal()" 
+                        class="bg-gray-500 text-white px-4 py-2 rounded">
+                    Cancel
+                </button>
+                <button type="submit" 
+                        class="bg-orange-500 text-white px-4 py-2 rounded">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <style>
+    .main_content {
+        width: 100%;
+    }
+
     .store-card {
         background-color: white;
-        border-radius: 1rem;
         padding: 2rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        width: 100%;
     }
 
-    .store-image img {
-        transition: transform 0.3s ease;
-    }
-
-    .store-image:hover img {
-        transform: scale(1.05);
-    }
-
-    .info-section, .contact-section {
+    .store-info {
         padding: 1rem;
     }
 
-    .make-route-button {
+    .make-route-button, .view-products-button {
         transition: all 0.3s ease;
     }
 
-    .make-route-button:hover {
+    .make-route-button:hover, .view-products-button:hover {
         transform: translateY(-2px);
     }
 
-    @media (max-width: 768px) {
-        .store-card {
-            padding: 1rem;
-        }
+    .header-image {
+        position: relative;
+    }
+
+    .header-image h1 {
+        position: absolute;
     }
 </style>
+{% include 'footer.html' %}
+{% endblock %}
+
+{% block scripts %}  <!-- Tambahkan block scripts di base.html jika belum ada -->
+<script src="{% static 'js/ajax.js' %}"></script>
 {% endblock %}
