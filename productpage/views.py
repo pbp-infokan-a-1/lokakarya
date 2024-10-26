@@ -3,6 +3,8 @@ from productpage.models import Product, Rating, Category, Favorite
 from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.core.paginator import Paginator
+from storepage.models import Toko
 
 # Product listing with category filters
 def product_page(request):
@@ -15,22 +17,21 @@ def product_page(request):
         products = products.filter(category__id__in=selected_categories)
 
     # Search products by name
-    query = request.GET.get('q')
+    query = request.GET.get('q','')
     if query:
         products = products.filter(name__icontains=query)
-
-    # Prefetch the average rating and number of reviews for each product
-    products = products.annotate(
-        average_rating=Avg('ratings__rating'),
-        num_reviews=Count('ratings')
-    )
 
     selected_category = None
     if selected_categories:
         selected_category = Category.objects.filter(id=selected_categories[0]).first()
 
+    # Pagination setup
+    paginator = Paginator(products, 16)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': page_obj,
         'categories': categories,
         'selected_categories': selected_categories,
         'query': query,
@@ -41,18 +42,35 @@ def product_page(request):
 # Product details
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    ratings = product.ratings.all()
+    toko_list = Toko.objects.all()
 
-    # Calculate the average rating
-    average_rating = ratings.aggregate(Avg('rating'))['rating__avg'] or 0
-    total_reviews = ratings.count()
+    # Prepare a list to store matching stores
+    matching_stores = list(product.store.all())
+
+    # Loop through each Toko object
+    for toko in toko_list:
+        # Check if the current store is associated with the product
+        print(toko.id)
+        print()
+        # if product_id == product.store_id:
+
+
+    # Fetch products in the same category, excluding the current product
+    same_category_products = Product.objects.filter(
+        category=product.category
+    ).exclude(id=product_id)[:5]
+
+    print(f"Product: {product.name}, UUID: {product.id}")
+    print(product.store)
+    print(matching_stores)
 
     return render(request, 'product_detail.html', {
         'product': product,
-        'average_rating': average_rating,
-        'total_reviews': total_reviews
+        'same_category_products': same_category_products,
+        'matching_stores': matching_stores
     })
 
+#incomplete
 def submit_rating(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
