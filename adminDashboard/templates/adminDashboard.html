@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-yellow-100 p-6">
+    <!-- Header Section -->
+    <header class="bg-white p-4 mb-6 shadow-md flex items-center">
+        <img src="path/to/logo.png" alt="Website Logo" class="h-12 mr-4">
+        <h1 class="text-3xl font-bold">Lokakarya Admin Dashboard</h1>
+    </header>
+
+    <!-- Store Management Section -->
+    <h2 class="text-2xl font-semibold mb-4">Store Management</h2>
+    <form id="store-form" class="bg-white p-6 rounded-lg shadow-md mb-6">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="store-name" class="block text-gray-700 font-bold mb-2">Store Name</label>
+            <input type="text" id="store-name" name="name" placeholder="Store Name" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="store-openDays" class="block text-gray-700 font-bold mb-2">Open Days</label>
+            <input type="text" id="store-openDays" name="openDays" placeholder="Open Days" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="store-address" class="block text-gray-700 font-bold mb-2">Store Address</label>
+            <textarea id="store-address" name="address" placeholder="Store Address" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        <div class="mb-4">
+            <label for="store-email" class="block text-gray-700 font-bold mb-2">Store Email</label>
+            <input type="email" id="store-email" name="email" placeholder="Store Email" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="store-phone" class="block text-gray-700 font-bold mb-2">Store Phone</label>
+            <input type="text" id="store-phone" name="phone" placeholder="Store Phone" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="store-product" class="block text-gray-700 font-bold mb-2">Products</label>
+            <select id="store-product" name="product" multiple class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <!-- Dynamically populated product options -->
+            </select>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Add Store</button>
+    </form>
+
+    <div id="store-list" class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <!-- Stores will be displayed here -->
+    </div>
+
+    <!-- Product Management Section -->
+    <h2 class="text-2xl font-semibold mb-4">Product Management</h2>
+    <form id="product-form" class="bg-white p-6 rounded-lg shadow-md mb-6">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="product-name" class="block text-gray-700 font-bold mb-2">Product Name</label>
+            <input type="text" id="product-name" name="name" placeholder="Product Name" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="product-description" class="block text-gray-700 font-bold mb-2">Product Description</label>
+            <textarea id="product-description" name="description" placeholder="Product Description" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        <div class="mb-4">
+            <label for="product-min_price" class="block text-gray-700 font-bold mb-2">Min Price</label>
+            <input type="number" id="product-min_price" name="min_price" placeholder="Min Price" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="product-max_price" class="block text-gray-700 font-bold mb-2">Max Price</label>
+            <input type="number" id="product-max_price" name="max_price" placeholder="Max Price" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="product-image" class="block text-gray-700 font-bold mb-2">Product Image</label>
+            <input type="file" id="product-image" name="image" accept="image/*" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="product-category" class="block text-gray-700 font-bold mb-2">Product Category</label>
+            <select id="product-category" name="category" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <!-- Dynamically populated category options -->
+            </select>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Add Product</button>
+    </form>
+
+    <div id="product-list" class="bg-white p-6 rounded-lg shadow-md">
+        <!-- Products will be displayed here -->
+    </div>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 LokaKarya. All Rights Reserved.</p>
+        <div class="social-links">
+            <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">Instagram</a>
+            <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">Facebook</a>
+            <a href="#" class="text-blue-400 hover:text-blue-500 mx-2">LinkedIn</a>
+        </div>
+    </footer>
+
+    <script>
+        // Load stores and products on page load
+        $(document).ready(function() {
+            loadStores();
+            loadProducts();
+        });
+
+        // Add Store
+        $('#store-form').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            $.ajax({
+                type: 'POST',
+                url: '/stores/create/',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadStores();
+                        $('#store-form')[0].reset();
+                    }
+                }
+            });
+        });
+
+        // Add Product
+        $('#product-form').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            $.ajax({
+                type: 'POST',
+                url: '/products/create/',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadProducts();
+                        $('#product-form')[0].reset();
+                    }
+                }
+            });
+        });
+
+        // Load Stores
+        function loadStores() {
+            $.ajax({
+                type: 'GET',
+                url: '/stores/',
+                success: function(response) {
+                    const storeList = response.stores;
+                    const storeContainer = $('#store-list');
+                    storeContainer.empty();
+
+                    storeList.forEach(store => {
+                        const storeHtml = `
+                            <div class="store-card border p-4 rounded mb-4">
+                                <h3 class="text-lg font-bold">${store.name}</h3>
+                                <p>Open Days: ${store.openDays}</p>
+                                <p>Address: ${store.address}</p>
+                                <p>Email: ${store.email}</p>
+                                <p>Phone: ${store.phone}</p>
+                                <p>Products: ${store.products.join(', ')}</p>
+                                <button onclick="deleteStore('${store.id}')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                            </div>
+                        `;
+                        storeContainer.append(storeHtml);
+                    });
+                }
+            });
+        }
+
+        // Load Products
+        function loadProducts(page = 1) {
+            $.ajax({
+                type: 'GET',
+                url: `/products/?page=${page}`,
+                success: function(response) {
+                    const productList = response.products;
+                    const productContainer = $('#product-list');
+                    productContainer.empty();
+
+                    productList.forEach(product => {
+                        const productHtml = `
+                            <div class="product-card border p-4 rounded mb-4">
+                                <h3 class="text-lg font-bold">${product.name}</h3>
+                                <p>Description: ${product.description}</p>
+                                <p>Min Price: $${product.min_price}</p>
+                                <p>Max Price: $${product.max_price}</p>
+                                <p>Average Rating: ${product.average_rating}</p>
+                                <p>Reviews: ${product.num_reviews}</p>
+                                <p>Category: ${product.category}</p>
+                                <p>Stores: ${product.stores.join(', ')}</p>
+                                <button onclick="deleteProduct('${product.id}')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                            </div>
+                        `;
+                        productContainer.append(productHtml);
+                    });
+
+                    // Pagination
+                    const paginationHtml = `
+                        <div class="pagination">
+                            ${Array.from({ length: response.num_pages }, (_, i) => `
+                                <button onclick="loadProducts(${i + 1})" class="px-3 py-1 border rounded ${response.page === i + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}">${i + 1}</button>
+                            `).join('')}
+                        </div>
+                    `;
+                    productContainer.append(paginationHtml);
+                }
+            });
+        }
+
+        // Delete Store
+        function deleteStore(storeId) {
+            $.ajax({
+                type: 'POST',
+                url: `/stores/delete/${storeId}/`,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadStores();
+                    }
+                }
+            });
+        }
+
+        // Delete Product
+        function deleteProduct(productId) {
+            $.ajax({
+                type: 'POST',
+                url: `/products/delete/${productId}/`,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadProducts();
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
