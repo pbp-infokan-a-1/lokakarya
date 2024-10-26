@@ -42,27 +42,14 @@ def product_page(request):
 # Product details
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    toko_list = Toko.objects.all()
 
     # Prepare a list to store matching stores
     matching_stores = list(product.store.all())
-
-    # Loop through each Toko object
-    for toko in toko_list:
-        # Check if the current store is associated with the product
-        print(toko.id)
-        print()
-        # if product_id == product.store_id:
-
 
     # Fetch products in the same category, excluding the current product
     same_category_products = Product.objects.filter(
         category=product.category
     ).exclude(id=product_id)[:5]
-
-    print(f"Product: {product.name}, UUID: {product.id}")
-    print(product.store)
-    print(matching_stores)
 
     return render(request, 'product_detail.html', {
         'product': product,
