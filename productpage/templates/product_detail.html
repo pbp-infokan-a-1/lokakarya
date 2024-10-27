@@ -68,7 +68,16 @@
 
       <!-- Add Favorite -->
       <div class="flex space-x-4 mt-6">
-          <button class="border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200"> Add to Favourites</button>
+          <button class="border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200" 
+            id="toggle-favorite" 
+            onclick="toggleFavorite('{{ product.id }}')"
+          >
+          {% if is_favorited %}
+          Remove from Favorites
+          {% else %}
+            Add to Favorites
+          {% endif %}
+        </button>
       </div>
     </div>
   </div>
@@ -122,7 +131,7 @@
     </div>
   </div>
 
-  
+  <script src="{% static 'js/favourite.js' %}"
   <script>
     var swiper = new Swiper('.swiper-container', {
         slidesPerView: 5,  // Adjust the number of slides visible at once
