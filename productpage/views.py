@@ -40,10 +40,14 @@ def product_page(request):
     return render(request, 'product_page.html', context)
 
 # Product details
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    toko_list = Toko.objects.all()
-
+def product_detail(request, product_id=None, product_name=None):
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
+    elif product_name:
+        product = get_object_or_404(Product, name=product_name)
+    else:
+        return render(request, '404.html', status=404)
+    
     # Prepare a list to store matching stores
     matching_stores = list(product.store.all())
 
@@ -52,11 +56,13 @@ def product_detail(request, product_id):
         category=product.category
     ).exclude(id=product_id)[:5]
 
-    return render(request, 'product_detail.html', {
+    context = {
         'product': product,
         'same_category_products': same_category_products,
         'matching_stores': matching_stores
-    })
+    }
+
+    return render(request, 'product_detail.html', context)
 
 #incomplete
 def submit_rating(request, product_id):

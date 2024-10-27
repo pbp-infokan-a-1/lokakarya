@@ -4,7 +4,7 @@
 
 {% block content %}
     <!-- Conditional Navbar -->
-    {% include 'header.html' %}
+    
 
     <!-- Hero Section -->
     <section class="hero lg:h-[calc(87vh)] xl:h-[calc(87vh)]">
@@ -20,9 +20,6 @@
                     <p class="text-sm md:text-base text-gray-700 mt-4">
                         Temukan beragam produk kerajinan tangan asli Jepara yang penuh keindahan dan ketelatenan tangan pengrajin lokal. Nggak sekedar belanja, ini adalah bentuk apresiasi budaya kita!
                     </p>
-                    <button class="mt-6 text-accent-brown hover:text-dark-brown underline">
-                        Mulai Jelajah
-                    </button>
                 </div>
             </div>
             <div class="hero-img relative flex justify-center items-center">
@@ -82,7 +79,7 @@
         <h2 class="text-5xl font-bold text-center mb-2" style="font-family: 'TTMoonsThin', sans-serif; color: #6F4E37;">Product Categories</h2>
         <p class="text-center mb-6" style="font-family: 'Poppins', sans-serif; color: #5E5E5E;">Explore our wide range of products</p>
         <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4 lg:px-32 xl:px-64">
-            <a href = "#">
+            <a href = "{% url 'productpage:product_page'%}?q=&category=1">
                 <div class="category-item relative h-48 sm:h-56">
                     <img src="{% static 'images/ukiran_kayu.jpg' %}" alt="Ukiran Kayu" class="w-full h-full object-cover rounded-xl">
                     <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
@@ -90,61 +87,169 @@
                     </div>
                 </div>
             </a>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/anyaman_bambu.jpeg' %}" alt="Anyaman Bambu" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Anyaman Bambu</span>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=2">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/anyaman_bambu.jpeg' %}" alt="Anyaman Bambu" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Anyaman Bambu</span>
+                    </div>
                 </div>
-            </div>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/patung.jpg' %}" alt="Patung" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Patung</span>
+            </a>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=3">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/patung.jpg' %}" alt="Patung" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Patung</span>
+                    </div>
                 </div>
-            </div>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/cenderamata.jpg' %}" alt="Cendera Mata" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Cendera Mata</span>
+            </a>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=4">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/cenderamata.jpg' %}" alt="Cendera Mata" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Cendera Mata</span>
+                    </div>
                 </div>
-            </div>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/aksesoris.jpg' %}" alt="Aksesoris" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Aksesoris</span>
+            </a>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=5">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/aksesoris.jpg' %}" alt="Aksesoris" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Aksesoris</span>
+                    </div>
                 </div>
-            </div>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/fashion.jpg' %}" alt="Fashion" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Fashion</span>
+            </a>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=6">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/fashion.jpg' %}" alt="Fashion" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Fashion</span>
+                    </div>
                 </div>
-            </div>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/keramik.jpg' %}" alt="Keramik" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Keramik</span>
+            </a>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=7">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/keramik.jpg' %}" alt="Keramik" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Keramik</span>
+                    </div>
                 </div>
-            </div>
-            <div class="category-item relative h-48 sm:h-56">
-                <img src="{% static 'images/batik_jepara.jpg' %}" alt="Batik Jepara" class="w-full h-full object-cover rounded-xl">
-                <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
-                    <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Batik Jepara</span>
+            </a>
+            <a href = "{% url 'productpage:product_page' %}?q=&category=8">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/batik_jepara.jpg' %}" alt="Batik Jepara" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Batik Jepara</span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
+    <!-- Affiliate Stores Section -->
     <section class="affiliate-stores py-8">
         <h2 class="text-5xl font-bold text-center mb-2" style="font-family: 'TTMoonsThin', sans-serif; color: #6F4E37;">Affiliate Stores</h2>
-        <div class="card-grid grid gap-6 grid-cols-1 md:grid-cols-3 px-4">
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 1</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 2</div>
-            <div class="card p-4 bg-gray-100 rounded-lg shadow">Store 3</div>
+        <p class="text-center mb-6" style="font-family: 'Poppins', sans-serif; color: #5E5E5E;">Explore our trusted affiliate stores</p>
+        
+        <div class="category-grid grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 sm:px-4 lg:px-32 xl:px-64">
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/mahaeswari-craft.jpg' %}" alt="Mahaeswari Jepara Craft" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Mahaeswari Jepara Craft</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/mahar-parcel.jpeg' %}" alt="Griya Parcel Mahar Jepara" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Griya Parcel Mahar Jepara</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/batik-zara-pasar-ratu.jpeg' %}" alt="Batik Zara Pasar Ratu" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Batik Zara Pasar Ratu</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/mustika-kayu.jpeg' %}" alt="Mustika Kayu Jati Jepara Furniture" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Mustika Kayu Jati Jepara Furniture</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/furnicraft.jpeg' %}" alt="Jepara Art Furnicraft" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Jepara Art Furnicraft</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/mede-keramik.jpeg' %}" alt="Toko Mede Keramik" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Toko Mede Keramik</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/tenun-unsiyyah.jpeg' %}" alt="Pengrajin Tenun Unsiyyah" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Pengrajin Tenun Unsiyyah</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/nambya-tenun.jpeg' %}" alt="Nambya Tenun" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Nambya Tenun</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/tenun-store.jpg' %}" alt="Gallery Tenun Store" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Gallery Tenun Store</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/shellcraft.jpeg' %}" alt="Jepara Shellcraft" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Jepara Shellcraft</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/toko-adhesi-monel.jpg' %}" alt="Toko Adhesi Monel" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Toko Adhesi Monel</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="category-item relative h-48 sm:h-56">
+                    <img src="{% static 'images/seni-sakti-monel.jpg' %}" alt="Seni Sakti Monel" class="w-full h-full object-cover rounded-xl">
+                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-30 rounded-lg flex justify-center items-center">
+                        <span class="text-white font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-full">Seni Sakti Monel</span>
+                    </div>
+                </div>
+            </a>
         </div>
     </section>
-
-    {% include 'footer.html' %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
