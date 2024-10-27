@@ -5,7 +5,7 @@ from productpage.models import Category, Product
 class TokoForm(forms.ModelForm):
     class Meta:
         model = Toko
-        fields = ['nama', 'hari_buka', 'alamat', 'email', 'telepon', 'image', 'gmaps_link', 'page_link']
+        fields = ['nama', 'hari_buka', 'alamat', 'email', 'telepon', 'image', 'gmaps_link']
         widgets = {
             'nama': forms.TextInput(attrs={'placeholder': 'Store Name'}),
             'hari_buka': forms.TextInput(attrs={'placeholder': 'Open Days'}),
@@ -13,7 +13,6 @@ class TokoForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder': 'Store Email'}),
             'telepon': forms.TextInput(attrs={'placeholder': 'Store Phone'}),
             'gmaps_link': forms.URLInput(attrs={'placeholder': 'Google Maps Link'}),
-            'page_link': forms.URLInput(attrs={'placeholder': 'Store Page Link'}),
         }
 
 class CategoryForm(forms.ModelForm):
