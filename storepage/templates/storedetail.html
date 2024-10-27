@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}{{ store.nama }}{% endblock %}
 {% block content %}
 
@@ -46,23 +45,31 @@
             Buka di Google Maps
         </a>
     </div>
+    
     <div class="products-section">
         <h1 class="products-title">Products</h1>
         <div class="products-grid">
             {% for product in products %}
-                <div class="product-item">
-                    <h3>{{ product.name }}</h3>
-                    <p>Price: {{ product.min_price }} - {{ product.max_price }}</p>
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="{% static 'images/default-product.png' %}" alt="Default Product Image">
-                    {% endif %}
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="product-image">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <img src="{% static 'images/default-image.png' %}" alt="Default Product Image">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="product-price">Price: Rp {{ product.min_price }} - Rp {{ product.max_price }}</p>
+                    </div>
                 </div>
             {% empty %}
                 <p>No products available for this store.</p>
             {% endfor %}
         </div>
     </div>
+    
 </div>
 {% endblock %}
