@@ -1,7 +1,6 @@
 function openReviewModal(productId, reviewId = null, existingReviewText = '', existingReviewRating = 0) {
   document.querySelector('.review-section').dataset.productId = productId;
-
-  // If editing, populate the modal with existing review data
+  
   if (reviewId) {
       document.getElementById('review-text').value = existingReviewText;
       const ratingValue = document.querySelector('.rating input');
@@ -19,10 +18,8 @@ function openReviewModal(productId, reviewId = null, existingReviewText = '', ex
           }
       });
 
-      // Store the reviewId for later use
       document.querySelector('.review-section').dataset.reviewId = reviewId;
   } else {
-      // Reset the modal if adding a new review
       document.getElementById('review-text').value = '';
       document.querySelector('.rating input').value = '';
       allStar.forEach(item => {
@@ -50,12 +47,11 @@ async function submitReview() {
       return;
   }
 
-  const url = reviewId ? `/api/reviews/edit/${reviewId}/` : `/api/products/${productId}/rate/`;
-  const method = reviewId ? 'POST' : 'POST';
+  const url = reviewId ? `/api/products/${productId}/update_rate/${reviewId}/` : `/api/products/${productId}/rate/`;
 
   try {
       const response = await fetch(url, {
-          method: method,
+          method: 'POST',
           headers: {
               'Content-Type': 'application/json',
               'X-CSRFToken': getCookie('csrftoken'),
@@ -77,6 +73,31 @@ async function submitReview() {
   } catch (error) {
       console.error('Error:', error);
       alert('Something went wrong');
+  }
+}
+
+// Delete review via AJAX
+async function deleteReview(productId, reviewId) {
+  if (confirm("Are you sure you want to delete this review?")) {
+      try {
+          const response = await fetch(`/api/products/${productId}/delete_rate/${reviewId}/`, {
+              method: 'DELETE',
+              headers: {
+                  'X-CSRFToken': getCookie('csrftoken'),
+              },
+          });
+
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+          alert(data.message);
+          window.location.reload();
+      } catch (error) {
+          console.error('Error:', error);
+          alert('Something went wrong');
+      }
   }
 }
 

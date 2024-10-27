@@ -134,71 +134,46 @@ def product_reviews(request, product_id):
 
 @csrf_exempt
 @login_required
-def create_product_ajax(request):
-    if request.method == "POST":
-        try:
+def edit_review_ajax(request, product_id, review_id):
+    try:
+        review = get_object_or_404(Rating, id=review_id, user=request.user, product_id=product_id)
+
+        if request.method == "POST":
             data = json.loads(request.body)
-            name = data.get('name')
-            category_id = data.get('category')
-            description = data.get('description')
-            min_price = data.get('min_price')
-            max_price = data.get('max_price')
+            review_text = data.get('review', '')
+            review_rating = data.get('rating', 0)
 
-            category = get_object_or_404(Category, id=category_id)
-            product = Product.objects.create(
-                name=name,
-                category=category,
-                description=description,
-                min_price=min_price,
-                max_price=max_price
-            )
+            review.review = review_text
+            review.rating = float(review_rating)
+            review.save()
 
-            return JsonResponse({"message": "Product created successfully!", "product_id": str(product.id)}, status=201)
-
-        except ValueError:
-            return JsonResponse({"error": "Invalid data"}, status=400)
-
-    return JsonResponse({"error": "Method not allowed"}, status=405)
+            return JsonResponse({"message": "Review updated successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Method not allowed"}, status=405)
+    except Rating.DoesNotExist:
+        return JsonResponse({"error": "Review not found"}, status=404)
+    except ValueError:
+        return JsonResponse({"error": "Invalid data"}, status=400)
+    except Exception as e:
+        print(e)  # For debugging purposes
+        return JsonResponse({"error": "Internal server error"}, status=500)
 
 @csrf_exempt
 @login_required
-def update_product_ajax(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def delete_review_ajax(request, product_id, review_id):
+    try:
+        review = get_object_or_404(Rating, id=review_id, user=request.user, product_id=product_id)
 
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            product.name = data.get('name', product.name)
-            product.description = data.get('description', product.description)
-            product.min_price = data.get('min_price', product.min_price)
-            product.max_price = data.get('max_price', product.max_price)
-
-            category_id = data.get('category')
-            if category_id:
-                category = get_object_or_404(Category, id=category_id)
-                product.category = category
-
-            product.save()
-            return JsonResponse({"message": "Product updated successfully!"}, status=200)
-
-        except ValueError:
-            return JsonResponse({"error": "Invalid data"}, status=400)
-
-    return JsonResponse({"error": "Method not allowed"}, status=405)
-
-@csrf_exempt
-@login_required
-def delete_product_ajax(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-
-    if request.method == "DELETE":
-        product.delete()
-        return JsonResponse({"message": "Product deleted successfully!"}, status=204)
-
-    return JsonResponse({"error": "Method not allowed"}, status=405)
-
-def is_admin(user):
-    return user.groups.filter(role='Admin').exists()
+        if request.method == "DELETE":
+            review.delete()
+            return JsonResponse({"message": "Review deleted successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Method not allowed"}, status=405)
+    except Rating.DoesNotExist:
+        return JsonResponse({"error": "Review not found"}, status=404)
+    except Exception as e:
+        print(e)  # For debugging purposes
+        return JsonResponse({"error": "Internal server error"}, status=500)
 
 @login_required
 def favorite_page(request):
