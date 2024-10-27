@@ -43,7 +43,7 @@ def view_all_favorites_by_user(request):
     context = {
         "favorites": favorites,
     }
-    return render(request, "favorites/view_all_favorites.html", context)
+    return JsonResponse({"favorites": favorites})
 
 
 @login_required(login_url="/login")
@@ -56,7 +56,8 @@ def view_all_favorites_by_user_id(request, user_id):
             "favorites": favorites,
             "viewing_user": user,
         }
-        return render(request, "favorites/view_all_favorites_by_user_id.html", context)
+        return JsonResponse({"favorites": favorites, "viewing_user": user})
+
     else:
         return HttpResponseForbidden(
             "You do not have permission to view this user's favorites."
