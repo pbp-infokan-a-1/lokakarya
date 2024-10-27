@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 def show_forum(request):
     posts = PostForum.objects.all().order_by('-created_at')
@@ -39,20 +41,21 @@ def detail_post(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('detail_post', post_id=post.id)
+            return redirect('forumandreviewpage:detail_post', post_id=post.id)
     else:
         comment_form = CommentForm()
     return render(request, 'detail_post.html', {'post': post, 'comment_form': comment_form})
 
-@login_required
+@login_required 
 def upvote_post(request, post_id):
     if request.method == 'POST':
         post = get_object_or_404(PostForum, id=post_id)
-        post.total_upvotes += 1  # Increment the upvote count
-        post.save()  # Save the updated post
-        return HttpResponseRedirect(reverse('forumandreviewpage:index'))
-    #     return JsonResponse({'success': True, 'total_upvotes': post.total_upvotes}, status=200)
-    # return JsonResponse({'success': False, 'message': 'Invalid request'}, status=400)
+        # Tambahkan user ke relasi upvotes
+        post.upvotes.add(request.user)
+        # Update total upvotes
+        post.total_upvotes = post.calculate_total_upvotes()
+        post.save()
+        return redirect('forumandreviewpage:detail_post', post.id)
 
 @csrf_exempt
 def delete_post(request, post_id):
@@ -63,14 +66,36 @@ def delete_post(request, post_id):
 
 def edit_post(request, post_id):
     post = get_object_or_404(PostForum, id=post_id)
+
+    if post.author != request.user:
+        return redirect('forumandreviewpage:show_forum')
+
     if request.method == 'POST':
         form = ForumandReviewForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('detail_post', post_id=post.id)
+            return redirect('forumandreviewpage:detail_post', post_id=post.id)
     else:
         form = ForumandReviewForm(instance=post)
-    return render(request, 'edit_post.html', {'form': form})
+
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
+
+@csrf_exempt
+@require_POST
+def edit_post_ajax(request, post_id):
+    # Get the new data from the POST request
+    title = request.POST.get("title")
+    content = request.POST.get("content")
+    
+    # Get the mood entry object, or return 404 if not found
+    forum_entry = get_object_or_404(PostForum, id=post_id, author=request.user)
+    
+    # Update the mood entry with the new data
+    forum_entry.title = title
+    forum_entry.content = content
+    forum_entry.save()  # Save the updated entry
+    
+    return HttpResponse(b"UPDATED", status=200)
 
 def show_xml(request):
     data = PostForum.objects.all()
