@@ -24,14 +24,16 @@ def adminDashboard(request):
 @login_required
 @require_http_methods(["GET"])
 def product_list(request):
-    products = Product.objects.all()
+    page = int(request.GET.get('page', 1))
+    per_page = 10
+    products = Product.objects.all()[(page-1)*per_page:page*per_page]
     products_data = [{
         'id': str(product.id),
         'name': product.name,
         'description': product.description,
         'min_price': str(product.min_price),
         'max_price': str(product.max_price),
-        'category': product.category.name,  # Updated to match the model
+        'category': [category.name for category in product.category.all()],
         'stores': [store.nama for store in product.store.all()],
         'image_url': product.image.url if product.image else None
     } for product in products]
@@ -42,19 +44,10 @@ def product_list(request):
 def add_product(request):
     form = ProductForm(request.POST, request.FILES)
     if form.is_valid():
-        product = form.save()
-        return JsonResponse({
-            'success': True,
-            'product': {
-                'id': str(product.id),
-                'name': product.name,
-                'min_price': str(product.min_price),
-                'max_price': str(product.max_price),
-                'category': product.category.name,  # Updated to match the model
-                'stores': [store.nama for store in product.store.all()],
-                'image_url': product.image.url if product.image else None
-            }
-        })
+        product = form.save(commit=False)
+        product.save()
+        form.save_m2m()
+        return JsonResponse({'success': True})
     return JsonResponse({'success': False, 'errors': form.errors})
 
 @login_required
@@ -64,19 +57,8 @@ def edit_product(request, product_id):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            product = form.save()
-            return JsonResponse({
-                'success': True,
-                'product': {
-                    'id': str(product.id),
-                    'name': product.name,
-                    'min_price': str(product.min_price),
-                    'max_price': str(product.max_price),
-                    'category': product.category.name,  # Updated to match the model
-                    'stores': [store.nama for store in product.store.all()],
-                    'image_url': product.image.url if product.image else None
-                }
-            })
+            form.save()
+            return JsonResponse({'success': True})
         return JsonResponse({'success': False, 'errors': form.errors})
     
     # GET request - return product data for form population
@@ -88,22 +70,20 @@ def edit_product(request, product_id):
             'min_price': str(product.min_price),
             'max_price': str(product.max_price),
             'description': product.description,
-            'category': product.category.id,  # Updated to match the model
+            'category': [category.id for category in product.category.all()],
             'stores': [store.id for store in product.store.all()],
             'image_url': product.image.url if product.image else None
         }
     })
 
-@login_required
-@require_http_methods(["POST"])
-def delete_product(request, product_id):
+def delete_product(_, product_id):
     product = get_object_or_404(Product, id=product_id)
     product.delete()
     return JsonResponse({'success': True})
+    product.delete()
+    return JsonResponse({'success': True})
 
-@login_required
-@require_http_methods(["GET"])
-def store_list(request):
+def store_list(_):
     stores = Toko.objects.all()
     stores_data = [{
         'id': store.id,
@@ -122,20 +102,8 @@ def store_list(request):
 def add_store(request):
     form = TokoForm(request.POST, request.FILES)
     if form.is_valid():
-        store = form.save()
-        return JsonResponse({
-            'success': True,
-            'store': {
-                'id': store.id,
-                'nama': store.nama,
-                'hari_buka': store.hari_buka,
-                'alamat': store.alamat,
-                'email': store.email,
-                'telepon': store.telepon,
-                'gmaps_link': store.gmaps_link,
-                'image_url': store.image.url if store.image else None
-            }
-        })
+        form.save()
+        return JsonResponse({'success': True})
     return JsonResponse({'success': False, 'errors': form.errors})
 
 @login_required
@@ -145,20 +113,8 @@ def edit_store(request, store_id):
     if request.method == 'POST':
         form = TokoForm(request.POST, request.FILES, instance=store)
         if form.is_valid():
-            store = form.save()
-            return JsonResponse({
-                'success': True,
-                'store': {
-                    'id': store.id,
-                    'nama': store.nama,
-                    'hari_buka': store.hari_buka,
-                    'alamat': store.alamat,
-                    'email': store.email,
-                    'telepon': store.telepon,
-                    'gmaps_link': store.gmaps_link,
-                    'image_url': store.image.url if store.image else None
-                }
-            })
+            form.save()
+            return JsonResponse({'success': True})
         return JsonResponse({'success': False, 'errors': form.errors})
     
     # GET request - return store data for form population
@@ -176,22 +132,21 @@ def edit_store(request, store_id):
         }
     })
 
-@login_required
-@require_http_methods(["POST"])
-def delete_store(request, store_id):
+def delete_store(_, store_id):
     store = get_object_or_404(Toko, id=store_id)
+    store.delete()
+    return JsonResponse({'success': True})
     store.delete()
     return JsonResponse({'success': True})
 
 # Summary endpoint to get counts for dashboard
-@login_required
-@require_http_methods(["GET"])
-def get_dashboard_stats(request):
+def get_dashboard_stats(_):
+    products_count = Product.objects.count()
+    stores_count = Toko.objects.count()
+    categories_count = Category.objects.count()
     return JsonResponse({
         'success': True,
-        'stats': {
-            'products_count': Product.objects.count(),
-            'stores_count': Toko.objects.count(),
-            'categories_count': Category.objects.count()
-        }
+        'products_count': products_count,
+        'stores_count': stores_count,
+        'categories_count': categories_count
     })

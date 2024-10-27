@@ -24,12 +24,13 @@ class CategoryForm(forms.ModelForm):
         }
 
 class ProductForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), widget=forms.Select(attrs={'placeholder': 'Select Category'}))
+
     class Meta:
         model = Product
         fields = ['name', 'category', 'image', 'store', 'min_price', 'max_price', 'description']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Product Name'}),
-            'category': forms.SelectMultiple(attrs={'placeholder': 'Select Categories'}),
             'store': forms.SelectMultiple(attrs={'placeholder': 'Select Stores'}),
             'min_price': forms.NumberInput(attrs={'placeholder': 'Minimum Price'}),
             'max_price': forms.NumberInput(attrs={'placeholder': 'Maximum Price'}),
