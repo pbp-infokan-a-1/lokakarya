@@ -317,10 +317,7 @@
             "min_price": 50000,
             "max_price": 150000,
             "description": "Terbuat dari kayu dengan ukiran yang halus dan tradisional. Memberikan kesan alami dan unik pada penampilan. Ringan dipakai dan cocok untuk kegiatan sehari-hari maupun acara formal.",
-            "store": [
-                1,
-                3
-            ]
+            "store": [1, 3]
         }
     },
     {

@@ -1,5 +1,5 @@
 from django.db import models
-# from productpage.models import Product
+from django.apps import apps
 
 class Toko(models.Model):
     nama = models.CharField(max_length=200)
@@ -15,3 +15,6 @@ class Toko(models.Model):
 
     class Meta:
         verbose_name_plural = "Toko"
+
+    def get_products(self):
+        return self.products.all()
