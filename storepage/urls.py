@@ -2,15 +2,15 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import toko_list, storedetail
 
 app_name = 'storepage' 
 
 urlpatterns = [
     path('toko/', views.toko_list, name='storepage'),
-    path('store/create/', views.create_store, name='create_store'),
-    path('store/update/<int:store_id>/', views.update_store, name='update_store'),
-    path('store/delete/<int:store_id>/', views.delete_store, name='delete_store'),
-    path('api/store/create/', views.create_store, name='create_store'),
-    path('api/store/update/<int:store_id>/', views.update_store, name='update_store'),
-    path('api/store/delete/<int:store_id>/', views.delete_store, name='delete_store'),
+    path('toko/<int:store_id>/', storedetail, name='storedetail'),
+    path('api/store/create/', views.store_api_create, name='store_api_create'),
+    path('api/store/update/<int:pk>/', views.store_api_update, name='store_api_update'),
+    path('api/store/delete/<int:pk>/', views.store_api_delete, name='store_api_delete'),
+    path('api/store/<int:pk>/', views.store_api_get, name='store_api_get'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -17,6 +17,41 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'tommy-soft-medium';
+    src: url('/static/fonts/tommy-soft-bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'tommy-soft-bold';
+    src: url('/static/fonts/tommy-soft-bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'galey';
+    src: url('/static/fonts/galey.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'galey semibold';
+    src: url('/static/fonts/galey_semibold.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'mont';
+    src: url('/static/fonts/mont.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'cabin';
+    src: url('/static/fonts/cabin.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'cabin semi';
+    src: url('/static/fonts/cabin-semibold.ttf') format('opentype');
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;

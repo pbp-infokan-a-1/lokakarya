@@ -9,8 +9,9 @@ class PostForum(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     upvotes = models.ManyToManyField(User, related_name='post_upvotes', blank=True)
+    total_upvotes = models.IntegerField(default=0)
 
-    def total_upvotes(self):
+    def calculate_total_upvotes(self):
         return self.upvotes.count()
 
     def __str__(self):

@@ -73,11 +73,14 @@ def product_detail(request, product_id=None, product_name=None):
         category=product.category
     ).exclude(id=product_id)[:10]
 
+    is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+
     context = {
         'product': product,
         'ratings': reviews,
         'same_category_products': same_category_products,
         'matching_stores': matching_stores,
+        'is_favorited': is_favorited,
         'user': request.user,
         'is_authenticated': request.user.is_authenticated,
     }

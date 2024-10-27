@@ -67,8 +67,17 @@
       </div>
 
       <!-- Add Favorite -->
-      <div class="flex space-x-4 mt-6">
-          <button class="border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200"> Add to Favourites</button>
+        <div class="flex space-x-4 mt-6">
+          <button class="border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200" 
+            id="toggle-favorite" 
+            onclick="toggleFavorite('{{ product.id }}')"
+          >
+          {% if is_favorited %}
+          Remove from Favorites
+          {% else %}
+          Add to Favorites
+          {% endif %}
+        </button>
       </div>
     </div>
   </div>
@@ -92,7 +101,7 @@
         {% if user.is_authenticated %}
           <div class="flex" style="flex-direction: column;">
             <div class="flex" style="flex-direction: row;">
-              <img src="/lokakarya/productpage/static/images/default-avatar-profile.jpg" alt="{{ user.username }}" class="w-10 h-10 rounded-full mr-3">
+              <img src="{% static '/images/default-avatar-profile.jpg' %}" alt="{{ user.username }}" class="w-10 h-10 rounded-full mr-3">
               <div class="w-full">
                 <div class="review-section">
                   <button
@@ -115,13 +124,14 @@
           
           {% for review in product.ratings.all %}
             <div class="review-item mb-4 p-4 border-b border-gray-200">
-                <p class="font-semibold">{{ review.user.username }}</p>
-                {% with rating=review.rating %}
+              <span class="flex" style="align-items: center;">
+                <img src="{% static '/images/default-avatar-profile.jpg' %}" alt="{{ user.username }}" class="w-10 h-10 rounded-full mr-3">
+                <p class="font-semibold"> {{ review.user.username }}</p>
+              </span>
                 <div class="inline-flex items-center" id="rating-stars">
-                    {# Calculate the number of filled and hollow stars #}
                     {% for i in "12345"|make_list %}
                         <span class="star" data-index="{{ i }}">
-                            {% if i <= rating|floatformat:0 %}
+                            {% if i <= review.rating|floatformat:0 %}
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-700 cursor-pointer">
                                     <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
                                 </svg>
@@ -133,7 +143,6 @@
                         </span>
                     {% endfor %}
                 </div>
-                {% endwith %}
                 <p>{{ review.review }}</p>
             </div>
             {% empty %}
@@ -257,4 +266,52 @@
   </div>
 
   <script src="{% static 'js/productpage.js' %}"></script>
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 5,  // Adjust the number of slides visible at once
+      spaceBetween: 20,  // Space between slides
+      loop: true,  // Enable continuous loop mode
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 15,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      },
+    });
+
+    function addToWishlist(productName) {
+      const popup = document.getElementById('wishlistPopup');
+      const message = document.getElementById('wishlistMessage');
+
+      // Update message and show popup
+      message.textContent = `Added ${productName} to Favourites!`;
+      popup.classList.remove('hidden');
+
+      // Set a timeout to auto-hide popup after 3 seconds
+      clearTimeout(popupTimeout);
+      popupTimeout = setTimeout(() => {
+          popup.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Cancel the auto-hide if closed manually
+    function closePopup() {
+      const popup = document.getElementById('wishlistPopup');
+      popup.classList.add('hidden');
+      clearTimeout(popupTimeout);
+    }
+  </script>
+  <script src="{% static 'js/favourite.js' %}"></script>
 {% endblock %}

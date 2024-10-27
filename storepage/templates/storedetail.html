@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ store.nama }}{% endblock %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/store_details.css' %}">
+</head>
+
+<!-- Store Header Image -->
+<div class="header-image">
+    {% if store.image %}
+        <img src="{{ store.images.url }}" alt="{{ store.nama }} Header Image">
+    {% else %}
+        <img src="{% static 'images/default-detail-bg.png' %}" alt="Default Store Image">
+    {% endif %}
+</div>
+
+<!-- Store Credentials -->
+<div class="container mx-auto">
+    <div class="credentials-section">
+        <h1 class="store-name">{{ store.nama }}</h1>
+        <div class="credentials-grid">
+            <div class="credential-item">
+                <h3>Alamat</h3>
+                <p>{{ store.alamat }}</p>
+            </div>
+            
+            <div class="credential-item">
+                <h3>Hari Operasional</h3>
+                <p>{{ store.hari_buka }}</p>
+            </div>
+            
+            <div class="credential-item">
+                <h3>Email</h3>
+                <p>{{ store.email }}</p>
+            </div>
+            
+            <div class="credential-item">
+                <h3>Telepon</h3>
+                <p>{{ store.telepon }}</p>
+            </div>
+        </div>
+        
+        <a href="{{ store.gmaps_link }}" target="_blank" class="gmaps-button">
+            Buka di Google Maps
+        </a>
+
+    </div>
+    <div class="products-section">
+        <h1 class="products-title">Products</h1>
+        <div class="products-grid">
+        </div>
+    </div>
+</div>
+
+{% if user.is_superuser %}
+<div class="fixed bottom-8 right-8">
+    <button onclick="showAddProductForm()" 
+            class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
+        +
+    </button>
+</div>
+{% endif %}
+
+{% endblock %}
