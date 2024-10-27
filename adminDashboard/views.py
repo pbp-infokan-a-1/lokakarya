@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.http import require_http_methods
 from .forms import TokoForm, ProductForm
 from storepage.models import Toko
 from productpage.models import Product, Category
 
-@login_required
+@staff_member_required
 def adminDashboard(request):
     stores = Toko.objects.all()
     products = Product.objects.all()
@@ -30,7 +31,7 @@ def product_list(request):
         'description': product.description,
         'min_price': str(product.min_price),
         'max_price': str(product.max_price),
-        'categories': [cat.name for cat in product.category.all()],
+        'category': product.category.name,  # Updated to match the model
         'stores': [store.nama for store in product.store.all()],
         'image_url': product.image.url if product.image else None
     } for product in products]
@@ -49,7 +50,7 @@ def add_product(request):
                 'name': product.name,
                 'min_price': str(product.min_price),
                 'max_price': str(product.max_price),
-                'categories': [cat.name for cat in product.category.all()],
+                'category': product.category.name,  # Updated to match the model
                 'stores': [store.nama for store in product.store.all()],
                 'image_url': product.image.url if product.image else None
             }
@@ -71,7 +72,7 @@ def edit_product(request, product_id):
                     'name': product.name,
                     'min_price': str(product.min_price),
                     'max_price': str(product.max_price),
-                    'categories': [cat.name for cat in product.category.all()],
+                    'category': product.category.name,  # Updated to match the model
                     'stores': [store.nama for store in product.store.all()],
                     'image_url': product.image.url if product.image else None
                 }
@@ -87,7 +88,7 @@ def edit_product(request, product_id):
             'min_price': str(product.min_price),
             'max_price': str(product.max_price),
             'description': product.description,
-            'categories': [cat.id for cat in product.category.all()],
+            'category': product.category.id,  # Updated to match the model
             'stores': [store.id for store in product.store.all()],
             'image_url': product.image.url if product.image else None
         }
@@ -112,7 +113,6 @@ def store_list(request):
         'email': store.email,
         'telepon': store.telepon,
         'gmaps_link': store.gmaps_link,
-        'page_link': store.page_link,
         'image_url': store.image.url if store.image else None
     } for store in stores]
     return JsonResponse({'success': True, 'stores': stores_data})
@@ -133,7 +133,6 @@ def add_store(request):
                 'email': store.email,
                 'telepon': store.telepon,
                 'gmaps_link': store.gmaps_link,
-                'page_link': store.page_link,
                 'image_url': store.image.url if store.image else None
             }
         })
@@ -157,7 +156,6 @@ def edit_store(request, store_id):
                     'email': store.email,
                     'telepon': store.telepon,
                     'gmaps_link': store.gmaps_link,
-                    'page_link': store.page_link,
                     'image_url': store.image.url if store.image else None
                 }
             })
@@ -174,7 +172,6 @@ def edit_store(request, store_id):
             'email': store.email,
             'telepon': store.telepon,
             'gmaps_link': store.gmaps_link,
-            'page_link': store.page_link,
             'image_url': store.image.url if store.image else None
         }
     })

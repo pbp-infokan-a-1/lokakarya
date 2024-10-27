@@ -7,8 +7,8 @@ function getCSRFToken() {
 
 // Product CRUD Operations
 const productOperations = {
-    add: function(formData) {
-        return fetch('/add_product/', {
+    add: async function(formData) {
+        const response = await fetch('/add_product/', {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -18,8 +18,8 @@ const productOperations = {
         }).then(response => response.json());
     },
 
-    edit: function(productId, formData) {
-        return fetch(`/edit_product/${productId}/`, {
+    edit: async function(productId, formData) {
+        const response = await fetch(`/edit_product/${productId}/`, {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -29,8 +29,8 @@ const productOperations = {
         }).then(response => response.json());
     },
 
-    delete: function(productId) {
-        return fetch(`/delete_product/${productId}/`, {
+    delete: async function(productId) {
+        const response = await fetch(`/delete_product/${productId}/`, {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -39,7 +39,7 @@ const productOperations = {
         }).then(response => response.json());
     },
 
-    refreshTable: function() {
+    refreshTable: function () {
         fetch('/products/', {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
@@ -51,8 +51,8 @@ const productOperations = {
             tbody.innerHTML = data.products.map(product => `
                 <tr data-product-id="${product.id}">
                     <td class="px-6 py-4 whitespace-nowrap">${product.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${product.categories.join(', ')}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">$${product.min_price} - $${product.max_price}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${product.category}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">Rp${product.min_price} - Rp${product.max_price}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${product.stores.join(', ')}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <button onclick="editProduct('${product.id}')" class="text-indigo-600 hover:text-indigo-900">Edit</button>
@@ -60,7 +60,7 @@ const productOperations = {
                     </td>
                 </tr>
             `).join('');
-            
+
             // Update counter
             const productsCountElement = document.getElementById('products-count');
             if (productsCountElement) {
@@ -72,8 +72,8 @@ const productOperations = {
 
 // Store CRUD Operations
 const storeOperations = {
-    add: function(formData) {
-        return fetch('/add_store/', {
+    add: async function(formData) {
+        const response = await fetch('/add_store/', {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -83,8 +83,8 @@ const storeOperations = {
         }).then(response => response.json());
     },
 
-    edit: function(storeId, formData) {
-        return fetch(`/edit_store/${storeId}/`, {
+    edit: async function(storeId, formData) {
+        const response = await fetch(`/edit_store/${storeId}/`, {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -94,8 +94,8 @@ const storeOperations = {
         }).then(response => response.json());
     },
 
-    delete: function(storeId) {
-        return fetch(`/delete_store/${storeId}/`, {
+    delete: async function(storeId) {
+        const response = await fetch(`/delete_store/${storeId}/`, {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -135,7 +135,7 @@ const storeOperations = {
                     </td>
                     <td class="px-6 py-4">
                         ${store.gmaps_link ? `<a href="${store.gmaps_link}" class="text-blue-600 hover:text-blue-900 block" target="_blank">🗺 Maps</a>` : ''}
-                        ${store.page_link ? `<a href="${store.page_link}" class="text-blue-600 hover:text-blue-900 block" target="_blank">🌐 Website</a>` : ''}
+                        <!-- Removed page_link as it doesn't exist in the models -->
                     </td>
                     <td class="px-6 py-4">
                         <button onclick="editStore(${store.id})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
@@ -265,3 +265,57 @@ document.addEventListener('DOMContentLoaded', function() {
     productOperations.refreshTable();
     storeOperations.refreshTable();
 });
+
+// Define editProduct and deleteProduct in the global scope
+function editProduct(productId) {
+    openProductModal(productId);
+}
+
+function deleteProduct(productId) {
+    if (confirm('Are you sure you want to delete this product?')) {
+        fetch(`/delete_product/${productId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the row from the table
+                document.querySelector(`tr[data-product-id="${productId}"]`).remove();
+            } else {
+                alert('Error deleting product');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
+// Define editStore and deleteStore in the global scope
+function editStore(storeId) {
+    openStoreModal(storeId);
+}
+
+function deleteStore(storeId) {
+    if (confirm('Are you sure you want to delete this store?')) {
+        fetch(`/delete_store/${storeId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the row from the table
+                document.querySelector(`tr[data-store-id="${storeId}"]`).remove();
+            } else {
+                alert('Error deleting store');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
