@@ -1,0 +1,22 @@
+.header-image {
+    background-image: url('/path/to/your/header-image.jpg'); /* Ganti dengan path gambar Anda */
+    background-size: cover;
+    background-position: center;
+    height: 300px; /* Sesuaikan tinggi yang diinginkan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.header-image h1 {
+    font-size: 36px; /* Sesuaikan ukuran font */
+}
+
+.main_content {
+    width: 100%; /* Memenuhi lebar penuh halaman */
+    margin-top: 100px; /* Margin top 100px */
+    border-top: 1px solid black; /* Garis tipis hitam di bagian atas */
+    padding: 16px; /* Tambahkan padding untuk jarak di dalam konten */
+}

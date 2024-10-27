@@ -87,4 +87,3 @@ document.getElementById('submitProfileForm').addEventListener('click', async fun
         alert("Failed to update profile!");
     }
 });
-

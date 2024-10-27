@@ -108,4 +108,3 @@ def delete_status(request, status_id):
 
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
-

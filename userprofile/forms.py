@@ -1,5 +1,6 @@
 from django import forms
 from .models import Profile, Status
+from .models import Profile, Status
 from django.core.exceptions import ValidationError
 
 class ProfileForm(forms.ModelForm):
@@ -11,6 +12,10 @@ class ProfileForm(forms.ModelForm):
         }
 
 
+class StatusForm(forms.ModelForm):
+    class Meta:
+        model = Status
+        fields = ['title', 'description']
 class StatusForm(forms.ModelForm):
     class Meta:
         model = Status
