@@ -1,10 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from productpage.models import Product, Rating, Category, Favorite
-from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.core.paginator import Paginator
 from storepage.models import Toko
+from .forms import RatingForm
+from django.utils import timezone
+import json
+from django.core import serializers
+from userprofile.models import Activity
 
 # Product listing with category filters
 def product_page(request):
@@ -36,8 +43,18 @@ def product_page(request):
         'selected_categories': selected_categories,
         'query': query,
         'selected_category': selected_category,
+        'user': request.user,
+        'is_authenticated': request.user.is_authenticated,
     }
     return render(request, 'product_page.html', context)
+
+def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_json_by_id(request, product_id):
+    data = get_object_or_404(Product, id=product_id)
+    return HttpResponse(serializers.serialize("json", [data]), content_type="application/json")
 
 # Product details
 def product_detail(request, product_id=None, product_name=None):
@@ -56,46 +73,135 @@ def product_detail(request, product_id=None, product_name=None):
         category=product.category
     ).exclude(id=product_id)[:5]
 
+    is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+
     context = {
         'product': product,
         'same_category_products': same_category_products,
-        'matching_stores': matching_stores
+        'matching_stores': matching_stores,
+        'is_favorited': is_favorited,
+        'user': request.user,
+        'is_authenticated': request.user.is_authenticated,
     }
 
     return render(request, 'product_detail.html', context)
 
-#incomplete
-def submit_rating(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    if request.method == 'POST':
-        rating = int(request.POST.get('rating'))
-        Rating.objects.update_or_create(user=request.user, product=product, defaults={'rating': rating})
-        
-        # Update product rating
-        all_ratings = Rating.objects.filter(product=product)
-        # product.rating = all_ratings.aggregate(models.Avg('rating'))['rating__avg']
-        product.num_reviews = all_ratings.count()
-        product.save()
-        
-    return redirect('product_detail', product_id=product.id)
-
+@csrf_exempt
 @login_required
-def delete_product(request, product_id):
+def add_review_ajax(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    
-    if request.user == product.store.owner or is_admin(request.user):
-        product.delete()
-        return redirect('product_list')
-    else:
-        return HttpResponseForbidden("You are not allowed to delete this product.")
 
-def is_admin(user):
-    return user.groups.filter(role='Admin').exists()
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            review_text = data.get('review')
+            review_rating = data.get('rating')
+
+            Rating.objects.create(
+                product=product,
+                user=request.user,
+                review=review_text,
+                rating=float(review_rating)
+            )
+
+            return JsonResponse({"message": "Review added successfully!"}, status=200)
+
+        except ValueError:
+            return JsonResponse({"error": "Invalid data"}, status=400)
+
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
+def product_reviews(request, product_id):
+    page = request.GET.get('page', 1)
+    reviews = Rating.objects.filter(product_id=product_id).order_by('-created_at')
+    paginator = Paginator(reviews, 5)  # Show 5 reviews per page
+
+    reviews_list = []
+    for review in paginator.get_page(page):
+        reviews_list.append({
+            'username': review.user.username,
+            'profile_pic': review.user.profile_pic.url if review.user.profile_pic else '/default/path/to/avatar.jpg',
+            'created_at': review.created_at.strftime('%Y-%m-%d %H:%M'),
+            'rating': review.rating,
+            'comment': review.comment,
+        })
+
+    data = {
+        'reviews': reviews_list,
+        'has_next': paginator.get_page(page).has_next(),
+    }
+    return JsonResponse(data)
+
+@csrf_exempt
+@login_required
+def edit_review_ajax(request, product_id, review_id):
+    try:
+        review = get_object_or_404(Rating, id=review_id, user=request.user, product_id=product_id)
+
+        if request.method == "POST":
+            data = json.loads(request.body)
+            review_text = data.get('review', '')
+            review_rating = data.get('rating', 0)
+
+            review.review = review_text
+            review.rating = float(review_rating)
+            review.save()
+
+            return JsonResponse({"message": "Review updated successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Method not allowed"}, status=405)
+    except Rating.DoesNotExist:
+        return JsonResponse({"error": "Review not found"}, status=404)
+    except ValueError:
+        return JsonResponse({"error": "Invalid data"}, status=400)
+    except Exception as e:
+        print(e)  # For debugging purposes
+        return JsonResponse({"error": "Internal server error"}, status=500)
+
+@csrf_exempt
+@login_required
+def delete_review_ajax(request, product_id, review_id):
+    try:
+        review = get_object_or_404(Rating, id=review_id, user=request.user, product_id=product_id)
+
+        if request.method == "DELETE":
+            review.delete()
+            return JsonResponse({"message": "Review deleted successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Method not allowed"}, status=405)
+    except Rating.DoesNotExist:
+        return JsonResponse({"error": "Review not found"}, status=404)
+    except Exception as e:
+        print(e)  # For debugging purposes
+        return JsonResponse({"error": "Internal server error"}, status=500)
 
 @login_required
 def favorite_page(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+
+        if 'add' in request.POST:
+            # Add to favorites
+            Favorite.objects.create(user=request.user, product=product)
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action=f"just added {product.name} as favorite",
+                related_url=reverse('productpage:product_detail', kwargs={'product_id': product.id})
+            )
+
+        elif 'remove' in request.POST:
+            # Remove from favorites
+            Favorite.objects.filter(user=request.user, product=product).delete()
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action=f"just removed {product.name} from favorites",
+                related_url=reverse('productpage:product_detail', kwargs={'product_id': product.id})
+            )
+
     favorites = Favorite.objects.filter(user=request.user)
-    context = {
-        'favorites': favorites
-    }
-    return render(request, 'favorite_page.html', context)
+    return render(request, 'favorite_page.html', {'favorites': favorites})

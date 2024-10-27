@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from forumandreviewpage.forms import ForumandReviewForm, CommentForm
@@ -6,6 +6,11 @@ from forumandreviewpage.models import PostForum, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from userprofile.models import Activity
 
 def show_forum(request):
     posts = PostForum.objects.all().order_by('-created_at')
@@ -22,13 +27,21 @@ def create_forum_entry(request):
             forum_entry = form.save(commit=False)
             forum_entry.author = request.user
             forum_entry.save()
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action="just made a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': forum_entry.id})
+            )
+
             return redirect('forumandreviewpage:show_forum')
     else:
         form = ForumandReviewForm()
-    return render(request, "forumandreviewpage/create_forum_entry.html", {'form': form})
+    return render(request, "create_forum_entry.html", {'form': form})
 
 @login_required
-def post_detail(request, post_id):
+def detail_post(request, post_id):
     post = get_object_or_404(PostForum, id=post_id)
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -37,19 +50,79 @@ def post_detail(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('post_detail', post_id=post.id)
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action="just commented on a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': post.id})
+            )
+            
+            return redirect('forumandreviewpage:detail_post', post_id=post.id)
     else:
         comment_form = CommentForm()
-    return render(request, 'forum/post_detail.html', {'post': post, 'comment_form': comment_form})
+    return render(request, 'detail_post.html', {'post': post, 'comment_form': comment_form})
 
-@login_required
+@login_required 
 def upvote_post(request, post_id):
-    post = get_object_or_404(PostForum, id=post_id)
-    if request.user in post.upvotes.all():
-        post.upvotes.remove(request.user)
-    else:
+    if request.method == 'POST':
+        post = get_object_or_404(PostForum, id=post_id)
+        # Tambahkan user ke relasi upvotes
         post.upvotes.add(request.user)
-    return redirect('post_detail', post_id=post.id)
+        Activity.objects.create(
+                user=request.user,
+                action="just upvote on a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': post.id})
+            )
+        # Update total upvotes
+        post.total_upvotes = post.calculate_total_upvotes()
+        post.save()
+        return redirect('forumandreviewpage:show_forum')
+
+@csrf_exempt
+def delete_post(request, post_id):
+    if request.method == 'GET':
+        post = get_object_or_404(PostForum, id=post_id)
+        post.delete()
+        return HttpResponseRedirect(reverse('forumandreviewpage:show_forum'))
+
+def edit_post(request, post_id):
+    post = get_object_or_404(PostForum, id=post_id)
+
+    if post.author != request.user:
+        return redirect('forumandreviewpage:show_forum')
+
+    if request.method == 'POST':
+        form = ForumandReviewForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            Activity.objects.create(
+                user=request.user,
+                action="just edit on a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': post.id})
+            )
+            return redirect('forumandreviewpage:detail_post', post_id=post.id)
+    else:
+        form = ForumandReviewForm(instance=post)
+
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
+
+@csrf_exempt
+@require_POST
+def edit_post_ajax(request, post_id):
+    # Get the new data from the POST request
+    title = request.POST.get("title")
+    content = request.POST.get("content")
+    
+    # Get the mood entry object, or return 404 if not found
+    forum_entry = get_object_or_404(PostForum, id=post_id, author=request.user)
+    
+    # Update the mood entry with the new data
+    forum_entry.title = title
+    forum_entry.content = content
+    forum_entry.save()  # Save the updated entry
+    
+    return HttpResponse(b"UPDATED", status=200)
 
 def show_xml(request):
     data = PostForum.objects.all()

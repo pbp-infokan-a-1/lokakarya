@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from userprofile.models import Profile, Status
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseForbidden
+from userprofile.models import Profile, Status, Activity
 from .forms import ProfileForm, StatusForm
 from django.core import serializers
 from django.contrib.auth.models import User
@@ -20,13 +20,17 @@ def profile(request, username):
         # If the profile doesn't exist, you can create it or handle the error
         user_profile = Profile.objects.create(user=user)
 
+    # Fetch the user's recent activities
+    activities = Activity.objects.filter(user=user).order_by('-timestamp')
     last_login_cookie = request.COOKIES.get('last_login', None)
-
+    
     context = {
         'profile': user_profile,
         'last_login': last_login_cookie,
-        'is_owner': request.user == user  # Check if the logged-in user owns this profile
+        'is_owner': request.user == user,  # Check if the logged-in user owns this profile
+        'activities': activities,
     }
+    
     return render(request, 'profile.html', context)
 
 @csrf_exempt
@@ -49,7 +53,8 @@ def update_profile_ajax(request, username):
             "username": user.username,
             "bio": profile.bio,
             "location": profile.location,
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None
+            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
+            "private": profile.private,
         }
         return JsonResponse(profile_data, status=200)
     
@@ -106,4 +111,3 @@ def delete_status(request, status_id):
 
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
-

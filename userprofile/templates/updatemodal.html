@@ -31,13 +31,13 @@
                 <!-- Bio -->
                 <div class="mb-4">
                     <label for="bio" class="block text-gray-700 text-sm font-bold mb-2">Bio</label>
-                    <textarea maxlength="250" cols="40" rows="3" name="bio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ form.bio.value }}</textarea>
+                    <textarea maxlength="250" cols="40" rows="3" name="bio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ profile.bio }}</textarea>
                 </div>
 
                 <!-- Location -->
                 <div class="mb-4">
                     <label for="location" class="block text-gray-700 text-sm font-bold mb-2">Location</label>
-                    <input type="text" name="location" value="{{ form.location.value }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" name="location" value="{{ profile.location }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
 
                 <!-- Birth Date -->
@@ -47,6 +47,10 @@
                         value="{{ profile.birth_date|date:'Y-m-d' }}" 
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
+
+                <!-- Private -->
+                <label for="private">Private Profile</label>
+                <input type="checkbox" id="private" value="{{ profile.private }}"name="private" {% if profile.private %}checked{% endif %}>
             </form>
         </div>
         <!-- Modal footer -->

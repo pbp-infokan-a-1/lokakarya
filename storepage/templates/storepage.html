@@ -3,181 +3,190 @@
 {% block title %}Daftar Toko{% endblock %}
 {% block content %}
 
-<script>
-    // Definisikan URL-URL API sebagai variabel JavaScript
-    const STORE_API = {
-        get: (id) => `/api/store/${id}/`,
-        create: '/api/store/create/',
-        update: (id) => `/api/store/update/${id}/`,
-        delete: (id) => `/api/store/delete/${id}/`
-    };
+<head>
+    <link rel="stylesheet" href="{% static 'css/storepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/store-styles.css' %}">
+</head>
+
+<script src="{% static 'js/store-utils.js' %}" type="module"></script>
+<script src="{% static 'js/store-ajax.js' %}" type="module"></script>
+
+<script type="module">
+    import { showAddStoreForm, showEditStoreForm, closeModal, deleteStore } 
+    from "{% static 'js/store-ajax.js' %}";
+
+    // Make functions available globally
+    window.showAddStoreForm = showAddStoreForm;
+    window.showEditStoreForm = showEditStoreForm;
+    window.closeModal = closeModal;
+    window.deleteStore = deleteStore;
+
+    // Add event listener for form submission in another script
+    document.addEventListener('DOMContentLoaded', function() {
+        const storeForm = document.getElementById('storeForm');
+        if (storeForm) {
+            storeForm.addEventListener('submit', (e) => {
+                import('./store-ajax.js').then(module => {
+                    module.handleSubmit(e);
+                });
+            });
+        } else {
+            console.error('Store form not found');
+        }
+    });
 </script>
 
-<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<script type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+        const createButton = document.getElementById("createButton");
+        if (createButton) {
+            createButton.addEventListener("click", showAddStoreForm);
+        } else {
+            console.error('Create button not found');
+        }
 
-<div class="bg-gradient-to-b from-[#f9f9f9] to-white py-16">
-    <div class="container mx-auto px-4">
-        <div class="header-image relative mb-8" style="margin-top: 100px;">
-            <img src="{% static 'images/page_header.jpeg' %}" alt="Header Image" class="w-full h-64 object-cover">
-            <h1 class="absolute text-4xl font-bold text-white bottom-4 left-4">Kolaborator LokaKarya</h1>
-        </div>
+        // Menambahkan event listener untuk form
+        const storeForm = document.getElementById('storeForm');
+        if (storeForm) {
+            storeForm.addEventListener('submit', handleSubmit);
+        } else {
+            console.error('Store form not found');
+        }
+    });
+</script>
+
+<div class="bg-white">
+    <div class="header-image">
+        <img src="{% static 'images/page_header.jpg' %}" alt="Header Image" class="w-full h-full object-cover">
+        <h1 class="header-text" style="font-size: 64px;">Our Stores</h1>
+        <h3 class="header-text-co" style="font-size: 20px">LokaKarya/Stores/</h3>
     </div>
 
     <div class="main_content">
         {% for toko in toko_list %}
-        <div class="store-card">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {% if toko.image %}
-                <div class="store-image rounded-lg overflow-hidden">
-                    <img src="{% static toko.image %}" alt="{{ toko.nama }}" class="w-full h-full object-cover">
-                </div>
-                {% endif %}
-                
-                <div class="store-info flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-4xl font-bold mb-4">{{ toko.nama }}</h2>
-                        <div class="text-gray-600 mb-4">{{ toko.deskripsi }}</div>
-                        <div class="mb-4">
-                            <h3 class="font-semibold text-lg">Alamat</h3>
-                            <p class="text-gray-600">{{ toko.alamat }}</p>
-                        </div>
-                        <div class="mb-4">
-                            <h3 class="font-semibold text-lg">Jam Operasional</h3>
-                            <p class="text-gray-600">{{ toko.hari_buka }}</p>
-                        </div>
-                        <div class="mb-4">
-                            <h3 class="font-semibold text-lg">Email</h3>
-                            <p class="text-gray-600">{{ toko.email }}</p>
-                        </div>
-                        <div class="mb-4">
-                            <h3 class="font-semibold text-lg">Telepon</h3>
-                            <p class="text-gray-600">{{ toko.telepon }}</p>
-                        </div>
+        <div class="store-card" id="store-{{ toko.id }}">
+            <div class="store-columns">
+                <div class="store-info">
+                    <h2 class="store-title">LokaKarya - {{ toko.nama }}</h2>
+                    <div class="store-description">{{ toko.deskripsi }}</div>
+                    
+                    <div class="info-section">
+                        <h3 class="info-title">Alamat</h3>
+                        <p class="info-content">{{ toko.alamat }}</p>
                     </div>
-                    <div class="flex space-x-4">
-                        <a href="{{ toko.gmaps_link }}" target="_blank" class="make-route-button inline-block px-6 py-3 bg-[#ff7a42] text-white rounded-lg hover:bg-[#ff5a20] transition-colors">
+                    
+                    <div class="info-section">
+                        <h3 class="info-title">Hari Buka</h3>
+                        <p class="info-content">{{ toko.hari_buka }}</p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3 class="info-title">Email</h3>
+                        <p class="info-content">{{ toko.email }}</p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3 class="info-title">Telepon</h3>
+                        <p class="info-content">{{ toko.telepon }}</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="{{ toko.gmaps_link }}" alt="https://www.google.com/" target="_blank" 
+                            class="make-route-button bg-[#ff7a42] text-white hover:bg-[#ff5a20]">
                             Make a route
                         </a>
-                        <a href="{{ toko.page_link }}" target="_blank" class="view-products-button inline-block px-6 py-3 bg-[#1d72b8] text-white rounded-lg hover:bg-[#135a8b] transition-colors">                            Lihat Produk
+                        <a href="{% url 'storepage:storedetail' toko.id %}" 
+                            class="view-products-button bg-[#1d72b8] text-white hover:bg-[#135a8b]">
+                            Lihat Produk
                         </a>
+
+                        {% if user.is_superuser %}
+                        <button onclick="window.showEditStoreForm({{ toko.id }})" 
+                                class="bg-blue-500 text-white px-4 py-2 rounded">
+                            Edit
+                        </button>
+                        <button onclick="window.deleteStore({{ toko.id }})" 
+                                class="bg-red-500 text-white px-4 py-2 rounded">
+                            Delete
+                        </button>
+                        {% endif %}
                     </div>
+                </div>
+
+                <div class="store-image-container">
+                    {% if toko.image %}
+                    <img src="{{ toko.image.url }}" alt="{{ toko.nama }}" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
+                    {% else %}
+                    <img src="{% static 'images/default-bg.png' %}" alt="Default Store Image" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
+                    {% endif %}
                 </div>
             </div>
         </div>
-        <div class="store-actions">
-            <button onclick="showEditStoreForm({{ toko.id }})" class="edit-btn">
-                Edit
-            </button>
-            <button onclick="deleteStore({{ toko.id }})" class="delete-btn">
-                Delete
-            </button>
-        </div>
-                    <div class="w-1/3">
-                        <img src="{% static toko.image %}" 
-                            alt="{{ toko.nama }}"
-                            class="w-full h-full object-cover">
-                    </div>
         {% endfor %}
     </div>
+
+    {% if user.is_superuser %}
     <div class="fixed bottom-8 right-8">
-        <button onclick="showAddStoreForm()" 
+        <button onclick=window.showAddStoreForm()
                 class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
             +
         </button>
     </div>
+    {% endif %}
 </div>
 
-<div id="storeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg p-8 max-w-2xl w-full">
+<div class="toast-container"></div>
+
+<div id="storeModal" class="modal-container modal-hidden">
+    <div class="modal-content p-8 relative">
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500"> &times;
+        </button>
         <h2 id="modalTitle" class="text-2xl font-bold mb-4">Add New Store</h2>
-        
-        <form id="storeForm" class="space-y-4">
-            <div>
-                <label class="block mb-1">Nama Toko</label>
-                <input type="text" name="nama" class="w-full border rounded px-3 py-2">
+
+        <form id="storeForm" class="space-y-4" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label">Upload Gambar Toko</label>
+                <div class="image-preview-container">
+                    <img id="imagePreview" src="{% static 'images/default-store.jpg' %}" 
+                        alt="Preview" class="image-preview">
+                    <input type="file" name="image" accept="image/*" id="imageInput"
+                        class="form-input"
+                        onchange="previewImage(this)">
+                </div>
             </div>
-            
-            <div>
-                <label class="block mb-1">Alamat</label>
-                <textarea name="alamat" class="w-full border rounded px-3 py-2"></textarea>
+            <div class="form-group">
+                <label class="form-label">Nama Toko</label>
+                <input type="text" name="nama" class="form-input">
             </div>
-            
-            <div>
-                <label class="block mb-1">Hari Operasional</label>
-                <input type="text" name="hari_buka" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Alamat</label>
+                <textarea name="alamat" class="form-input"></textarea>
             </div>
-            
-            <div>
-                <label class="block mb-1">Email</label>
-                <input type="email" name="email" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Hari Operasional</label>
+                <input type="text" name="hari_buka" class="form-input">
             </div>
-            
-            <div>
-                <label class="block mb-1">Telepon</label>
-                <input type="tel" name="telepon" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-input">
             </div>
-            
-            <div>
-                <label class="block mb-1">Link GMaps (Optional)</label>
-                <input type="url" name="gmaps_link" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Telepon</label>
+                <input type="tel" name="telepon" class="form-input">
             </div>
-            
-            <div>
-                <label class="block mb-1">Page Link</label>
-                <input type="url" name="page_link" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Link GMaps (Optional)</label>
+                <input type="url" name="gmaps_link" class="form-input">
             </div>
-            
-            <div class="flex justify-end space-x-2">
-                <button type="button" onclick="closeModal()" 
-                        class="bg-gray-500 text-white px-4 py-2 rounded">
+            <div class="form-group flex justify-end space-x-2">
+                <button type="button" onclick="window.closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded">
                     Cancel
                 </button>
-                <button type="submit" 
-                        class="bg-orange-500 text-white px-4 py-2 rounded">
+                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded">
                     Save
                 </button>
             </div>
         </form>
     </div>
 </div>
-
-
-<style>
-    .main_content {
-        width: 100%;
-    }
-
-    .store-card {
-        background-color: white;
-        padding: 2rem;
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-        width: 100%;
-    }
-
-    .store-info {
-        padding: 1rem;
-    }
-
-    .make-route-button, .view-products-button {
-        transition: all 0.3s ease;
-    }
-
-    .make-route-button:hover, .view-products-button:hover {
-        transform: translateY(-2px);
-    }
-
-    .header-image {
-        position: relative;
-    }
-
-    .header-image h1 {
-        position: absolute;
-    }
-</style>
-
-{% endblock %}
-
-{% block scripts %}  <!-- Tambahkan block scripts di base.html jika belum ada -->
-<script src="{% static 'js/ajax.js' %}"></script>
 {% endblock %}

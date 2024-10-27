@@ -49,12 +49,13 @@
 </div>
 
 <div class="tabs-container">
-    <div class="tab-header">
+    <div class="tab-header" style="font-family: 'tommy-soft-medium', sans-serif;">
         <a href="#" class="tab-item px-4 py-2 text-black bg-brown-dark text-xl" onclick="showStatus()">Status</a>
         <a href="#" class="tab-item px-4 py-2 text-black bg-brown-dark text-xl" onclick="showActivity()">Activity</a>
     </div>
-
+    
     <div class="tab-content">
+        {% if is_owner or not profile.private %}
         <!-- Status Content -->
         <div id="status-section" class="tab-section">
             <div class="status-card bg-white shadow-lg rounded-lg p-4">
@@ -104,15 +105,42 @@
                     </div>
                 </div>
             </div>
+            
         </div>
-
+        {% else %}
+            <div class="flex flex-col items-center justify-center text-center">
+                <p style="font-family: 'tommy-soft-medium', sans-serif;">This user's profile is private.</p>
+                <img src="{% static 'images/private.png' %}" alt="No Status" class="w-1/4 md:w-1/6 lg:w-1/8 mt-4">
+            </div>
+        {% endif %}
         <!-- Activity Content (hidden by default) -->
+        {% if is_owner or not profile.private %}
         <div id="activity-section" class="tab-section hidden">
             <div class="activity-content">
-                <h3 class="font-bold text-lg">Activity</h3>
-                <p>BUAT ACTIVITY</p>
+                <h3 class="font-bold text-lg mb-4">Recent Activities</h3>
+        
+                {% if activities %}
+                <ul class="space-y-4">
+                    {% for activity in activities %}
+                    <li class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                        <p class="text-gray-800">
+                            <span class="font-semibold">{{ activity.user.username }}</span> {{ activity.action }}
+                            {% if activity.related_url %}
+                            <a href="{{ activity.related_url }}" class="text-blue-500 underline">View</a>
+                            {% endif %}
+                        </p>
+                        <p class="text-gray-500 text-sm">{{ activity.timestamp|date:"F j, Y, g:i a" }}</p>
+                    </li>
+                    {% empty %}
+                    <li class="text-gray-600">No recent activities found.</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-gray-600">No recent activities available.</p>
+                {% endif %}
             </div>
-        </div>
+        </div>        
+        {% endif %}
     </div>
 </div>
 
@@ -218,6 +246,26 @@
         padding: 20px;
         border-radius: 5px;
     }
+
+    .activity-content {
+        background-color: #f9fafb; /* Light background */
+        padding: 20px;
+        border-radius: 10px;
+    }
+    
+    .activity-content h3 {
+        color: #333;
+    }
+    
+    .activity-content ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .activity-content li {
+        border-left: 4px solid #3182ce; /* Blue accent line */
+        padding-left: 10px;
+    }    
 
     .inline-item {
         display: inline-flex;
@@ -480,7 +528,7 @@
         refreshStatusForm();
         statusForm.reset();
         } else {
-        alert('Failed to add product');
+        alert('Failed to add status');
         }
     });
 </script>
