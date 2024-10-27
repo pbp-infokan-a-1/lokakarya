@@ -3,6 +3,7 @@ import json
 from django.core.management.base import BaseCommand
 from productpage.models import Product
 from storepage.models import Toko
+import random
 
 class Command(BaseCommand):
     help = 'Import products from a JSON file and associate them with stores'
@@ -19,14 +20,13 @@ class Command(BaseCommand):
 
         for item in data:
             if 'fields' in item:
+                print(item['fields'])
                 fields = item['fields']
                 product = Product(
                     name=fields["name"],
-                    category=fields["category"],
-                    min_price=fields["min_price"],
-                    max_price=fields["max_price"],
-                    description=fields["description"],
-                    store=fields["store"]  # Ensure this key exists too
+                    min_price= random.randint(0, 5) * 1000,
+                    max_price= random.randint(0, 5) * 1000,
+                    description= "Ini Product",
                 )
                 product.save()
             else:
