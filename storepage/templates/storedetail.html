@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ store.nama }}{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">{{ store.nama }}</h1>
+    
+    <!-- Store Images -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+        {% for image in store.images.all|slice:":3" %}
+        <img src="{% static image.image.url %}" 
+             alt="{{ store.nama }}"
+             class="w-full h-64 object-cover rounded-lg">
+        {% endfor %}
+    </div>
+    
+    <!-- Store Credentials -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <h3 class="font-semibold">Alamat</h3>
+                <p>{{ store.alamat }}</p>
+            </div>
+            
+            <div>
+                <h3 class="font-semibold">Jam Operasional</h3>
+                <p>{{ store.hari_buka }}</p>
+            </div>
+            
+            <div>
+                <h3 class="font-semibold">Email</h3>
+                <p>{{ store.email }}</p>
+            </div>
+            
+            <div>
+                <h3 class="font-semibold">Telepon</h3>
+                <p>{{ store.telepon }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Products Section
+    <h2 class="text-2xl font-bold mb-4">Products</h2>
+    <div class="grid grid-cols-4 gap-6">
+        {% for product in store.products.all %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <img src="{% static product.image.url %}"
+                 alt="{{ product.nama }}"
+                 class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="font-semibold mb-2">{{ product.nama }}</h3>
+                <p class="text-gray-600">{{ product.harga }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div> -->
+    
+    {% if user.is_superuser %}
+    <div class="fixed bottom-8 right-8">
+        <button onclick="showAddProductForm()" 
+                class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
+            +
+        </button>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

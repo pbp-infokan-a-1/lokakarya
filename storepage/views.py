@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Toko
 from django.views.decorators.http import require_http_methods
+from .models import Toko
 import json
 
 
@@ -76,3 +77,7 @@ def delete_store(request, store_id):
         return JsonResponse({'status': 'success'})
     except Toko.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Store not found'}, status=404)
+
+def storedetail(request, store_id):
+    store = get_object_or_404(Toko, id=store_id)
+    return render(request, 'storedetail.html', {'store': store})

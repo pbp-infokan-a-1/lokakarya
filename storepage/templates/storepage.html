@@ -12,16 +12,40 @@
     };
 </script>
 
-<link rel="stylesheet" href="{% static 'css/main.css' %}">
 <style>
     @font-face {
         font-family: 'tommy-soft-medium';
-        src: url('{% static "fonts/tommy-soft-medium.otf" %}') format('otf');
+        src: url('/static/fonts/tommy-soft-bold.otf') format('opentype');
     }
     
     @font-face {
         font-family: 'tommy-soft-bold';
-        src: url('{% static "fonts/tommy-soft-bold.otf" %}') format('otf');
+        src: url('/static/fonts/tommy-soft-bold.otf') format('opentype');
+    }
+
+    @font-face {
+        font-family: 'galey';
+        src: url('/static/fonts/galey.ttf') format('opentype');
+    }
+
+    @font-face {
+        font-family: 'galey semibold';
+        src: url('/static/fonts/galey_semibold.ttf') format('opentype');
+    }
+
+    @font-face {
+        font-family: 'mont';
+        src: url('/static/fonts/mont.otf') format('opentype');
+    }
+
+    @font-face {
+        font-family: 'cabin';
+        src: url('/static/fonts/cabin.ttf') format('opentype');
+    }
+
+    @font-face {
+        font-family: 'cabin semi';
+        src: url('/static/fonts/cabin-semibold.ttf') format('opentype');
     }
 
     body {
@@ -32,22 +56,31 @@
 
     .header-image {
         width: 100%;
-        height: 400px;
+        height: 500px;
         position: relative;
         overflow: hidden;
         margin: 0;
-        padding: 0;
+        padding-bottom: 20px;
+        background: #f2f3ee;
     }
 
     .header-text {
         position: absolute;
-        bottom: 20px;
-        left: 20px;
-        font-size: 3rem;
+        bottom: 100px;
+        left: 75px;
+        font-weight: bold;
+        font-family: 'mont', sans-serif;
+        color: white;
+    }
+
+    .header-text-co {
+        position: absolute;
+        bottom: 100px;
+        left: 83px;
         font-weight: bold;
         font-family: 'tommy-soft-bold', sans-serif;
         color: white;
-        outline: #333, 1px;
+        margin-top: 7px;
     }
 
     .main_content {
@@ -57,10 +90,20 @@
     }
 
     .store-card {
-        background-color: #f2f3ee;
-        padding: 2.5rem 3rem;
-        border-bottom: 1px solid #eaeaea;
-        margin: 0;
+    position: relative; /* Required for absolute positioning of the pseudo-element */
+    padding: 2.5rem 3rem; /* Add some padding */
+    padding-top: 4rem;
+}
+
+    .store-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0; /* Position it at the bottom */
+        left: 50%; /* Position it in the center */
+        transform: translateX(-50%); /* Center the border */
+        width: 90%; /* Set the width of the border */
+        border-bottom: 1px solid rgba(128, 128, 128, 0.5); /* Grey border with transparency */
+        
     }
 
     .store-columns {
@@ -87,14 +130,14 @@
     }
 
     .store-title {
-        font-family: 'tommy-soft-bold', sans-serif;
+        font-family: 'mont', sans-serif;
         font-size: 2rem;
         color: #333;
         margin-bottom: 1.5rem;
     }
 
     .store-description {
-        font-family: 'tommy-soft-medium', sans-serif;
+        font-family: 'cabin', sans-serif;
         color: #666;
         margin-bottom: 1.5rem;
         line-height: 1.6;
@@ -105,14 +148,13 @@
     }
 
     .info-title {
-        font-family: 'tommy-soft-bold', sans-serif;
+        font-family: 'cabin semi', sans-serif;
         font-size: 1.1rem;
         color: #333;
-        margin-bottom: 0.5rem;
     }
 
     .info-content {
-        font-family: 'tommy-soft-bold', sans-serif;
+        font-family: 'cabin', sans-serif;
         color: #666;
     }
 
@@ -140,7 +182,8 @@
 <div class="bg-white">
     <div class="header-image">
         <img src="{% static 'images/page_header.jpg' %}" alt="Header Image" class="w-full h-full object-cover">
-        <h1 class="header-text">Kolaborator LokaKarya</h1>
+        <h1 class="header-text" style="font-size: 64px;">Our Stores</h1>
+        <h3 class="header-text-co" style="font-size: 20px">LokaKarya/Stores/</h3>
     </div>
 
     <div class="main_content">
@@ -177,13 +220,11 @@
                            class="make-route-button bg-[#ff7a42] text-white hover:bg-[#ff5a20]">
                             Make a route
                         </a>
-                        <a href="{{ toko.page_link }}" target="_blank" 
+                        <a href="{% url 'storepage:storedetail' toko.id %}" 
                            class="view-products-button bg-[#1d72b8] text-white hover:bg-[#135a8b]">
                             Lihat Produk
                         </a>
-                    </div>
 
-                    <div class="edit-delete-buttons">
                         <button onclick="showEditStoreForm({{ toko.id }})" 
                                 class="bg-blue-500 text-white px-4 py-2 rounded">
                             Edit
@@ -193,6 +234,17 @@
                             Delete
                         </button>
                     </div>
+
+                    <!-- <div class="edit-delete-buttons">
+                        <button onclick="showEditStoreForm({{ toko.id }})" 
+                                class="bg-blue-500 text-white px-4 py-2 rounded">
+                            Edit
+                        </button>
+                        <button onclick="deleteStore({{ toko.id }})" 
+                                class="bg-red-500 text-white px-4 py-2 rounded">
+                            Delete
+                        </button>
+                    </div> -->
                 </div>
                 <!-- GAMBAR DISINI -->
             </div>
