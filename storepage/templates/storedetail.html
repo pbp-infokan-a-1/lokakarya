@@ -11,7 +11,7 @@
 <!-- Store Header Image -->
 <div class="header-image">
     {% if store.image %}
-        <img src="{{ store.images.url }}" alt="{{ store.nama }} Header Image">
+        <img src="{{ store.image.url }}" alt="{{ store.nama }} Header Image">
     {% else %}
         <img src="{% static 'images/default-detail-bg.png' %}" alt="Default Store Image">
     {% endif %}
