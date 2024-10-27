@@ -1,0 +1,27 @@
+.modal {
+    display: flex; /* Use flex to center the modal */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    width: 400px; /* Set a width for the modal */
+}
+
+.close {
+    cursor: pointer; /* Change cursor to pointer */
+    float: right; /* Align to the right */
+    font-size: 20px; /* Adjust size */
+    font-weight: bold; /* Bold the close button */
+}

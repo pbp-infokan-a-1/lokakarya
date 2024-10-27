@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('productpage.urls')),
     path('', include('forumandreviewpage.urls')),
     path('', include('adminDashboard.urls')),
+    path('favourites/', include('favourites.urls')),
     path('', include('reviewpage.urls')),
 ]
 

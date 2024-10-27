@@ -6,6 +6,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    private = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

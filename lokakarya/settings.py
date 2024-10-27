@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'userprofile',
     'productpage',
     'forumandreviewpage',
+    'favourites',
     'reviewpage',
 ]
 
