@@ -55,7 +55,7 @@ def upvote_post(request, post_id):
         # Update total upvotes
         post.total_upvotes = post.calculate_total_upvotes()
         post.save()
-        return redirect('forumandreviewpage:detail_post', post.id)
+        return redirect('forumandreviewpage:show_forum')
 
 @csrf_exempt
 def delete_post(request, post_id):
