@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -11,6 +11,7 @@ from .forms import RatingForm
 from django.utils import timezone
 import json
 from django.core import serializers
+from userprofile.models import Activity
 
 # Product listing with category filters
 def product_page(request):
@@ -201,8 +202,31 @@ def is_admin(user):
 
 @login_required
 def favorite_page(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+
+        if 'add' in request.POST:
+            # Add to favorites
+            Favorite.objects.create(user=request.user, product=product)
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action=f"just added {product.name} as favorite",
+                related_url=reverse('productpage:product_detail', kwargs={'product_id': product.id})
+            )
+
+        elif 'remove' in request.POST:
+            # Remove from favorites
+            Favorite.objects.filter(user=request.user, product=product).delete()
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action=f"just removed {product.name} from favorites",
+                related_url=reverse('productpage:product_detail', kwargs={'product_id': product.id})
+            )
+
     favorites = Favorite.objects.filter(user=request.user)
-    context = {
-        'favorites': favorites
-    }
-    return render(request, 'favorite_page.html', context)
+    return render(request, 'favorite_page.html', {'favorites': favorites})
