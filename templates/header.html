@@ -2,17 +2,33 @@
 <nav class="navbar fixed top-0 w-full bg-white shadow-md z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <!-- Logo on the Left -->
-        <div class="flex items-center justify-start">
+        <div class="flex items-center justify-start ">
             <a href="{% url 'landingpage:home' %}" class="flex items-center">
                 <img src="{% static 'images/lokakarya_logo.png' %}" alt="Lokakarya Logo" class="h-10">
                 <span class="ml-2 text-lg font-bold">Lokakarya</span>
             </a>
         </div>
 
+        <!-- Search Bar in the Middle -->
+        {% if user.is_authenticated %}
+        <div class="flex-grow mx-10 ml-100">
+            <form method="GET" action="{% url 'landingpage:search' %}" class="flex">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Search products, stores, or profiles..."
+                    class="border border-gray-300 p-2 pl-4 rounded-l w-full focus:outline-none focus:border-blue-500"
+                    value="{{ request.GET.q|default_if_none:'' }}">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600">
+                    Search
+                </button>
+            </form>
+        </div>
+        {% endif %}
+
         <!-- Navigation Links on the Right (only for desktop) -->
-        <ul class="nav-links hidden md:flex space-x-6 ml-40">
+        <ul class="nav-links hidden md:flex space-x-10 ml-0">
             <li><a href="{% url 'landingpage:home' %}" class="text-gray-700 hover:text-blue-500">Main Menu</a></li>
-            <li><a href="#" class="text-gray-700 hover:text-blue-500">About Us</a></li>
 
             <!-- Dropdown for Categories -->
             <li class="relative group">
@@ -25,7 +41,7 @@
 
             {% if user.is_authenticated %}
                 <!-- Links for logged-in users -->
-                <li><a href="{% url 'userprofile:profile' %}" class="text-gray-700 hover:text-blue-500">Profile</a></li>
+                <li><a href="{% url 'userprofile:profile' username=user.username %}" class="text-gray-700 hover:text-blue-500">Profile</a></li>
                 <li><a href="{% url 'forumandreviewpage:show_forum' %}" class="text-gray-700 hover:text-blue-500">Forum & Review</a></li>
                 <li><a href="{% url 'productpage:favorite_page' %}" class="text-gray-700 hover:text-blue-500">Favorites</a></li>
                 <li><a href="{% url 'authentication:logout' %}" class="text-gray-700 hover:text-blue-500">Logout</a></li>
@@ -54,12 +70,11 @@
 
         <!-- Menu List (hidden by default) -->
         <ul id="menu-list" class="bg-white text-gray-700 p-4 space-y-2">
-            <li><a href="#">About Us</a></li>
             <li><a href="{% url 'landingpage:home' %}">Main Menu</a></li>
 
             {% if user.is_authenticated %}
                 <!-- Links for logged-in users -->
-                <li><a href="{% url 'userprofile:profile' %}">Profile</a></li>
+                <li><a href="{% url 'userprofile:profile' username=user.username %}">Profile</a></li>
                 <li><a href="#">Favorites</a></li>
                 <li><a href="{% url 'forumandreviewpage:show_forum' %}">Forum & Review</a></li>
                 <li><a href="{% url 'authentication:logout' %}">Logout</a></li>
@@ -77,5 +92,4 @@
     </div>
 
 <script src="{% static 'js/navbar.js' %}"></script>
-
 </nav>

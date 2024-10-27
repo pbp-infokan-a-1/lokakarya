@@ -7,27 +7,35 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from userprofile.models import Profile, Status
 from .forms import ProfileForm, StatusForm
 from django.core import serializers
+from django.contrib.auth.models import User
 
 @login_required
-def profile(request):
+def profile(request, username):
+    # Get the user based on the username in the URL
+    user = get_object_or_404(User, username=username)
+
     try:
-        user_profile = request.user.profile  # Try to access the user's profile
+        user_profile = user.profile  # Access the profile of the user
     except Profile.DoesNotExist:
-        # If the profile doesn't exist, create a new profile for the user
-        user_profile = Profile.objects.create(user=request.user)
-    
-    last_login_cookie = request.COOKIES.get('last_login', None)  # Safely get the last_login cookie
+        # If the profile doesn't exist, you can create it or handle the error
+        user_profile = Profile.objects.create(user=user)
+
+    last_login_cookie = request.COOKIES.get('last_login', None)
 
     context = {
         'profile': user_profile,
-        'last_login': last_login_cookie
+        'last_login': last_login_cookie,
+        'is_owner': request.user == user  # Check if the logged-in user owns this profile
     }
     return render(request, 'profile.html', context)
 
 @csrf_exempt
-def update_profile_ajax(request):
+@login_required
+def update_profile_ajax(request, username):
+    user = get_object_or_404(User, username=username)
+
     if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        form = ProfileForm(request.POST, request.FILES, instance=user.profile)
         if form.is_valid():
             form.save()
             return JsonResponse({"message": "UPDATED"}, status=200)
@@ -36,9 +44,9 @@ def update_profile_ajax(request):
 
     # For GET request, return the user's profile data as JSON
     if request.method == "GET":
-        profile = request.user.profile
+        profile = user.profile
         profile_data = {
-            "username": request.user.username,
+            "username": user.username,
             "bio": profile.bio,
             "location": profile.location,
             "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None
@@ -49,10 +57,12 @@ def update_profile_ajax(request):
 
 @csrf_exempt
 @require_POST
-def update_status_ajax(request):
+@login_required
+def update_status_ajax(request, username):
+    user = get_object_or_404(User, username=username)
+    
     title = strip_tags(request.POST.get("title"))
     description = strip_tags(request.POST.get("description"))
-    user = request.user
 
     new_status = Status(
         title=title, description=description, user=user
@@ -61,33 +71,39 @@ def update_status_ajax(request):
 
     return HttpResponse(b"CREATED", status=201)
 
-def status_json(request):
-    data = Status.objects.filter(user=request.user)
+@login_required
+def status_json(request, username):
+    user = get_object_or_404(User, username=username)
+    data = Status.objects.filter(user=user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def status_json_by_id(request, id):
-    data = Status.objects.filter(pk=id)
+
+def status_json_by_id(request, status_id):
+    data = Status.objects.filter(pk=status_id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def edit_status(request, id):
-    # Get item entry berdasarkan id
-    status = Status.objects.get(pk = id)
+def edit_status(request, status_id):
+    # Get the status entry based on id
+    status = Status.objects.get(pk=status_id)
 
-    # Set item entry sebagai instance dari form
+    # Set the status entry as an instance of the form
     form = StatusForm(request.POST or None, instance=status)
 
     if form.is_valid() and request.method == "POST":
-        # Simpan form dan kembali ke halaman awal
+        # Save the form and redirect to the user's profile
         form.save()
-        return HttpResponseRedirect(reverse('userprofile:profile'))
+        return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
 
     context = {'form': form}
     return render(request, "edit_status.html", context)
 
-def delete_status(request, id):
-    # Get item berdasarkan id
-    status = Status.objects.get(pk = id)
-    # Hapus item
+def delete_status(request, status_id):
+    # Get the status based on id
+    status = Status.objects.get(pk=status_id)
+    
+    # Delete the status
     status.delete()
-    # Kembali ke halaman awal
-    return HttpResponseRedirect(reverse('userprofile:profile'))
+
+    # Redirect back to the user's profile
+    return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
+
