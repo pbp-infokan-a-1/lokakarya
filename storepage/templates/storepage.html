@@ -3,181 +3,26 @@
 {% block title %}Daftar Toko{% endblock %}
 {% block content %}
 
-<script>
-    const STORE_API = {
-        get: (id) => `/api/store/${id}/`,
-        create: '/api/store/create/',
-        update: (id) => `/api/store/update/${id}/`,
-        delete: (id) => `/api/store/delete/${id}/`
-    };
-</script>
+<head>
+    <link rel="stylesheet" href="{% static 'css/storepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/store-styles.css' %}">
+</head>
 
-<style>
-    @font-face {
-        font-family: 'tommy-soft-medium';
-        src: url('/static/fonts/tommy-soft-bold.otf') format('opentype');
-    }
+<script src="{% static 'js/store-utils.js' %}" type="module"></script>
+<script src="{% static 'js/store-ajax.js' %}" type="module"></script>
+<script type="module">
+    import { showAddStoreForm, showEditStoreForm, closeModal, handleSubmit, deleteStore } 
+    from "{% static 'js/store-ajax.js' %}";
     
-    @font-face {
-        font-family: 'tommy-soft-bold';
-        src: url('/static/fonts/tommy-soft-bold.otf') format('opentype');
-    }
+    // Make functions available globally
+    window.showAddStoreForm = showAddStoreForm;
+    window.showEditStoreForm = showEditStoreForm;
+    window.closeModal = closeModal;
+    window.deleteStore = deleteStore;
 
-    @font-face {
-        font-family: 'galey';
-        src: url('/static/fonts/galey.ttf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'galey semibold';
-        src: url('/static/fonts/galey_semibold.ttf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'mont';
-        src: url('/static/fonts/mont.otf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'cabin';
-        src: url('/static/fonts/cabin.ttf') format('opentype');
-    }
-
-    @font-face {
-        font-family: 'cabin semi';
-        src: url('/static/fonts/cabin-semibold.ttf') format('opentype');
-    }
-
-    body {
-        font-family: 'tommy-soft-medium', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .header-image {
-        width: 100%;
-        height: 500px;
-        position: relative;
-        overflow: hidden;
-        margin: 0;
-        padding-bottom: 20px;
-        background: #f2f3ee;
-    }
-
-    .header-text {
-        position: absolute;
-        bottom: 100px;
-        left: 75px;
-        font-weight: bold;
-        font-family: 'mont', sans-serif;
-        color: white;
-    }
-
-    .header-text-co {
-        position: absolute;
-        bottom: 100px;
-        left: 83px;
-        font-weight: bold;
-        font-family: 'tommy-soft-bold', sans-serif;
-        color: white;
-        margin-top: 7px;
-    }
-
-    .main_content {
-        padding: 0;
-        margin: 0;
-        background-color: #f2f3ee;
-    }
-
-    .store-card {
-        position: relative; /* Required for absolute positioning of the pseudo-element */
-        padding: 2.5rem 3rem; /* Add some padding */
-        padding-top: 4rem;
-    }
-
-    .store-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0; /* Position it at the bottom */
-        left: 50%; /* Position it in the center */
-        transform: translateX(-50%); /* Center the border */
-        width: 90%; /* Set the width of the border */
-        border-bottom: 1px solid rgba(128, 128, 128, 0.5); /* Grey border with transparency */
-        
-    }
-
-    .store-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-    }
-
-    .store-info {
-        padding-right: 2rem;
-    }
-
-    .store-gallery {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-
-    .store-gallery-image {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 0.5rem;
-    }
-
-    .store-title {
-        font-family: 'mont', sans-serif;
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 1.5rem;
-    }
-
-    .store-description {
-        font-family: 'cabin', sans-serif;
-        color: #666;
-        margin-bottom: 1.5rem;
-        line-height: 1.6;
-    }
-
-    .info-section {
-        margin-bottom: 1.5rem;
-    }
-
-    .info-title {
-        font-family: 'cabin semi', sans-serif;
-        font-size: 1.1rem;
-        color: #333;
-    }
-
-    .info-content {
-        font-family: 'cabin', sans-serif;
-        color: #666;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
-
-    .make-route-button, .view-products-button {
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        font-family: 'tommy-soft-medium', sans-serif;
-        transition: all 0.3s ease;
-        text-decoration: none;
-    }
-
-    .edit-delete-buttons {
-        margin-top: 1rem;
-        display: flex;
-        gap: 0.5rem;
-    }
-</style>
+    // Add event listeners
+    document.getElementById('storeForm').addEventListener('submit', handleSubmit);
+</script>
 
 <div class="bg-white">
     <div class="header-image">
@@ -188,9 +33,8 @@
 
     <div class="main_content">
         {% for toko in toko_list %}
-        <div class="store-card">
+        <div class="store-card" id="store-{{ toko.id }}">
             <div class="store-columns">
-                <!-- Left Column: Store Information -->
                 <div class="store-info">
                     <h2 class="store-title">LokaKarya - {{ toko.nama }}</h2>
                     <div class="store-description">{{ toko.deskripsi }}</div>
@@ -216,7 +60,7 @@
                     </div>
 
                     <div class="action-buttons">
-                        <a href="{{ toko.gmaps_link }}" target="_blank" 
+                        <a href="{{ toko.gmaps_link }}" alt="https://www.google.com/" target="_blank" 
                            class="make-route-button bg-[#ff7a42] text-white hover:bg-[#ff5a20]">
                             Make a route
                         </a>
@@ -225,11 +69,11 @@
                             Lihat Produk
                         </a>
 
-                        <button onclick="showEditStoreForm({{ toko.id }})" 
+                        <button onclick="window.showEditStoreForm({{ toko.id }})" 
                                 class="bg-blue-500 text-white px-4 py-2 rounded">
                             Edit
                         </button>
-                        <button onclick="deleteStore({{ toko.id }})" 
+                        <button onclick="window.deleteStore({{ toko.id }})" 
                                 class="bg-red-500 text-white px-4 py-2 rounded">
                             Delete
                         </button>
@@ -238,11 +82,9 @@
 
                 <div class="store-image-container">
                     {% if toko.image %}
-                        <img src="{{ toko.image.url }}" alt="{{ toko.nama }}" 
-                             class="w-full h-[400px] object-cover rounded-lg shadow-lg">
+                    <img src="{{ toko.image.url }}" alt="{{ toko.nama }}" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
                     {% else %}
-                        <img src="{% static 'images/default-bg.png' %}" alt="Default Store Image"
-                             class="w-full h-[400px] object-cover rounded-lg shadow-lg">
+                    <img src="{% static 'images/default-bg.png' %}" alt="Default Store Image" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
                     {% endif %}
                 </div>
             </div>
@@ -251,58 +93,61 @@
     </div>
 
     <div class="fixed bottom-8 right-8">
-        <button onclick="showAddStoreForm()" 
+        <button onclick=window.showAddStoreForm()
                 class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
             +
         </button>
     </div>
 </div>
 
-<div id="storeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg p-8 max-w-2xl w-full">
+<div class="toast-container"></div>
+
+<div id="storeModal" class="modal-container modal-hidden">
+    <div class="modal-content p-8 relative">
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500"> &times;
+        </button>
         <h2 id="modalTitle" class="text-2xl font-bold mb-4">Add New Store</h2>
-        
-        <form id="storeForm" class="space-y-4">
-                <div class="space-y-2">
-                    <label class="block mb-1">Upload Gambar Toko</label>
-                    <div class="image-preview-container">
-                        <img id="imagePreview" src="{% static 'images/default-store.jpg' %}" 
-                            alt="Preview" class="hidden w-full h-48 object-cover rounded-lg mb-2">
-                        <input type="file" name="image" accept="image/*" id="imageInput"
-                            class="w-full border rounded px-3 py-2"
-                            onchange="previewImage(this)">
-                    </div>
-            <div>
-                <label class="block mb-1">Nama Toko</label>
-                <input type="text" name="nama" class="w-full border rounded px-3 py-2">
+
+        <form id="storeForm" class="space-y-4" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label">Upload Gambar Toko</label>
+                <div class="image-preview-container">
+                    <img id="imagePreview" src="{% static 'images/default-store.jpg' %}" 
+                        alt="Preview" class="image-preview">
+                    <input type="file" name="image" accept="image/*" id="imageInput"
+                        class="form-input"
+                        onchange="previewImage(this)">
+                </div>
             </div>
-            <div>
-                <label class="block mb-1">Alamat</label>
-                <textarea name="alamat" class="w-full border rounded px-3 py-2"></textarea>
+            <div class="form-group">
+                <label class="form-label">Nama Toko</label>
+                <input type="text" name="nama" class="form-input">
             </div>
-            <div>
-                <label class="block mb-1">Hari Operasional</label>
-                <input type="text" name="hari_buka" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Alamat</label>
+                <textarea name="alamat" class="form-input"></textarea>
             </div>
-            <div>
-                <label class="block mb-1">Email</label>
-                <input type="email" name="email" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Hari Operasional</label>
+                <input type="text" name="hari_buka" class="form-input">
             </div>
-            <div>
-                <label class="block mb-1">Telepon</label>
-                <input type="tel" name="telepon" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-input">
             </div>
-            <div>
-                <label class="block mb-1">Link GMaps (Optional)</label>
-                <input type="url" name="gmaps_link" class="w-full border rounded px-3 py-2">
+            <div class="form-group">
+                <label class="form-label">Telepon</label>
+                <input type="tel" name="telepon" class="form-input">
             </div>
-            <div class="flex justify-end space-x-2">
-                <button type="button" onclick="closeModal()" 
-                        class="bg-gray-500 text-white px-4 py-2 rounded">
+            <div class="form-group">
+                <label class="form-label">Link GMaps (Optional)</label>
+                <input type="url" name="gmaps_link" class="form-input">
+            </div>
+            <div class="form-group flex justify-end space-x-2">
+                <button type="button" onclick="window.closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded">
                     Cancel
                 </button>
-                <button type="submit" 
-                        class="bg-orange-500 text-white px-4 py-2 rounded">
+                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded">
                     Save
                 </button>
             </div>
@@ -310,5 +155,6 @@
     </div>
 </div>
 
-<script src="{% static 'js/ajax.js' %}"></script>
+
+
 {% endblock %}
