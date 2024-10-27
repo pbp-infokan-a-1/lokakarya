@@ -2,18 +2,26 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Toko
 from .forms import StoreForm
-from django.views.decorators.http import require_http_methods
-import json
 
 # Menampilkan daftar toko
 def toko_list(request):
     toko_list = Toko.objects.all()
     return render(request, 'storepage.html', {'toko_list': toko_list})
 
-
 def storedetail(request, store_id):
+    # Mengambil toko berdasarkan ID
     store = get_object_or_404(Toko, id=store_id)
-    return render(request, 'storedetail.html', {'store': store})
+    
+    # Mengambil semua produk yang terkait dengan toko ini
+    products = store.get_products()  # Menggunakan metode get_products
+
+    context = {
+        'store': store,
+        'products': products,
+        'user': request.user,
+        'is_authenticated': request.user.is_authenticated,
+    }
+    return render(request, 'storedetail.html', context)
 
 def store_api_create(request):
     if request.method == 'POST':
@@ -63,3 +71,6 @@ def store_api_get(request, pk):
         return JsonResponse(data)
     except Toko.DoesNotExist:
         return JsonResponse({'message': 'Store not found'}, status=404)
+
+def is_admin(user):
+    return user.groups.filter(role='Admin').exists()

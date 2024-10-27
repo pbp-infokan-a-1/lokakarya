@@ -100,6 +100,7 @@
                             Lihat Produk
                         </a>
 
+                        {% if user.is_superuser %}
                         <button onclick="window.showEditStoreForm({{ toko.id }})" 
                                 class="bg-blue-500 text-white px-4 py-2 rounded">
                             Edit
@@ -108,6 +109,7 @@
                                 class="bg-red-500 text-white px-4 py-2 rounded">
                             Delete
                         </button>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -123,12 +125,14 @@
         {% endfor %}
     </div>
 
+    {% if user.is_superuser %}
     <div class="fixed bottom-8 right-8">
         <button onclick=window.showAddStoreForm()
                 class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
             +
         </button>
     </div>
+    {% endif %}
 </div>
 
 <div class="toast-container"></div>
@@ -185,7 +189,4 @@
         </form>
     </div>
 </div>
-
-
-
 {% endblock %}

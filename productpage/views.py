@@ -183,7 +183,6 @@ def update_product_ajax(request, product_id):
 
         except ValueError:
             return JsonResponse({"error": "Invalid data"}, status=400)
-
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
