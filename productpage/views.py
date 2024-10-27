@@ -164,6 +164,7 @@ def delete_review_ajax(request, product_id, review_id):
     try:
         review = get_object_or_404(Rating, id=review_id, user=request.user, product_id=product_id)
 
+<<<<<<< HEAD
         if request.method == "DELETE":
             review.delete()
             return JsonResponse({"message": "Review deleted successfully!"}, status=200)
@@ -174,6 +175,41 @@ def delete_review_ajax(request, product_id, review_id):
     except Exception as e:
         print(e)  # For debugging purposes
         return JsonResponse({"error": "Internal server error"}, status=500)
+=======
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            product.name = data.get('name', product.name)
+            product.description = data.get('description', product.description)
+            product.min_price = data.get('min_price', product.min_price)
+            product.max_price = data.get('max_price', product.max_price)
+
+            category_id = data.get('category')
+            if category_id:
+                category = get_object_or_404(Category, id=category_id)
+                product.category = category
+
+            product.save()
+            return JsonResponse({"message": "Product updated successfully!"}, status=200)
+
+        except ValueError:
+            return JsonResponse({"error": "Invalid data"}, status=400)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
+@csrf_exempt
+@login_required
+def delete_product_ajax(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == "DELETE":
+        product.delete()
+        return JsonResponse({"message": "Product deleted successfully!"}, status=204)
+
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
+def is_admin(user):
+    return user.groups.filter(role='Admin').exists()
+>>>>>>> 5ce3ae1d1228c1224f3e327884cb819562d3430a
 
 @login_required
 def favorite_page(request):
