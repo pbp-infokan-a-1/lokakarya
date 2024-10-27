@@ -1,75 +1,194 @@
 {% extends 'base.html' %}
 {% block content %}
+{% include 'header.html' %}
+{% load tz %}
 
-<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="min-h-full flex flex-col">
+<div class="max-w-7xl mx-auto p-6 mt-20 mb-10 w-full max-w-6xl">
     <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center space-x-4">
+            <a href="{% url 'landingpage:home' %}" class="text-gray-600 hover:text-gray-800">
+                <span class="material-icons">
+                    arrow_back
+                </span>
+            </a>
         <h1 class="text-3xl font-bold">Forum</h1>
-        <a href="{% url 'forumandreviewpage:create_forum_entry' %}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            Create New Post
-        </a>
+    </div>
+    <a href="{% url 'forumandreviewpage:create_forum_entry' %}" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
+        Add a Discussion
+    </a>
+    </div>
+    
+    <div class="flex">
+        <!-- Left column for posts list -->
+        <div class="w-3/4 pr-6">
+        <!-- List of Posts -->
+        {% if posts %}
+            <ul class="space-y-6">
+                {% for post in posts %}
+                    <li class="bg-white p-4 rounded-lg shadow-md transition duration-200 ease-in-out hover:bg-gray-300 hover:shadow-lg">
+                        <div class="flex justify-between items-start">
+                            <div class="w-full">
+                                <h2 class="text-2xl font-semibold mb-2">
+                                    <a href="{% url 'forumandreviewpage:detail_post' post.id %}" class="hover:text-orange-600">
+                                        {{ post.title }}
+                                    </a>
+                                </h2>
+                                <p class="text-gray-500 font-bold mb-2"> {{ post.author }}</p>
+                                <p class="text-sm text-gray-700 mb-2"> {% timezone "Asia/Jakarta" %}{{ post.created_at|date:"F j, Y, g:i a" }}{% endtimezone %}</p>
+                                <p class="text-gray-500 mb-4">{{ post.content|truncatewords:30 }}</p>
+                                <!-- Consistent Horizontal Line -->
+                                <hr class="border-t border-gray-400 w-full mb-4">
+            
+                                <div class="flex items-center justify-between">
+                                    <!-- Left side (Replies and forum icon) -->
+                                    <div class="flex items-center space-x-2 mt-4">
+                                        <a href="{% url 'forumandreviewpage:detail_post' post.id %}" class="text-gray-600 hover:text-gray-800">
+                                            <span class="material-icons">
+                                                forum
+                                            </span>
+                                        </a>
+                                        <h1 class="text-lg text-gray-600 mb-2">{{ post.comments.count }} replies</h1>
+                                    </div>
+            
+                                    <!-- Right-aligned forum icon for post owner actions -->
+                                    {% if post.author == user %}
+                                        <div class="flex items-center space-x-2 mt-4">
+                                            <a href="{% url 'forumandreviewpage:edit_post' post.id %}" class="text-gray-600 hover:text-gray-800 cursor-pointer px-2 py-1">
+                                                <span class="material-icons">edit</span>
+                                            </a>
+                                            <a onclick="window.location.href='{% url 'forumandreviewpage:delete_post' post.id %}'" class="text-gray-600 hover:text-gray-800 cursor-pointer px-2 py-1">
+                                                <span class="material-icons">delete</span>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+            
+                            <!-- Upvotes section with aligned button -->
+                            <div class="flex items-center ml-4">
+                                <form action="{% url 'forumandreviewpage:upvote_post' post.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-gray-600 hover:text-gray-800">
+                                        <span class="material-icons">
+                                            keyboard_double_arrow_up
+                                        </span>
+                                    </button>
+                                </form>
+                                <p class="font-semibold mb-2 mr-1">Upvotes:</p>
+                                <span id="upvotes-{{ post.id }}" class="mb-2 mr-2">{{ post.total_upvotes }}</span>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <!-- Message when there are no discussions -->
+            <div class="text-center text-gray-600 text-lg">
+                There's no discussion available. Be the first to start a discussion!
+            </div>
+        {% endif %}           
     </div>
 
-    <ul class="space-y-6">
-        {% for post in posts %}
-            <li class="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-2">
-                            <a href="{% url 'forumandreviewpage:post_detail' post.id %}" class="hover:text-blue-500">
-                                {{ post.title }}
+        <!-- Right column for "Recommendation" -->
+        <div class="w-1/4">
+            <!-- Recommendation Section -->
+            <div class="bg-white p-4 mb-6 shadow-lg rounded-lg">
+                <h2 class="text-xl font-bold mb-4">Recommendation</h2>
+                <hr class="border-t border-gray-400 w-full mb-4">
+                <ul class="text-gray-600 space-y-4">
+                    <!-- Sample Post 1 -->
+                    <li class="flex justify-between items-start">
+                        <div>
+                            <a class="text-sm font-semibold hover:text-orange-600 underline cursor-pointer">
+                                Furniture Kayu Jati
                             </a>
-                        </h2>
-                        <p class="text-gray-500 mb-2">by {{ post.author }} | {{ post.created_at }}</p>
-                        <p class="mb-4">{{ post.content|truncatewords:30 }}</p>
-                    </div>
-
-                    <div class="flex flex-col items-center">
-                        <p class="font-semibold mb-2">Upvotes: {{ post.total_upvotes }}</p>
-                        <button onclick="upvotePost({{ post.id }})" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
-                            Upvote
-                        </button>
-                    </div>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+                            <p class="text-xs text-gray-500">Ada nggak sih yang jual furnit...</p>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="material-icons text-sm mr-1">keyboard_double_arrow_up</span>
+                            <span class="text-sm font-semibold">130</span>
+                        </div>
+                    </li>
+                    <!-- Sample Post 2 -->
+                    <li class="flex justify-between items-start">
+                        <div>
+                            <a class="text-sm font-semibold hover:text-orange-600 underline cursor-pointer">
+                                Dekorasi Rumah
+                            </a>
+                            <p class="text-xs text-gray-500">Saya mau tata ulang bagian ru...</p>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="material-icons text-sm mr-1">keyboard_double_arrow_up</span>
+                            <span class="text-sm font-semibold">116</span>
+                        </div>
+                    </li>
+                    <!-- Sample Post 3 -->
+                    <li class="flex justify-between items-start">
+                        <div>
+                            <a class="text-sm font-semibold hover:text-orange-600 underline cursor-pointer">
+                                Oleh-oleh Buat Saudara
+                            </a>
+                            <p class="text-xs text-gray-500">Tempat jual oleh-oleh yang ba...</p>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="material-icons text-sm mr-1">keyboard_double_arrow_up</span>
+                            <span class="text-sm font-semibold">107</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <script>
     function upvotePost(postId) {
-        const button = document.querySelector(`button[onclick="upvotePost(${postId})"]`);
+        const upvoteCount = document.getElementById(upvotes-${postId});
+        const button = document.querySelector(button[onclick="upvotePost(${postId})"]);
         button.classList.add('animate-pulse');
+
+        let currentUpvotes = parseInt(upvoteCount.innerText, 10);
+        upvoteCount.innerText = currentUpvotes + 1;
         
-        fetch(`/post/${postId}/upvote/`, {
+        fetch(/post/${postId}/upvote/,{
             method: "POST",
             headers: {
                 "X-CSRFToken": "{{ csrf_token }}"
             }
-        }).then(response => {
-            if (response.ok) {
-                button.classList.remove('animate-pulse');
-                location.reload();  // Refresh halaman untuk memperbarui jumlah upvote
+        }).then(response => response.json())
+        .then(data => {
+            button.classList.remove('animate-pulse');
+            if (data.success) {
+                upvoteCount.innerText = currentUpvotes;
             }
         });
     }
 
-      function upvotePost(postId) {
-      const button = document.querySelector(`button[onclick="upvotePost(${postId})"]`);
-      button.classList.add('animate-pulse');
-      
-      fetch(`/post/${postId}/upvote/`, {
-          method: "POST",
-          headers: {
-              "X-CSRFToken": "{{ csrf_token }}"
-          }
-      }).then(response => {
-          if (response.ok) {
-              button.classList.remove('animate-pulse');
-              location.reload();  // Refresh the page to update the upvote count
-          }
-      });
-  }
+    function deletePost(postId) {
+        if (confirm("Are you sure you want to delete this post?")) {
+            fetch(/post/${postId}/delete/, {
+                method: "GET",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    document.querySelector(li[data-post-id="${postId}"]).remove();
+                    window.location.href = "{% url 'forumandreviewpage:show_forum' %}";
+                }
+            });
+        }
+    }
 
+    function editPost(postId) {
+        // Here, you can either redirect to an edit page or use an inline editor.
+        window.location.href = /post/${postId}/edit/;
+    }
+    
 </script>
 
 {% endblock %}
