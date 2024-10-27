@@ -85,172 +85,71 @@ function getCookie(name) {
         }
     }
     return cookieValue;
-}
+};
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Load initial reviews
-    loadReviews();
+var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 5,  // Adjust the number of slides visible at once
+    spaceBetween: 20,  // Space between slides
+    loop: true,  // Enable continuous loop mode
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 15,
+      },
+      1024: {
+        slidesPerView: 4,
+        spaceBetween: 20,
+      },
+    },
+  });
 
-    // AJAX form submission for adding a review
-    document.getElementById("add-review-form").onsubmit = function(event) {
-        event.preventDefault();
-        const url = this.getAttribute("data-url");
-        const formData = new FormData(this);
+  function addToWishlist(productName) {
+    const popup = document.getElementById('wishlistPopup');
+    const message = document.getElementById('wishlistMessage');
 
-        fetch(url, {
-            method: "POST",
-            body: formData,
-            headers: { "X-CSRFToken": "{{ csrf_token }}" }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.errors) {
-                console.error("Form errors:", data.errors);
-            } else {
-                // Insert the new review at the top of the list
-                document.getElementById("reviews-list").insertAdjacentHTML('afterbegin', `
-                    <div class="review flex items-start my-4">
-                        <img src="${data.profile_pic}" alt="${data.username}" class="w-10 h-10 rounded-full mr-3">
-                        <div>
-                            <p><strong>${data.username}</strong> <span class="text-gray-500 text-sm">(${data.created_at})</span></p>
-                            <div class="star-rating text-yellow-500">${renderStars(data.rating)}</div>
-                            ${data.comment ? `<p>${data.comment}</p>` : ''}
-                        </div>
-                    </div>
-                `);
-                document.getElementById("add-review-form").reset();
-            }
-        });
-    };
+    // Update message and show popup
+    message.textContent = `Added ${productName} to Favourites!`;
+    popup.classList.remove('hidden');
 
-    // Load reviews with pagination
-    let page = 1;
-    document.getElementById("load-more-reviews").onclick = function() {
-        page++;
-        loadReviews(page);
-    };
+    // Set a timeout to auto-hide popup after 3 seconds
+    clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => {
+        popup.classList.add('hidden');
+    }, 3000);
+  }
 
-    function loadReviews(page = 1) {
-        fetch(`/api/products/{{ product.id }}/reviews/?page=${page}`)
-        .then(response => response.json())
-        .then(data => {
-            data.reviews.forEach(review => {
-                document.getElementById("reviews-list").insertAdjacentHTML('beforeend', `
-                    <div class="review flex items-start my-4">
-                        <img src="${review.profile_pic}" alt="${review.username}" class="w-10 h-10 rounded-full mr-3">
-                        <div>
-                            <p><strong>${review.username}</strong> <span class="text-gray-500 text-sm">(${review.created_at})</span></p>
-                            <div class="star-rating text-yellow-500">${renderStars(review.rating)}</div>
-                            ${review.comment ? `<p>${review.comment}</p>` : ''}
-                        </div>
-                    </div>
-                `);
-            });
+  // Cancel the auto-hide if closed manually
+  function closePopup() {
+    const popup = document.getElementById('wishlistPopup');
+    popup.classList.add('hidden');
+    clearTimeout(popupTimeout);
+  }
 
-            if (!data.has_next) {
-                document.getElementById("load-more-reviews").style.display = 'none'; // Hide button if no more reviews
-            }
-        });
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search-input");
+    if (searchInput.value === "None") {
+      searchInput.value = "";
     }
+  });
 
-    // Helper function to render star ratings
-    function renderStars(rating) {
-        return "★".repeat(rating) + "☆".repeat(5 - rating);
-    }
-});
+  function addToWishlist(productName) {
+      document.getElementById('wishlistMessage').innerText = `Added ${productName} to Favourites!`;
+      document.getElementById('wishlistPopup').classList.remove('hidden');
+      setTimeout(() => {
+        closePopup('wishlistPopup');
+      }, 2000);
+  }
 
-
-// $(document).ready(function() {
-//     // Create Product
-//     $('#create-product-form').on('submit', function(event) {
-//         event.preventDefault(); // Prevent the default form submission
-
-//         $.ajax({
-//             url: '/api/products/create/', // Updated API URL for creating a product
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify({
-//                 name: $('#product-name').val(),
-//                 category: $('#product-category').val(),
-//                 description: $('#product-description').val(),
-//                 min_price: $('#product-min-price').val(),
-//                 max_price: $('#product-max-price').val()
-//             }),
-//             success: function(response) {
-//                 alert(response.message); // Show success message
-//                 window.location.reload(); // Reload the page to show the new product
-//             },
-//             error: function(xhr) {
-//                 alert(xhr.responseJSON.error); // Show error message
-//             }
-//         });
-//     });
-
-//     // Update Product
-//     $('.update-product-form').on('submit', function(event) {
-//         event.preventDefault(); // Prevent the default form submission
-//         const productId = $(this).data('product-id'); // Get the product ID from data attribute
-
-//         $.ajax({
-//             url: `/api/products/${productId}/update/`, // Updated API URL for updating a product
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify({
-//                 name: $(`#product-name-${productId}`).val(),
-//                 category: $(`#product-category-${productId}`).val(),
-//                 description: $(`#product-description-${productId}`).val(),
-//                 min_price: $(`#product-min-price-${productId}`).val(),
-//                 max_price: $(`#product-max-price-${productId}`).val()
-//             }),
-//             success: function(response) {
-//                 alert(response.message); // Show success message
-//                 window.location.reload(); // Reload the page to show the updated product
-//             },
-//             error: function(xhr) {
-//                 alert(xhr.responseJSON.error); // Show error message
-//             }
-//         });
-//     });
-
-//     // Delete Product
-//     $('.delete-product-btn').on('click', function() {
-//         const productId = $(this).data('product-id'); // Get the product ID from data attribute
-
-//         if (confirm('Are you sure you want to delete this product?')) {
-//             $.ajax({
-//                 url: `/api/products/${productId}/delete/`, // Updated API URL for deleting a product
-//                 type: 'DELETE',
-//                 success: function(response) {
-//                     alert(response.message); // Show success message
-//                     $(`#product-${productId}`).remove(); // Remove the product element
-//                 },
-//                 error: function(xhr) {
-//                     alert(xhr.responseJSON.error); // Show error message
-//                 }
-//             });
-//         }
-//     });
-
-//     // Add Review
-//     $('#add-review-form').on('submit', function(event) {
-//         event.preventDefault(); // Prevent the default form submission
-//         const productId = $(this).data('product-id'); // Get the product ID from data attribute
-
-//         $.ajax({
-//             url: `/api/products/${productId}/rate/`, // Updated API URL for adding a review
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify({
-//                 review: $('#review-text').val(),
-//                 rating: $('#review-rating').val()
-//             }),
-//             success: function(response) {
-//                 alert(response.message); // Show success message
-//                 window.location.reload(); // Reload the page to show the new review
-//             },
-//             error: function(xhr) {
-//                 alert(xhr.responseJSON.error); // Show error message
-//             }
-//         });
-//     });
-// });
+  function closePopup(popupId) {
+    const popup = document.getElementById('wishlistPopup');
+    popup.classList.add('hidden');
+    clearTimeout(popupTimeout);
+  }

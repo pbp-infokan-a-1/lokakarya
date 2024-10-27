@@ -173,31 +173,6 @@
     {% endif %}
   </div>
 
-  <!-- Include jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!-- Link your custom JavaScript file -->
   <script src="{% static 'js/productpage.js' %}"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const searchInput = document.getElementById("search-input");
-      if (searchInput.value === "None") {
-        searchInput.value = "";
-      }
-    });
-  
-    function addToWishlist(productName) {
-        document.getElementById('wishlistMessage').innerText = `Added ${productName} to Favourites!`;
-        document.getElementById('wishlistPopup').classList.remove('hidden');
-        setTimeout(() => {
-          closePopup('wishlistPopup');
-        }, 2000);
-    }
-  
-    function closePopup(popupId) {
-      const popup = document.getElementById('wishlistPopup');
-      popup.classList.add('hidden');
-      clearTimeout(popupTimeout);
-    }
-  </script>
-
 {% endblock %}
