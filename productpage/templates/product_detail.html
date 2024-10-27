@@ -3,7 +3,140 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+
+    :root {
+        --yellow: #FFBD13;
+        --blue: #4383FF;
+        --blue-d-1: #3278FF;
+        --light: #F5F5F5;
+        --grey: #AAA;
+        --white: #FFF;
+        --shadow: 8px 8px 30px rgba(0,0,0,.05);
+    }
+
+    .review-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--white);
+        padding: 2rem;
+        max-width: 576px;
+        width: 100%;
+        border-radius: .75rem;
+        box-shadow: var(--shadow);
+        text-align: center;
+        z-index: 1000;
+    }
+
+    .review-modal h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .review-modal .rating {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+        font-size: 2rem;
+        color: var(--yellow);
+        margin-bottom: 2rem;
+    }
+
+    .review-modal .rating .star {
+        cursor: pointer;
+    }
+
+    .review-modal .rating .star.active {
+        opacity: 0;
+        animation: animate .5s calc(var(--i) * .1s) ease-in-out forwards;
+    }
+
+    @keyframes animate {
+        0% {
+            opacity: 0;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .review-modal .rating .star:hover {
+        transform: scale(1.1);
+    }
+
+    .review-modal textarea {
+        width: 100%;
+        background: var(--light);
+        padding: 1rem;
+        border-radius: .5rem;
+        border: none;
+        outline: none;
+        resize: none;
+        margin-bottom: .5rem;
+    }
+
+    .review-modal .btn-group {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+    }
+
+    .review-modal .btn-group .btn {
+        padding: .75rem 1rem;
+        border-radius: .5rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: .875rem;
+        font-weight: 500;
+    }
+
+    .review-modal .btn-group .btn.submit {
+        background: var(--blue);
+        color: var(--white);
+    }
+
+    .review-modal .btn-group .btn.submit:hover {
+        background: var(--blue-d-1);
+    }
+
+    .review-modal .btn-group .btn.cancel {
+        background: var(--white);
+        color: var(--blue);
+    }
+
+    .review-modal .btn-group .btn.cancel:hover {
+        background: var(--light);
+    }
+
+    /* Optional overlay styling for dimming background */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+  </style>
+
   <!-- Swiper CSS & JS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.9/css/boxicons.min.css">
+  <link rel="stylesheet" href="{% static 'css/productpage.css' %}">
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   
@@ -33,34 +166,31 @@
         <p class="text-lg font-bold text-gray-700">Rating</p>
         <div>
           <div class="flex items-center gap-2 font-bold text-blue-gray-500">
-            {{ product.count_average_rating|floatformat:1 }} <!-- Display average rating with one decimal -->
-            <div class="inline-flex items-center">
-      
+            <span id="average-rating">{{ product.count_average_rating|floatformat:1 }}</span>
+            <div class="inline-flex items-center" id="rating-stars">
               <!-- Render filled stars based on average rating -->
               {% for i in "12345"|make_list %}
-                {% if i <= product.count_average_rating|floatformat:0 %}
-                  <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                      class="w-6 h-6 text-yellow-700 cursor-pointer">
-                      <path fill-rule="evenodd"
-                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                        clip-rule="evenodd"></path>
-                    </svg>
+                  <span class="star" data-index="{{ i }}">
+                    {% if i <= product.count_average_rating|floatformat:0 %}
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-6 h-6 text-yellow-700 cursor-pointer">
+                        <path fill-rule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                          clip-rule="evenodd"></path>
+                      </svg>
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                          class="w-6 h-6 cursor-pointer text-blue-gray-500">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
+                          </path>
+                        </svg>
+                    {% endif %}
                   </span>
-                {% else %}
-                  <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                      class="w-6 h-6 cursor-pointer text-blue-gray-500">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
-                      </path>
-                    </svg>
-                  </span>
-                {% endif %}
               {% endfor %}
             </div>
             <p class="block font-sans text-base antialiased font-medium leading-relaxed text-blue-gray-500">
-              Based on {{ product.num_reviews }} Reviews
+              Based on <span id="review-count">{{ product.num_reviews }}</span> Reviews
             </p>
           </div>
         </div>
@@ -80,7 +210,6 @@
         <ul class="list-disc pl-5 space-y-2">
           {% for store in matching_stores %}
             <a href="#"><li>{{ store.nama }}</li></a>
-          
           {% endfor %}
         </ul>
       </div>
@@ -89,8 +218,54 @@
     <!-- Reviews Section -->
     <div class="container mx-auto py-8">
       <h2 class="text-xl font-bold mb-4">Customer Reviews</h2>
-      <div class="bg-white shadow-lg rounded-lg p-4">
-        <p class="text-sm text-gray-600">No reviews yet.</p>
+      <div id="reviews-section" class="container mx-auto bg-gray-50 shadow-lg rounded-lg p-4">
+        {% if user.is_authenticated %}
+          <div class="flex" style="flex-direction: column;">
+            <div class="flex" style="flex-direction: row;">
+              <img src="/lokakarya/productpage/static/images/default-avatar-profile.jpg" alt="{{ user.username }}" class="w-10 h-10 rounded-full mr-3">
+              <div class="w-full">
+                <div class="review-section">
+                  <button
+                      id="asyncButton"
+                      class="flex items-start h-full min-h-[100px] w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 transition-all hover:bg-blue-gray-100 focus:outline-none focus:ring focus:ring-blue-gray-300"
+                      onclick="openReviewModal('{{ product.id }}')"
+                  >
+                      What are you thinking about, {{ user.username }}?
+                  </button>
+              </div>
+              </div>
+              
+            </div>
+          </div>
+        {% else %}
+          <p>You must log in to review a product.</p>
+        {% endif %}
+      
+        <div id="reviews-list" class="mt-6"></div>
+        <button id="load-more-reviews" class="mt-4 bg-gray-500 text-white p-2 rounded">Load More Reviews</button>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="reviewModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      <div class="modal-overlay"></div>
+      <div class="review-modal">
+        <h3>Leave a Review</h3>
+        <form action="javascript:void(0);">
+          <div class="rating" id="review-rating">
+            <input type="number" name="rating" hidden>
+            <i class='bx bx-star star' style="--i: 0;"></i>
+            <i class='bx bx-star star' style="--i: 1;"></i>
+            <i class='bx bx-star star' style="--i: 2;"></i>
+            <i class='bx bx-star star' style="--i: 3;"></i>
+            <i class='bx bx-star star' style="--i: 4;"></i>
+          </div>
+          <textarea id="review-text" name="opinion" cols="30" rows="5" placeholder="Your opinion..."></textarea>
+          <div class="btn-group">
+            <button type="button" class="btn submit" onclick="submitReview()">Submit</button>
+            <button type="button" class="btn cancel" onclick="closeReviewModal()">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -98,23 +273,85 @@
     <div class="container mx-auto py-8">
       <h2 class="text-xl font-bold mb-4">You May Also Like</h2>
       <div class="swiper-container relative">
-        
-          <!-- Swiper Wrapper -->
+
+          <!-- Swiper Wrapper with Product Cards -->
           <div class="swiper-wrapper">
               {% for same_product in same_category_products %}
-              <div class="swiper-slide bg-white">
-                  <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                      <img src="{% static 'avatars/defaults.jpeg' %}" alt="{{ same_product.name }}" class="w-full object-cover">
-                      <div class="p-4">
-                          <h3 class="text-lg font-bold">{{ same_product.name }}</h3>
-                          <p class="text-sm text-gray-600">IDR {{ same_product.min_price }} - {{ same_product.max_price }}</p>
-                          <a href="{% url 'productpage:product_detail' same_product.id %}" class="text-blue-500">View Product</a>
+              <div class="swiper-slide group relative block overflow-hidden rounded-lg border transition duration-500 hover:border-transparent hover:shadow-lg">
+                  <!-- Product Link -->
+                  <a href="{% url 'productpage:product_detail' same_product.id %}" class="block">
+                      <!-- Product Image -->
+                      <img
+                          src="{% static 'avatars/defaults.jpeg' %}"
+                          alt="{{ same_product.name }}"
+                          class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+                      />
+                  
+                      <!-- Product Info -->
+                      <div class="relative border border-gray-100 bg-white p-6 transition-all duration-300 hover:bg-gray-100">
+                          <!-- Product Price -->
+                          <p class="text-gray-700 text-sm">
+                            Rp.{{ same_product.min_price }} - Rp.{{ same_product.max_price }}
+                          </p>
+                          
+                          <!-- Product Name -->
+                          <h3 class="mt-1.5 text-md font-medium text-gray-900 truncate" style="max-width: 100%;">
+                            {{ same_product.name }}
+                          </h3>
+                          
+                          <!-- Rating Stars -->
+                          <div class="flex items-center gap-1 mt-2 text-yellow-500">
+                            {% for i in "12345"|make_list %}
+                              {% if i <= same_product.count_average_rating|floatformat:0 %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"></path>
+                                </svg>
+                              {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                  <path d="M11.48 3.5a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                              {% endif %}
+                            {% endfor %}
+                            <span class="ml-2 text-sm font-medium text-gray-500">({{ same_product.num_reviews }} Reviews)</span>
+                          </div>
                       </div>
-                  </div>
+                  </a>
+
+                  <!-- Wishlist Button -->
+                  {% if user.is_authenticated %}
+                    <button
+                        onclick="addToWishlist('{{ same_product.name }}')"
+                        class="absolute end-4 top-4 z-20 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75"
+                    >
+                        <span class="sr-only">Wishlist</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-4"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                            />
+                        </svg>
+                    </button>
+                    {% endif %}
               </div>
               {% endfor %}
           </div>
-  
+          
+          <!-- Popup Notification -->
+          <div id="wishlistPopup" class="fixed bottom-10 left-10 z-30 bg-blue-600 bg-opacity-70 border border-blue-800 text-white px-6 py-4 rounded-lg shadow-lg hidden">
+            <button onclick="closePopup()" class="absolute top-1 right-2 text-white hover:text-gray-300">
+              &times;
+            </button>
+            <p id="wishlistMessage" class="font-medium">Added to Favourites!</p>
+          </div>
+
           <!-- Navigation Buttons -->
           <div class="swiper-button-next text-gray-700 absolute right-2 top-1/2 transform -translate-y-1/2"></div>
           <div class="swiper-button-prev text-gray-700 absolute left-2 top-1/2 transform -translate-y-1/2"></div>
@@ -122,30 +359,52 @@
     </div>
   </div>
 
-  
+  <script src="{% static 'js/productpage.js' %}"></script>
   <script>
     var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 5,  // Adjust the number of slides visible at once
-        spaceBetween: 20,  // Space between slides
-        loop: true,  // Enable continuous loop mode
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+      slidesPerView: 5,  // Adjust the number of slides visible at once
+      spaceBetween: 20,  // Space between slides
+      loop: true,  // Enable continuous loop mode
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 10,
         },
-        breakpoints: {
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 10,
-            },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 15,
-            },
-            1024: {
-                slidesPerView: 5,
-                spaceBetween: 20,
-            },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 15,
         },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      },
     });
+
+    function addToWishlist(productName) {
+      const popup = document.getElementById('wishlistPopup');
+      const message = document.getElementById('wishlistMessage');
+
+      // Update message and show popup
+      message.textContent = `Added ${productName} to Favourites!`;
+      popup.classList.remove('hidden');
+
+      // Set a timeout to auto-hide popup after 3 seconds
+      clearTimeout(popupTimeout);
+      popupTimeout = setTimeout(() => {
+          popup.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Cancel the auto-hide if closed manually
+    function closePopup() {
+      const popup = document.getElementById('wishlistPopup');
+      popup.classList.add('hidden');
+      clearTimeout(popupTimeout);
+    }
   </script>
 {% endblock %}
