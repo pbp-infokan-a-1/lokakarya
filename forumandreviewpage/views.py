@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from userprofile.models import Activity
 
 def show_forum(request):
     posts = PostForum.objects.all().order_by('-created_at')
@@ -25,6 +26,14 @@ def create_forum_entry(request):
             forum_entry = form.save(commit=False)
             forum_entry.author = request.user
             forum_entry.save()
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action="just made a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': forum_entry.id})
+            )
+
             return redirect('forumandreviewpage:show_forum')
     else:
         form = ForumandReviewForm()
@@ -40,6 +49,14 @@ def detail_post(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
+
+            # Log the activity
+            Activity.objects.create(
+                user=request.user,
+                action="just commented on a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': post.id})
+            )
+            
             return redirect('forumandreviewpage:detail_post', post_id=post.id)
     else:
         comment_form = CommentForm()
