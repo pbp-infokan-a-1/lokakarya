@@ -1,0 +1,136 @@
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    background: white;
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+    border-left: 4px solid #10B981;
+}
+
+.toast-error {
+    border-left: 4px solid #EF4444;
+}
+
+.toast-warning {
+    border-left: 4px solid #F59E0B;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 50;
+    padding: 20px;
+}
+
+.modal-hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin: 80px auto; /* Increased top margin */
+    max-height: calc(100vh - 160px); /* Adjusted for top and bottom margins */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E1 transparent;
+}
+
+/* Scrollbar styling for webkit browsers */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #CBD5E1;
+    border-radius: 4px;
+}
+
+.form-group {
+    margin: 0 24px 16px 24px; /* Added horizontal margins */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: #3B82F6;
+    outline: none;
+}
+
+.error-message {
+    color: #EF4444;
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.image-preview {
+    width: calc(100% - 48px); /* Adjusted for margins */
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin: 0 24px 12px 24px; /* Added horizontal margins */
+    display: none;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.modal-content .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #374151; /* Warna abu-abu */
+    cursor: pointer;
+}
+.modal-content .close-button:hover {
+    color: #EF4444; /* Warna merah saat hover */
+}
