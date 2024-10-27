@@ -10,18 +10,49 @@
 
 <script src="{% static 'js/store-utils.js' %}" type="module"></script>
 <script src="{% static 'js/store-ajax.js' %}" type="module"></script>
+
 <script type="module">
-    import { showAddStoreForm, showEditStoreForm, closeModal, handleSubmit, deleteStore } 
+    import { showAddStoreForm, showEditStoreForm, closeModal, deleteStore } 
     from "{% static 'js/store-ajax.js' %}";
-    
+
     // Make functions available globally
     window.showAddStoreForm = showAddStoreForm;
     window.showEditStoreForm = showEditStoreForm;
     window.closeModal = closeModal;
     window.deleteStore = deleteStore;
 
-    // Add event listeners
-    document.getElementById('storeForm').addEventListener('submit', handleSubmit);
+    // Add event listener for form submission in another script
+    document.addEventListener('DOMContentLoaded', function() {
+        const storeForm = document.getElementById('storeForm');
+        if (storeForm) {
+            storeForm.addEventListener('submit', (e) => {
+                import('./store-ajax.js').then(module => {
+                    module.handleSubmit(e);
+                });
+            });
+        } else {
+            console.error('Store form not found');
+        }
+    });
+</script>
+
+<script type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+        const createButton = document.getElementById("createButton");
+        if (createButton) {
+            createButton.addEventListener("click", showAddStoreForm);
+        } else {
+            console.error('Create button not found');
+        }
+
+        // Menambahkan event listener untuk form
+        const storeForm = document.getElementById('storeForm');
+        if (storeForm) {
+            storeForm.addEventListener('submit', handleSubmit);
+        } else {
+            console.error('Store form not found');
+        }
+    });
 </script>
 
 <div class="bg-white">
@@ -61,11 +92,11 @@
 
                     <div class="action-buttons">
                         <a href="{{ toko.gmaps_link }}" alt="https://www.google.com/" target="_blank" 
-                           class="make-route-button bg-[#ff7a42] text-white hover:bg-[#ff5a20]">
+                            class="make-route-button bg-[#ff7a42] text-white hover:bg-[#ff5a20]">
                             Make a route
                         </a>
                         <a href="{% url 'storepage:storedetail' toko.id %}" 
-                           class="view-products-button bg-[#1d72b8] text-white hover:bg-[#135a8b]">
+                            class="view-products-button bg-[#1d72b8] text-white hover:bg-[#135a8b]">
                             Lihat Produk
                         </a>
 

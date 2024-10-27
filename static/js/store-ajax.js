@@ -31,7 +31,7 @@ function showAddStoreForm() {
     document.getElementById('modalTitle').textContent = 'Add New Store';
     document.getElementById('storeForm').reset();
     document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('storeModal').classList.remove('hidden');
+    document.getElementById('storeModal').classList.remove('modal-hidden');
     
     const createButton = document.getElementById("createButton");
     if (createButton) {
@@ -78,7 +78,7 @@ async function showEditStoreForm(storeId) {
             preview.style.display = 'none'; // Sembunyikan jika tidak ada gambar
         }
         
-        document.getElementById('storeModal').classList.remove('hidden');
+        document.getElementById('storeModal').classList.remove('modal-hidden');
         
     } catch (error) {
         Toast.show(error.message, 'error');
@@ -88,7 +88,7 @@ async function showEditStoreForm(storeId) {
 
 function closeModal() {
     clearFieldErrors();
-    document.getElementById('storeModal').classList.add('hidden');
+    document.getElementById('storeModal').classList.add('modal-hidden');
     document.getElementById('storeForm').reset();
     document.getElementById('imagePreview').style.display = 'none';
 }
