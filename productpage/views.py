@@ -51,10 +51,13 @@ def product_detail(request, product_id):
         category=product.category
     ).exclude(id=product_id)[:5]
 
+    is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+
     return render(request, 'product_detail.html', {
         'product': product,
         'same_category_products': same_category_products,
-        'matching_stores': matching_stores
+        'matching_stores': matching_stores,
+        'is_favorited': is_favorited,
     })
 
 #incomplete
