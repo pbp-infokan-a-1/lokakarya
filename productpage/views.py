@@ -71,7 +71,7 @@ def product_detail(request, product_id=None, product_name=None):
     # Fetch products in the same category, excluding the current product
     same_category_products = Product.objects.filter(
         category=product.category
-    ).exclude(id=product_id)[:5]
+    ).exclude(id=product_id)[:10]
 
     is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
 
