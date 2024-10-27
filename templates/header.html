@@ -1,35 +1,28 @@
 {% load static %}
-<nav class="navbar fixed top-0 w-full bg-white shadow-md z-50" style="font-family: 'tommy-soft-medium', sans-serif;">
+<nav class="navbar fixed top-0 w-full shadow-md z-50" style="background-color: #fffcf4; font-family: 'tommy-soft-medium', sans-serif;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <!-- Logo on the Left -->
         <div class="flex items-center justify-start ">
             <a href="{% url 'landingpage:home' %}" class="flex items-center">
-                <img src="{% static 'images/lokakarya_logo.png' %}" alt="Lokakarya Logo" class="h-10">
-                <span class="ml-2 text-lg font-bold">Lokakarya</span>
+                <img src="{% static 'images/navbar-logo.png' %}" alt="Lokakarya Logo" class="h-16">
             </a>
         </div>
 
         <!-- Search Bar in the Middle -->
-        {% if user.is_authenticated %}
         <div class="flex-grow mx-10 ml-100">
             <form method="GET" action="{% url 'landingpage:search' %}" class="flex">
                 <input 
                     type="text" 
                     name="q" 
-                    placeholder="Search products, stores, or profiles..."
-                    class="border border-gray-300 p-2 pl-4 rounded-l w-full focus:outline-none focus:border-blue-500"
-                    value="{{ request.GET.q|default_if_none:'' }}">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600">
-                    Search
-                </button>
+                    placeholder="Search products, categories, and more..."
+                    class="border p-2 pl-4 rounded-full w-full focus:outline-none focus:border-blue-500"
+                    value="{{ request.GET.q|default_if_none:'' }}"
+                    style="border-color: #694934; color: #694934; ::placeholder { color: #0000; }">
             </form>
         </div>
-        {% endif %}
 
         <!-- Navigation Links on the Right (only for desktop) -->
         <ul class="nav-links hidden md:flex space-x-10 ml-0">
-            <li><a href="{% url 'landingpage:home' %}" class="text-gray-700 hover:text-blue-500">Main Menu</a></li>
-
             <!-- Dropdown for Categories -->
             <li class="relative group">
                 <a href="#" class="text-gray-700 hover:text-blue-500">Categories</a>
@@ -43,12 +36,11 @@
                 <!-- Links for logged-in users -->
                 <li><a href="{% url 'userprofile:profile' username=user.username %}" class="text-gray-700 hover:text-blue-500">Profile</a></li>
                 <li><a href="{% url 'forumandreviewpage:show_forum' %}" class="text-gray-700 hover:text-blue-500">Forum & Review</a></li>
-                <li><a href="{% url 'productpage:favorite_page' %}" class="text-gray-700 hover:text-blue-500">Favorites</a></li>
+                <li><a href="{% url 'productpage:favorite_page' %}" class="text--700 hover:text-blue-500">Favorites</a></li>
                 <li><a href="{% url 'authentication:logout' %}" class="text-gray-700 hover:text-blue-500">Logout</a></li>
             {% else %}
                 <!-- Links for guests -->
                 <li><a href="{% url 'authentication:login' %}" class="text-gray-700 hover:text-blue-500">Login</a></li>
-                <li><a href="{% url 'authentication:register' %}" class="text-gray-700 hover:text-blue-500">Register</a></li>
             {% endif %}
         </ul>
 
@@ -75,13 +67,12 @@
             {% if user.is_authenticated %}
                 <!-- Links for logged-in users -->
                 <li><a href="{% url 'userprofile:profile' username=user.username %}">Profile</a></li>
-                <li><a href="#">Favorites</a></li>
+                <li><a href="{% url 'productpage:favorite_page' %}">Favorites</a></li>
                 <li><a href="{% url 'forumandreviewpage:show_forum' %}">Forum & Review</a></li>
                 <li><a href="{% url 'authentication:logout' %}">Logout</a></li>
             {% else %}
                 <!-- Links for guests -->
                 <li><a href="{% url 'authentication:login' %}">Login</a></li>
-                <li><a href="{% url 'authentication:register' %}">Register</a></li>
             {% endif %}
         </ul>
         <!-- Categories List -->
