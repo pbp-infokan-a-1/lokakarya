@@ -1,9 +1,9 @@
 [
     {
         "model": "storepage.Toko",
-        "pk": 1,
+        "pk": "1fb36414-86e1-43f2-b670-a22a76e28871",
         "fields": {
-            "nama": "Mahaeswari Jepara Craft",
+            "name": "Mahaeswari Jepara Craft",
             "hari_buka": "Senin-Jumat",
             "alamat": "Jl. Kemuning Raya, Rw. IV, Krapyak, Kec. Jepara, Kabupaten Jepara, Jawa Tengah 59421",
             "email": "mahaeswara.jepara@gmail.com",
@@ -12,9 +12,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 2,
+        "pk": "b4d3dc94-4a71-4567-ace0-feaf75455359",
         "fields": {
-            "nama": "Griya Parcel Mahar Jepara",
+            "name": "Griya Parcel Mahar Jepara",
             "hari_buka": "Senin-Sabtu",
             "alamat": "Jl. Panenan RT 3 RW 3 Samping balaidesa depan makam duren mas 5 menit dari pasar Pecangaan, Rw. 2, Pecangaan Wetan, Kec. Pecangaan, Kabupaten Jepara, Jawa Tengah 59462",
             "email": "griyaparcel@gmail.com",
@@ -23,9 +23,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 3,
+        "pk": "5d710b56-ac11-48b1-a5b2-ee4415ce9888",
         "fields": {
-            "nama": "Batik Zara Pasar Ratu",
+            "name": "Batik Zara Pasar Ratu",
             "hari_buka": "Senin-Jumat",
             "alamat": "Pasar Jepara 1, Jl. Untung Suropati Lantai 1 Blok E Zona B No. D5, Jobokuto I, Jobokuto, Jepara, Jepara Regency, Central Java 59416",
             "email": "batikzara@gmail.com",
@@ -34,9 +34,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 4,
+        "pk": "53e66a6f-b8f2-4138-976d-845a84326f20",
         "fields": {
-            "nama": "Mustika Kayu Jati Jepara Furniture",
+            "name": "Mustika Kayu Jati Jepara Furniture",
             "hari_buka": "Senin-Minggu",
             "alamat": "Jl. Raya Grogol, RT.6/RW.1, Grogol, Kec. Limo, Kota Depok, Jawa Barat 16512",
             "email": "mustikajati@gmail.com",
@@ -45,9 +45,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 5,
+        "pk": "4fedc61a-c358-43b5-8ab5-a742c9115ea2",
         "fields": {
-            "nama": "Jepara Art Furnicraft",
+            "name": "Jepara Art Furnicraft",
             "hari_buka": "Senin-Jumat",
             "alamat": "Jl. Cik Lanang No.25, RT.15/RW.5, Jobokuto III, Jobokuto, Kec. Jepara, Kabupaten Jepara, Jawa Tengah 59416",
             "email": "furnicraft@gmail.com",
@@ -56,9 +56,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 6,
+        "pk": "eaf621d0-4777-4ff8-8897-a2d8641a455a",
         "fields": {
-            "nama": "Toko Mede Keramik",
+            "name": "Toko Mede Keramik",
             "hari_buka": "Senin-Minggu",
             "alamat": "Bawu I, Bawu, Kec. Batealit, Kabupaten Jepara, Jawa Tengah 59461",
             "email": "medekeramik@gmail.com",
@@ -67,9 +67,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 7,
+        "pk": "1c2fc192-945e-46b4-9154-7e0ff11f4a61",
         "fields": {
-            "nama": "Pengrajin Tenun Unsiyyah",
+            "name": "Pengrajin Tenun Unsiyyah",
             "hari_buka": "Senin-Sabtu",
             "alamat": "Pecangakan, Central Java ,Segaran Jepara, Jepara, Jawa Tengah 59462",
             "email": "tenununsiyyah@gmail.com",
@@ -78,9 +78,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 8,
+        "pk": "06f4de59-03cc-492d-a15d-f7b9b25db750",
         "fields": {
-            "nama": "Nambya Tenun",
+            "name": "Nambya Tenun",
             "hari_buka": "Senin-Sabtu",
             "alamat": "RT.01/RW.01, Rw. 1, Troso, Kec. Pecangaan, Kabupaten Jepara, Jawa Tengah 59462",
             "email": "nambya@gmail.com",
@@ -89,9 +89,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 9,
+        "pk": "6ad7d1fe-bc78-4b5f-bed8-4861483c2f90",
         "fields": {
-            "nama": "Gallery Tenun Store",
+            "name": "Gallery Tenun Store",
             "hari_buka": "Senin-Sabtu",
             "alamat": "Jl. Bougenvil Raya No.18, Mulyoharjo II, Mulyoharjo, Kec. Jepara, Kabupaten Jepara, Jawa Tengah 59415",
             "email": "tenungallery@gmail.com",
@@ -100,9 +100,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 10,
+        "pk": "60efbcde-7f9e-4e14-a358-94e5ddb7feb8",
         "fields": {
-            "nama": "Jepara Shellcraft",
+            "name": "Jepara Shellcraft",
             "hari_buka": "Senin-Jumat",
             "alamat": "Gamong, Kec. Kaliwungu, Kabupaten Kudus, Jawa Tengah 59332",
             "email": "jeparacraft@gmail.com",
@@ -111,9 +111,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 11,
+        "pk": "8260a34f-a68c-4d97-ab81-426af40199ce",
         "fields": {
-            "nama": "Toko Adhesi Monel",
+            "name": "Toko Adhesi Monel",
             "hari_buka": "Senin-Minggu",
             "alamat": "Jl. Raya Krasak No.154, Rw. 03, Krasak, Kec. Pecangaan, Kabupaten Jepara, Jawa Tengah 59462",
             "email": "moneladhesi@gmail.com",
@@ -122,9 +122,9 @@
     },
     {
         "model": "storepage.Toko",
-        "pk": 12,
+        "pk": "bd857ec7-b169-4aed-adf4-43af55724053",
         "fields": {
-            "nama": "Seni Sakti Monel",
+            "name": "Seni Sakti Monel",
             "hari_buka": "Senin-Minggu",
             "alamat": "Jl. Gua Kencana No.43, RT.07/RW.02, Rw. I, Kriyan, Kec. Kalinyamatan, Kabupaten Jepara, Jawa Tengah 59467",
             "email": "senisakti@gmail.com",
@@ -139,7 +139,10 @@
             "min_price": 50000,
             "max_price": 150000,
             "description": "Terbuat dari kulit asli dengan motif etnik yang khas, memberikan tampilan yang alami dan autentik. Cocok untuk melengkapi gaya kasual sehari-hari. Fleksibel dan nyaman dipakai di pergelangan tangan.",
-            "store": [1, 2]
+            "store": [
+                1,
+                2
+            ]
         }
     },
     {
@@ -150,7 +153,10 @@
             "min_price": 80000,
             "max_price": 200000,
             "description": "Dirancang dengan manik-manik warna-warni, menciptakan kesan ceria dan bersemangat. Cocok dipadukan dengan pakaian tradisional atau modern. Dapat menambah sentuhan seni pada penampilan Anda.",
-            "store": [1, 2]
+            "store": [
+                1,
+                2
+            ]
         }
     },
     {
@@ -161,7 +167,10 @@
             "min_price": 60000,
             "max_price": 150000,
             "description": "Topi terbuat dari bahan jerami yang dihiasi dengan ornamen-ornamen cantik. Ideal untuk acara di luar ruangan, seperti pantai atau festival. Memberikan perlindungan dari sinar matahari dengan gaya yang unik.",
-            "store": [1, 2]
+            "store": [
+                1,
+                2
+            ]
         }
     },
     {
@@ -172,7 +181,10 @@
             "min_price": 200000,
             "max_price": 500000,
             "description": "Berbahan dasar perak dengan ukiran khas dari Jepara, memberikan nuansa tradisional yang mewah. Cocok digunakan untuk acara formal atau semi-formal. Tahan lama dengan kilau yang elegan.",
-            "store": [1, 3]
+            "store": [
+                1,
+                3
+            ]
         }
     },
     {
@@ -183,7 +195,10 @@
             "min_price": 40000,
             "max_price": 120000,
             "description": "Dirangkai dari manik-manik berwarna cerah, menciptakan aksesori yang menarik dan penuh gaya. Bisa dipasang pada pakaian atau tas untuk menambah kesan modis. Praktis dan mudah dipadukan dengan berbagai gaya busana.",
-            "store": [2, 1]
+            "store": [
+                2,
+                1
+            ]
         }
     },
     {
@@ -194,7 +209,10 @@
             "min_price": 300000,
             "max_price": 800000,
             "description": "Cincin dengan batu akik yang dipercaya memiliki energi positif. Bentuknya yang unik menambah daya tarik tersendiri pada setiap jari. Cocok digunakan untuk menambah pesona dan karakter pribadi.",
-            "store": [1, 3]
+            "store": [
+                1,
+                3
+            ]
         }
     },
     {
@@ -205,7 +223,10 @@
             "min_price": 20000,
             "max_price": 70000,
             "description": "Dibuat dengan teknik anyaman tradisional, menghasilkan aksesori yang ringan dan nyaman dipakai. Motifnya yang alami membuatnya cocok untuk penampilan kasual. Sangat cocok sebagai hadiah khas Indonesia.",
-            "store": [2, 3]
+            "store": [
+                2,
+                3
+            ]
         }
     },
     {
@@ -216,7 +237,10 @@
             "min_price": 70000,
             "max_price": 200000,
             "description": "Memadukan elemen batik tradisional dengan desain modern. Setiap pasang memiliki pola unik yang mencerminkan kekayaan budaya. Nyaman dipakai sehari-hari, baik untuk acara formal maupun santai.",
-            "store": [3, 2]
+            "store": [
+                3,
+                2
+            ]
         }
     },
     {
@@ -227,7 +251,10 @@
             "min_price": 40000,
             "max_price": 100000,
             "description": "Dibuat dari potongan kayu alami dengan sentuhan etnik. Memberikan tampilan yang sederhana namun elegan. Cocok untuk pencinta aksesori ramah lingkungan dan gaya bohemian.",
-            "store": [2, 3]
+            "store": [
+                2,
+                3
+            ]
         }
     },
     {
@@ -238,7 +265,10 @@
             "min_price": 100000,
             "max_price": 250000,
             "description": "Memiliki hiasan kain batik yang artistik, memberikan sentuhan tradisional dalam penampilan modern. Setiap motif membawa cerita dan sejarah batik Indonesia. Ideal dipakai untuk acara budaya atau sehari-hari.",
-            "store": [3, 2]
+            "store": [
+                3,
+                2
+            ]
         }
     },
     {
@@ -249,7 +279,10 @@
             "min_price": 70000,
             "max_price": 200000,
             "description": "Berbahan kulit dengan ukiran detail yang menawan. Cocok untuk melengkapi gaya maskulin atau etnik. Nyaman dan tahan lama, dengan desain yang tidak lekang oleh waktu.",
-            "store": [1, 2]
+            "store": [
+                1,
+                2
+            ]
         }
     },
     {
@@ -260,7 +293,10 @@
             "min_price": 50000,
             "max_price": 150000,
             "description": "Terbuat dari kayu dengan ukiran yang halus dan tradisional. Memberikan kesan alami dan unik pada penampilan. Ringan dipakai dan cocok untuk kegiatan sehari-hari maupun acara formal.",
-            "store": [1, 3]
+            "store": [
+                1,
+                3
+            ]
         }
     },
     {
@@ -271,7 +307,10 @@
             "min_price": 80000,
             "max_price": 250000,
             "description": "Kalung dengan ornamen koin dan kain batik, memberikan kesan antik yang elegan. Unik dan berbeda dari aksesori kalung pada umumnya. Cocok untuk mereka yang ingin menonjolkan identitas budaya.",
-            "store": [3, 1]
+            "store": [
+                3,
+                1
+            ]
         }
     },
     {
@@ -282,7 +321,10 @@
             "min_price": 30000,
             "max_price": 100000,
             "description": "Terbuat dari bambu yang dianyam dengan rapi, gelang ini memberikan kesan alami dan tradisional. Nyaman dipakai sepanjang hari dan cocok untuk acara santai. Menghadirkan sentuhan etnik dalam setiap gaya.",
-            "store": [1, 3]
+            "store": [
+                1,
+                3
+            ]
         }
     },
     {
@@ -293,7 +335,10 @@
             "min_price": 15000,
             "max_price": 30000,
             "description": "Berbahan monel yang kuat dan tahan lama dengan desain simpel namun elegan. Cocok untuk penggunaan sehari-hari atau sebagai hadiah spesial. Kilau monelnya menambah kesan mewah pada penampilan.",
-            "store": [11, 12]
+            "store": [
+                11,
+                12
+            ]
         }
     },
     {
@@ -304,7 +349,10 @@
             "min_price": 10000,
             "max_price": 50000,
             "description": "berbahan monel dengan desain minimalis dan modern. Ideal untuk dipakai dalam berbagai kesempatan, baik formal maupun kasual. Bahan monelnya membuat kalung ini tahan lama dan anti karat.",
-            "store": [11, 12]
+            "store": [
+                11,
+                12
+            ]
         }
     },
     {
@@ -315,7 +363,10 @@
             "min_price": 60000,
             "max_price": 500000,
             "description": "Cincin berbahan dasar monel dengan desain yang simpel namun elegan. Tahan terhadap korosi dan tidak mudah pudar. Cocok untuk dipakai setiap hari sebagai aksesori yang praktis dan stylish.",
-            "store": [11, 12]
+            "store": [
+                11,
+                12
+            ]
         }
     },
     {
@@ -326,7 +377,10 @@
             "min_price": 20000,
             "max_price": 50000,
             "description": "Anting dengan desain modern berbahan monel yang tahan lama. Cocok untuk melengkapi gaya sehari-hari maupun acara formal. Hypoallergenic, aman untuk kulit sensitif.",
-            "store": [11, 12]
+            "store": [
+                11,
+                12
+            ]
         }
     },
     {
@@ -337,7 +391,10 @@
             "min_price": 50000,
             "max_price": 120000,
             "description": "Tempat tisu dari anyaman bambu yang memberikan kesan alami dan ramah lingkungan. Cocok untuk menghiasi meja ruang tamu atau ruang kerja.",
-            "store": [2, 5]
+            "store": [
+                2,
+                5
+            ]
         }
     },
     {
@@ -348,7 +405,10 @@
             "min_price": 80000,
             "max_price": 200000,
             "description": "Keranjang buah dari bambu yang alami dan ramah lingkungan, cocok untuk menghiasi dapur atau meja makan. Ringan namun kuat untuk penggunaan sehari-hari.",
-            "store": [5, 2]
+            "store": [
+                5,
+                2
+            ]
         }
     },
     {
@@ -359,7 +419,10 @@
             "min_price": 80000,
             "max_price": 200000,
             "description": "Tempat lilin dari anyaman bambu yang memberikan suasana hangat dan alami. Cocok sebagai dekorasi untuk menciptakan suasana santai dan romantis.",
-            "store": [5, 1]
+            "store": [
+                5,
+                1
+            ]
         }
     },
     {
@@ -370,7 +433,10 @@
             "min_price": 150000,
             "max_price": 400000,
             "description": "Tas dari anyaman bambu yang indah dan ramah lingkungan, cocok untuk acara santai atau berbelanja. Kuat dan tahan lama.",
-            "store": [5, 4]
+            "store": [
+                5,
+                4
+            ]
         }
     },
     {
@@ -381,7 +447,10 @@
             "min_price": 100000,
             "max_price": 250000,
             "description": "Kotak tisu berbahan bambu dengan desain elegan, cocok untuk menghiasi ruang tamu atau kantor dengan sentuhan tradisional.",
-            "store": [2, 5]
+            "store": [
+                2,
+                5
+            ]
         }
     },
     {
@@ -392,7 +461,10 @@
             "min_price": 30000,
             "max_price": 80000,
             "description": "Tatakan gelas dari anyaman bambu yang melindungi meja dari panas atau cairan. Cocok untuk rumah dengan suasana hangat dan alami.",
-            "store": [5, 1]
+            "store": [
+                5,
+                1
+            ]
         }
     },
     {
@@ -403,7 +475,10 @@
             "min_price": 150000,
             "max_price": 350000,
             "description": "Tempat sampah dari anyaman bambu yang ramah lingkungan. Cocok untuk menghiasi ruang tamu, dapur, atau kamar mandi dengan sentuhan tradisional.",
-            "store": [5, 4]
+            "store": [
+                5,
+                4
+            ]
         }
     },
     {
@@ -414,7 +489,10 @@
             "min_price": 120000,
             "max_price": 300000,
             "description": "Boks penyimpanan dari bambu yang praktis dan kuat. Ideal untuk menyimpan barang-barang kecil hingga sedang, dengan desain alami yang mempercantik ruangan.",
-            "store": [2, 5]
+            "store": [
+                2,
+                5
+            ]
         }
     },
     {
@@ -425,7 +503,10 @@
             "min_price": 50000,
             "max_price": 150000,
             "description": "Gelas berbahan anyaman bambu yang unik, ideal untuk acara ramah lingkungan atau kegiatan outdoor. Aman digunakan dengan kesan tradisional yang kuat.",
-            "store": [1, 5]
+            "store": [
+                1,
+                5
+            ]
         }
     },
     {
@@ -436,9 +517,12 @@
             "min_price": 400000,
             "max_price": 900000,
             "description": "Batik tulis dengan motif ikan yang melambangkan keseimbangan dan harmoni dalam budaya Indonesia. Ideal untuk pakaian tradisional atau dekorasi.",
-            "store": [3, 2]
+            "store": [
+                3,
+                2
+            ]
         }
-    },        
+    },
     {
         "model": "productpage.product",
         "fields": {
@@ -446,7 +530,10 @@
             "category": 8,
             "min_price": 200000,
             "max_price": 500000,
-            "store": [3, 1],
+            "store": [
+                3,
+                1
+            ],
             "description": "Sarung batik untuk pria dengan motif klasik yang elegan. Ideal untuk digunakan dalam acara formal atau keagamaan. Menambah kesan berwibawa dengan sentuhan budaya tradisional."
         }
     },
@@ -457,7 +544,10 @@
             "category": 8,
             "min_price": 400000,
             "max_price": 900000,
-            "store": [3, 1],
+            "store": [
+                3,
+                1
+            ],
             "description": "Batik dengan motif klasik yang melambangkan kekayaan warisan budaya Indonesia. Cocok untuk dijadikan bahan pakaian atau dekorasi rumah. Dibuat dengan teknik tradisional yang rumit dan artistik."
         }
     },
@@ -468,7 +558,10 @@
             "category": 4,
             "min_price": 100000,
             "max_price": 300000,
-            "store": [2, 5],
+            "store": [
+                2,
+                5
+            ],
             "description": "Suvenir miniatur Menara Kudus yang ikonik, menggambarkan warisan budaya Jawa Tengah. Terbuat dari bahan berkualitas dengan detail yang menawan. Cocok sebagai hiasan rumah atau oleh-oleh khas Kudus."
         }
     },
@@ -479,7 +572,10 @@
             "category": 4,
             "min_price": 20000,
             "max_price": 50000,
-            "store": [1, 2],
+            "store": [
+                1,
+                2
+            ],
             "description": "Gantungan kunci yang diukir dengan motif khas Nusantara, memberikan sentuhan tradisional dalam setiap detail. Cocok sebagai suvenir atau oleh-oleh. Tahan lama dan mudah dibawa ke mana saja."
         }
     },
@@ -490,7 +586,10 @@
             "category": 4,
             "min_price": 15000,
             "max_price": 50000,
-            "store": [5, 2],
+            "store": [
+                5,
+                2
+            ],
             "description": "Magnet kulkas berbahan kayu dengan ukiran etnik, sempurna sebagai koleksi atau hiasan dapur. Ringan dan mudah dipasang, memberikan nuansa tradisional dalam sentuhan modern. Ideal untuk penggemar seni kerajinan tangan."
         }
     },
@@ -501,7 +600,10 @@
             "category": 4,
             "min_price": 250000,
             "max_price": 600000,
-            "store": [1, 2],
+            "store": [
+                1,
+                2
+            ],
             "description": "Miniatur wayang kulit yang merepresentasikan seni tradisional Indonesia. Dapat digunakan sebagai pajangan rumah atau koleksi seni. Setiap karakter wayang memiliki nilai filosofis dan cerita yang mendalam."
         }
     },
@@ -512,7 +614,10 @@
             "category": 4,
             "min_price": 50000,
             "max_price": 150000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Kipas dengan motif batik, menawarkan kesejukan dengan sentuhan seni tradisional. Terbuat dari bahan kain batik dan kayu yang kuat, cocok untuk digunakan di acara formal maupun kasual. Praktis dan elegan."
         }
     },
@@ -523,7 +628,10 @@
             "category": 4,
             "min_price": 30000,
             "max_price": 100000,
-            "store": [3, 5],
+            "store": [
+                3,
+                5
+            ],
             "description": "Gantungan kunci dengan hiasan kain batik, menambah kesan etnik pada aksesori harian. Ideal sebagai suvenir atau hadiah kecil. Desainnya yang ringan dan praktis cocok untuk dipakai sehari-hari."
         }
     },
@@ -534,7 +642,10 @@
             "category": 4,
             "min_price": 150000,
             "max_price": 400000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Kotak perhiasan dengan lapisan kain batik di bagian luar, memberikan kesan tradisional yang elegan. Cocok untuk menyimpan aksesori atau perhiasan. Ukurannya yang praktis membuatnya mudah ditempatkan di meja rias."
         }
     },
@@ -545,7 +656,10 @@
             "category": 4,
             "min_price": 60000,
             "max_price": 150000,
-            "store": [3, 5],
+            "store": [
+                3,
+                5
+            ],
             "description": "Gelas yang dihias dengan motif batik, ideal untuk digunakan sehari-hari atau sebagai hiasan meja makan. Tahan lama dan artistik, cocok untuk koleksi pecinta batik. Memberikan sentuhan budaya pada peralatan minum."
         }
     },
@@ -556,7 +670,10 @@
             "category": 4,
             "min_price": 200000,
             "max_price": 600000,
-            "store": [5, 3],
+            "store": [
+                5,
+                3
+            ],
             "description": "Jam dinding dengan hiasan motif batik pada bingkainya, memberikan nuansa tradisional yang kuat dalam dekorasi rumah. Fungsi praktisnya dipadukan dengan keindahan seni batik. Cocok untuk ruangan tamu atau kamar tidur."
         }
     },
@@ -567,7 +684,10 @@
             "category": 4,
             "min_price": 80000,
             "max_price": 200000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Bingkai foto berbahan dasar kayu yang dihias dengan motif batik, memberikan kesan unik pada setiap foto yang dipajang. Cocok sebagai hadiah atau pajangan di rumah. Menggabungkan seni modern dan tradisional."
         }
     },
@@ -578,7 +698,10 @@
             "category": 4,
             "min_price": 100000,
             "max_price": 250000,
-            "store": [2, 3],
+            "store": [
+                2,
+                3
+            ],
             "description": "Dompet dengan motif batik yang artistik, memadukan fungsionalitas dengan estetika tradisional. Cocok untuk digunakan sehari-hari atau sebagai hadiah. Bahan yang kuat dan tahan lama membuatnya praktis dipakai."
         }
     },
@@ -589,7 +712,10 @@
             "category": 4,
             "min_price": 250000,
             "max_price": 800000,
-            "store": [3, 5],
+            "store": [
+                3,
+                5
+            ],
             "description": "Lukisan berbahan kain batik yang dilukis dengan tangan, menampilkan keindahan seni dan budaya Indonesia. Ideal sebagai pajangan dinding atau dekorasi ruang tamu. Setiap lukisan memiliki karakteristik yang unik."
         }
     },
@@ -600,7 +726,10 @@
             "category": 4,
             "min_price": 25000,
             "max_price": 65000,
-            "store": [11, 12],
+            "store": [
+                11,
+                12
+            ],
             "description": "Gantungan mobil berbahan monel dengan desain yang simpel namun elegan. Tahan lama dan tidak mudah pudar, memberikan sentuhan eksklusif pada aksesori kendaraan Anda. Cocok sebagai hadiah unik."
         }
     },
@@ -611,7 +740,10 @@
             "category": 4,
             "min_price": 60000,
             "max_price": 300000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Kap lampu gantung yang terbuat dari kerang alami, memberikan suasana hangat dan mewah di setiap ruangan. Ideal untuk pencahayaan dekoratif di rumah atau restoran. Desainnya yang unik mencerminkan sentuhan alam."
         }
     },
@@ -622,7 +754,10 @@
             "category": 4,
             "min_price": 25000,
             "max_price": 50000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Vas bunga yang dihias dengan kerang-kerangan cantik, menambah keindahan alami pada dekorasi rumah. Cocok untuk menempatkan bunga segar atau kering. Memberikan nuansa pantai yang tenang dan eksotis."
         }
     },
@@ -633,7 +768,10 @@
             "category": 4,
             "min_price": 50000,
             "max_price": 250000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Tirai yang terbuat dari rangkaian kerang alami, memberikan kesan alami dan menambah estetika ruangan. Ideal untuk digunakan di pintu atau jendela. Suara lembut dari kerang memberikan nuansa tenang."
         }
     },
@@ -644,10 +782,13 @@
             "category": 4,
             "min_price": 10000,
             "max_price": 70000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Dompet yang dihiasi kerang-kerangan, memberikan tampilan unik dan etnik. Cocok digunakan sebagai aksesori sehari-hari atau oleh-oleh khas. Desainnya yang cantik dan ramah lingkungan menambah daya tariknya."
         }
-    },     
+    },
     {
         "model": "productpage.product",
         "fields": {
@@ -655,7 +796,10 @@
             "category": 4,
             "min_price": 25000,
             "max_price": 50000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Figura foto yang dihiasi dengan kerang, memberikan sentuhan laut pada pajangan foto di rumah Anda. Cocok untuk ditempatkan di ruang tamu atau kamar tidur. Setiap figura memiliki pola kerang yang berbeda, menambah keunikan."
         }
     },
@@ -666,7 +810,10 @@
             "category": 4,
             "min_price": 35000,
             "max_price": 100000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Hiasan dinding yang terbuat dari kerang dengan pola artistik, memberikan kesan eksklusif dan alami. Cocok untuk rumah dengan tema pantai atau alam. Memberikan keindahan visual yang menenangkan."
         }
     },
@@ -677,7 +824,10 @@
             "category": 4,
             "min_price": 30000,
             "max_price": 250000,
-            "store": [10, 5],
+            "store": [
+                10,
+                5
+            ],
             "description": "Cermin dengan bingkai yang dihias kerang alami, memberikan sentuhan alam pada dekorasi ruangan. Cocok ditempatkan di kamar mandi, kamar tidur, atau ruang tamu. Menciptakan kesan mewah dan natural."
         }
     },
@@ -688,7 +838,10 @@
             "category": 4,
             "min_price": 80000,
             "max_price": 120000,
-            "store": [7, 9],
+            "store": [
+                7,
+                9
+            ],
             "description": "Kain tenun blangket khas Troso dengan tekstur halus dan pola tradisional. Cocok digunakan sebagai selimut atau hiasan dinding. Setiap helai dibuat dengan teknik tenun yang rumit dan berkualitas."
         }
     },
@@ -699,7 +852,10 @@
             "category": 4,
             "min_price": 120000,
             "max_price": 150000,
-            "store": [7, 9],
+            "store": [
+                7,
+                9
+            ],
             "description": "Kain tenun Baron dengan motif khas yang rumit, mencerminkan kekayaan tradisi Nusantara. Ideal digunakan sebagai bahan pakaian atau dekorasi. Teksturnya yang halus membuatnya nyaman dipakai sehari-hari."
         }
     },
@@ -710,7 +866,10 @@
             "category": 6,
             "min_price": 350000,
             "max_price": 800000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Kemeja batik dengan potongan klasik untuk pria, cocok digunakan dalam acara formal atau semi-formal. Motifnya yang elegan dan berkelas menambah kesan profesional. Terbuat dari bahan yang nyaman dan berkualitas."
         }
     },
@@ -721,7 +880,10 @@
             "category": 6,
             "min_price": 300000,
             "max_price": 700000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Blus batik untuk wanita dengan desain modern yang stylish namun tetap mempertahankan sentuhan tradisional. Ideal untuk dipakai dalam berbagai kesempatan. Bahan yang nyaman dan motif elegan membuatnya diminati."
         }
     },
@@ -732,7 +894,10 @@
             "category": 6,
             "min_price": 150000,
             "max_price": 400000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Kaos batik dengan desain kasual, memadukan motif tradisional dengan gaya modern. Cocok untuk digunakan sehari-hari atau dalam acara santai. Nyaman dipakai dengan bahan yang ringan dan breathable."
         }
     },
@@ -743,7 +908,10 @@
             "category": 6,
             "min_price": 500000,
             "max_price": 1200000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Kain batik dengan panjang yang cukup untuk dijadikan pakaian tradisional atau dekorasi. Motifnya yang artistik dan penuh detail mencerminkan keindahan seni batik Indonesia. Ideal sebagai koleksi atau hadiah spesial."
         }
     },
@@ -754,7 +922,10 @@
             "category": 6,
             "min_price": 200000,
             "max_price": 500000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Baju batik untuk anak-anak dengan motif yang ceria dan penuh warna. Nyaman dipakai dan cocok untuk acara formal maupun santai. Memberikan sentuhan budaya dalam penampilan anak-anak."
         }
     },
@@ -765,7 +936,10 @@
             "category": 6,
             "min_price": 200000,
             "max_price": 500000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Selendang batik dengan motif elegan, cocok dipadukan dengan pakaian formal atau kasual. Dapat digunakan sebagai aksesori tambahan yang menambah kesan anggun. Terbuat dari bahan yang ringan dan nyaman."
         }
     },
@@ -776,7 +950,10 @@
             "category": 6,
             "min_price": 400000,
             "max_price": 1000000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Baju batik untuk pria dengan desain formal, ideal untuk acara resmi atau pertemuan bisnis. Motif batiknya menambah kesan profesional dan berkelas. Bahan yang berkualitas membuatnya nyaman dipakai sepanjang hari."
         }
     },
@@ -787,7 +964,10 @@
             "category": 6,
             "min_price": 500000,
             "max_price": 1200000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Dress batik untuk wanita dengan potongan elegan, cocok untuk acara formal atau semi-formal. Motif batiknya yang artistik memberikan kesan anggun dan tradisional. Nyaman dipakai dengan bahan yang lembut."
         }
     },
@@ -798,7 +978,10 @@
             "category": 6,
             "min_price": 400000,
             "max_price": 900000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Kemeja batik berlengan panjang dengan motif klasik, cocok untuk acara formal. Terbuat dari bahan yang lembut dan nyaman, memberikan kesan profesional dengan sentuhan budaya."
         }
     },
@@ -809,7 +992,10 @@
             "category": 6,
             "min_price": 200000,
             "max_price": 600000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Tas yang dihias dengan kain batik, memberikan kesan tradisional dan modern sekaligus. Cocok digunakan untuk berbagai acara, baik formal maupun santai. Tahan lama dan memiliki ruang yang cukup untuk barang-barang sehari-hari."
         }
     },
@@ -820,7 +1006,10 @@
             "category": 6,
             "min_price": 100000,
             "max_price": 300000,
-            "store": [3, 2],
+            "store": [
+                3,
+                2
+            ],
             "description": "Sandal dengan hiasan batik, memberikan sentuhan budaya pada aksesori kaki. Nyaman digunakan sehari-hari dengan desain yang ringan dan fleksibel. Cocok untuk acara kasual atau santai."
         }
     },
@@ -831,7 +1020,10 @@
             "category": 6,
             "min_price": 200000,
             "max_price": 300000,
-            "store": [7, 9],
+            "store": [
+                7,
+                9
+            ],
             "description": "Kemeja yang terbuat dari kain tenun tradisional, memberikan kesan eksklusif dan etnik. Cocok digunakan dalam acara formal maupun semi-formal. Desain yang modern dengan sentuhan budaya lokal."
         }
     },
@@ -842,7 +1034,10 @@
             "category": 6,
             "min_price": 95000,
             "max_price": 135000,
-            "store": [7, 8],
+            "store": [
+                7,
+                8
+            ],
             "description": "Sepatu dengan bahan tenun yang halus dan motif khas. Memberikan kenyamanan dan gaya unik bagi pemakainya. Cocok dipakai untuk acara santai atau formal dengan nuansa tradisional."
         }
     },
@@ -853,7 +1048,9 @@
             "category": 6,
             "min_price": 150000,
             "max_price": 300000,
-            "store": [7],
+            "store": [
+                7
+            ],
             "description": "Sarung yang dibuat dengan teknik tenun tradisional, memberikan kehangatan dan kenyamanan. Ideal digunakan dalam acara keagamaan atau sebagai pakaian santai di rumah. Teksturnya yang lembut membuatnya nyaman dipakai."
         }
     },
@@ -864,7 +1061,10 @@
             "category": 7,
             "min_price": 150000,
             "max_price": 400000,
-            "store": [6, 5],
+            "store": [
+                6,
+                5
+            ],
             "description": "Vas dari bahan keramik dengan hiasan tradisional yang indah. Cocok untuk menempatkan bunga segar atau buatan, memberikan kesan elegan pada ruangan. Desainnya yang unik dan artistik menjadikan vas ini pilihan dekorasi yang menarik."
         }
     },
@@ -875,7 +1075,10 @@
             "category": 7,
             "min_price": 100000,
             "max_price": 250000,
-            "store": [6, 1],
+            "store": [
+                6,
+                1
+            ],
             "description": "Mangkuk terbuat dari keramik dan bergaya tradisional dengan motif klasik, cocok untuk menyajikan makanan atau sebagai pajangan. Tahan lama dan memiliki daya tarik estetis yang tinggi. Ideal untuk mempercantik meja makan atau rak pajangan."
         }
     },
@@ -886,7 +1089,10 @@
             "category": 7,
             "min_price": 120000,
             "max_price": 300000,
-            "store": [6, 2],
+            "store": [
+                6,
+                2
+            ],
             "description": "Piring dari keramik yang dihias dengan desain yang artistik, dapat digunakan sebagai dekorasi dinding atau piring saji. Motif dan pola unik yang diukir dengan tangan menambah nilai seni. Cocok untuk menghiasi ruang makan atau ruang tamu."
         }
     },
@@ -897,7 +1103,10 @@
             "category": 7,
             "min_price": 1500000,
             "max_price": 3500000,
-            "store": [5, 6],
+            "store": [
+                5,
+                6
+            ],
             "description": "Meja berbahan keramik dengan ukiran rumit pada permukaannya, memberikan sentuhan tradisional yang mewah. Cocok digunakan di ruang tamu atau teras sebagai meja hias. Kekuatan keramik membuatnya tahan lama dan kokoh."
         }
     },
@@ -908,7 +1117,10 @@
             "category": 7,
             "min_price": 50000,
             "max_price": 150000,
-            "store": [6, 2],
+            "store": [
+                6,
+                2
+            ],
             "description": "Mug dari keramik dengan desain dan bentuk yang unik, cocok untuk digunakan sehari-hari atau sebagai koleksi. Tahan panas dan mudah dibersihkan, menjadikannya pilihan sempurna untuk minuman panas atau dingin."
         }
     },
@@ -919,7 +1131,10 @@
             "category": 7,
             "min_price": 200000,
             "max_price": 500000,
-            "store": [6, 5],
+            "store": [
+                6,
+                5
+            ],
             "description": "Wadah buah berbahan keramik dengan hiasan indah di bagian luarnya, memberikan tampilan elegan pada meja makan atau dapur. Tahan lama dan mudah dibersihkan, cocok untuk penggunaan sehari-hari atau pajangan."
         }
     },
@@ -930,8 +1145,11 @@
             "category": 7,
             "min_price": 100000,
             "max_price": 300000,
-            "store": [6, 5],
-            "description": "Pot bunga dari bahan keramik yang tahan lama dengan desain dekoratif. Ideal untuk menanam tanaman hias dalam ruangan atau luar ruangan. Hiasan dan motifnya memberikan keindahan dan keanggunan pada tanaman yang ditanam."
+            "store": [
+                6,
+                5
+            ],
+            "description": "Pot bunga dari bahan keramik yang tahan lama dengan desain dekoratif. Ideal untuk menanam tanamen hias dalam ruangan atau luar ruangan. Hiasan dan motifnya memberikan keindahan dan keanggunan pada tanamen yang ditanam."
         }
     },
     {
@@ -941,7 +1159,10 @@
             "category": 3,
             "min_price": 1800000,
             "max_price": 4200000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Patung singa hutan yang menggambarkan kekuatan dan keagungan. Cocok untuk dekorasi rumah atau taman, memberikan nuansa alami dan berwibawa. Ukirannya yang mendetail menambah kesan realistis."
         }
     },
@@ -952,7 +1173,10 @@
             "category": 3,
             "min_price": 2000000,
             "max_price": 5000000,
-            "store": [4, 2],
+            "store": [
+                4,
+                2
+            ],
             "description": "Patung burung Garuda yang terbuat dari kayu, melambangkan kebebasan dan kekuatan. Cocok sebagai hiasan dinding atau meja, memberikan sentuhan patriotisme. Ukiran halus dan detilnya menambah nilai seni."
         }
     },
@@ -963,7 +1187,10 @@
             "category": 3,
             "min_price": 1500000,
             "max_price": 3500000,
-            "store": [5, 1],
+            "store": [
+                5,
+                1
+            ],
             "description": "Patung harimau dalam posisi duduk yang menunjukkan kekuatan dan ketenangan. Ideal untuk diletakkan di ruang tamu atau kantor sebagai simbol kekuasaan. Ukirannya yang realistik membuatnya tampak hidup."
         }
     },
@@ -974,7 +1201,10 @@
             "category": 3,
             "min_price": 2000000,
             "max_price": 4500000,
-            "store": [4, 5],
+            "store": [
+                4,
+                5
+            ],
             "description": "Patung Buddha yang diukir dari kayu jati, simbol ketenangan dan pencerahan. Cocok untuk dekorasi ruangan meditasi atau tempat ibadah. Detil ukiran memberikan nuansa spiritual dan kedamaian."
         }
     },
@@ -985,7 +1215,10 @@
             "category": 3,
             "min_price": 1500000,
             "max_price": 3000000,
-            "store": [2, 4],
+            "store": [
+                2,
+                4
+            ],
             "description": "Patung kuda yang terbuat dari kayu, memberikan kesan elegan dan kuat. Cocok sebagai dekorasi di ruang tamu atau meja kerja. Ukiran kayu yang halus membuat patung ini menjadi karya seni yang berharga."
         }
     },
@@ -996,7 +1229,10 @@
             "category": 3,
             "min_price": 3000000,
             "max_price": 6000000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Patung gajah berukuran besar, simbol kebijaksanaan dan kekuatan. Cocok untuk diletakkan di taman atau ruang keluarga sebagai dekorasi utama. Ukirannya yang detil memberikan kesan megah."
         }
     },
@@ -1007,7 +1243,10 @@
             "category": 3,
             "min_price": 1200000,
             "max_price": 3000000,
-            "store": [1, 5],
+            "store": [
+                1,
+                5
+            ],
             "description": "Patung burung perkutut yang dikenal sebagai simbol ketenangan dan kedamaian. Ideal untuk diletakkan di dalam rumah sebagai hiasan atau simbol keberuntungan. Desainnya yang sederhana namun artistik menambah keindahan ruangan."
         }
     },
@@ -1018,7 +1257,10 @@
             "category": 3,
             "min_price": 2000000,
             "max_price": 5000000,
-            "store": [2, 5],
+            "store": [
+                2,
+                5
+            ],
             "description": "Patung singa yang diukir dari batu, melambangkan perlindungan dan keberanian. Cocok untuk diletakkan di depan rumah atau di taman. Kesan kokoh dan agung dari patung ini memberikan perlindungan simbolis."
         }
     },
@@ -1029,7 +1271,10 @@
             "category": 1,
             "min_price": 600000,
             "max_price": 1200000,
-            "store": [4, 2],
+            "store": [
+                4,
+                2
+            ],
             "description": "Ukiran relief dengan motif bunga yang halus, cocok untuk dipasang sebagai dekorasi dinding. Terbuat dari kayu atau batu, memberikan sentuhan alami pada ruangan. Desainnya yang artistik menambah nilai estetika."
         }
     },
@@ -1040,7 +1285,10 @@
             "category": 1,
             "min_price": 2500000,
             "max_price": 5500000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Kursi yang terbuat dari kayu jati dengan ukiran tradisional yang rumit. Cocok untuk digunakan di ruang tamu atau ruang makan, memberikan kesan mewah dan tradisional. Kekuatan kayu jati menjamin keawetan dan kenyamanan."
         }
     },
@@ -1051,7 +1299,10 @@
             "category": 1,
             "min_price": 800000,
             "max_price": 1800000,
-            "store": [2, 5],
+            "store": [
+                2,
+                5
+            ],
             "description": "Ukiran naga yang diukir dari kayu, melambangkan kekuatan dan keberanian. Cocok untuk hiasan dinding atau meja, memberikan nuansa mitologis yang kuat. Detail ukirannya menunjukkan keahlian pengrajin."
         }
     },
@@ -1062,7 +1313,10 @@
             "category": 1,
             "min_price": 1000000,
             "max_price": 2500000,
-            "store": [4, 2],
+            "store": [
+                4,
+                2
+            ],
             "description": "Ukiran kayu berbentuk kuda yang elegan, simbol kecepatan dan kebebasan. Cocok untuk diletakkan di ruang tamu atau kantor. Detail ukiran yang halus menambah kesan dinamis dan estetis."
         }
     },
@@ -1073,7 +1327,10 @@
             "category": 1,
             "min_price": 1500000,
             "max_price": 3000000,
-            "store": [4, 5],
+            "store": [
+                4,
+                5
+            ],
             "description": "Ukiran kayu berbentuk gajah, melambangkan kebijaksanaan dan kekuatan. Cocok sebagai pajangan di ruang tamu atau taman. Ukirannya yang detil dan artistik memberikan kesan elegan."
         }
     },
@@ -1084,7 +1341,10 @@
             "category": 1,
             "min_price": 800000,
             "max_price": 2000000,
-            "store": [1, 4],
+            "store": [
+                1,
+                4
+            ],
             "description": "Hiasan dinding yang diukir dari kayu atau batu dengan motif tradisional, memberikan nuansa budaya pada ruangan. Cocok untuk menghiasi ruang tamu atau kamar tidur. Setiap detail ukiran memiliki makna simbolis yang mendalam."
         }
     },
@@ -1095,7 +1355,10 @@
             "category": 1,
             "min_price": 1000000,
             "max_price": 2500000,
-            "store": [4, 5],
+            "store": [
+                4,
+                5
+            ],
             "description": "Cermin dengan bingkai kayu yang diukir dengan motif tradisional, memberikan kesan klasik pada dekorasi ruangan. Cocok untuk kamar tidur atau ruang tamu. Ukiran kayunya menambah keindahan pada setiap sudut cermin."
         }
     },
@@ -1106,7 +1369,10 @@
             "category": 1,
             "min_price": 200000,
             "max_price": 500000,
-            "store": [2, 4],
+            "store": [
+                2,
+                4
+            ],
             "description": "Talenan kayu dengan ukiran unik, tidak hanya fungsional namun juga artistik. Cocok untuk digunakan di dapur atau sebagai pajangan. Desainnya yang indah membuatnya juga dapat dijadikan hadiah."
         }
     },
@@ -1117,7 +1383,10 @@
             "category": 1,
             "min_price": 700000,
             "max_price": 1500000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Rak dinding dari kayu yang diukir dengan motif tradisional, memberikan keindahan dan fungsi. Cocok untuk menyimpan pajangan atau buku. Ukirannya menambah nuansa budaya dalam interior rumah."
         }
     },
@@ -1128,7 +1397,10 @@
             "category": 1,
             "min_price": 800000,
             "max_price": 2000000,
-            "store": [4, 2],
+            "store": [
+                4,
+                2
+            ],
             "description": "Ukiran kayu dengan motif bunga yang halus dan artistik, cocok sebagai hiasan dinding atau meja. Menambah keindahan alami pada dekorasi rumah. Setiap detailnya mencerminkan keahlian pengrajin."
         }
     },
@@ -1139,7 +1411,10 @@
             "category": 1,
             "min_price": 300000,
             "max_price": 700000,
-            "store": [2, 4],
+            "store": [
+                2,
+                4
+            ],
             "description": "Tempat tisu yang diukir dari kayu dengan motif klasik, menambah sentuhan tradisional pada meja makan atau ruang tamu. Fungsional dan dekoratif, cocok untuk memperindah ruang."
         }
     },
@@ -1150,7 +1425,10 @@
             "category": 1,
             "min_price": 150000,
             "max_price": 350000,
-            "store": [4, 5],
+            "store": [
+                4,
+                5
+            ],
             "description": "Tatakan piring dari kayu yang diukir dengan motif etnik, memberikan kesan elegan pada meja makan. Tahan lama dan ramah lingkungan, cocok untuk penggunaan sehari-hari atau acara khusus."
         }
     },
@@ -1161,7 +1439,10 @@
             "category": 1,
             "min_price": 1500000,
             "max_price": 3500000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Kursi dari kayu dengan hiasan motif batik pada sandaran dan dudukannya, menggabungkan seni tradisional dengan fungsionalitas. Cocok untuk ruang tamu atau ruang makan. Desainnya yang unik menambah nilai seni pada furnitur."
         }
     },
@@ -1172,7 +1453,10 @@
             "category": 1,
             "min_price": 650000,
             "max_price": 1000000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Lampu hias yang terbuat dari kayu jati dengan ukiran rumit, memberikan pencahayaan yang hangat dan dekoratif. Cocok untuk ruang tamu atau kamar tidur sebagai elemen hiasan. Desainnya yang elegan dan artistik menambah nuansa tradisional dan mewah pada interior rumah."
         }
     },
@@ -1183,7 +1467,10 @@
             "category": 7,
             "min_price": 350000,
             "max_price": 900000,
-            "store": [5, 1],
+            "store": [
+                5,
+                1
+            ],
             "description": "Lampu meja berbahan keramik dengan motif ukiran khas yang artistik, memberikan pencahayaan yang lembut dan nyaman. Cocok untuk diletakkan di ruang kerja atau kamar tidur sebagai elemen dekoratif dan fungsional."
         }
     },
@@ -1194,7 +1481,10 @@
             "category": 3,
             "min_price": 1500000,
             "max_price": 3500000,
-            "store": [5, 1],
+            "store": [
+                5,
+                1
+            ],
             "description": "Patung Ganesha yang dipahat dari batu andesit, melambangkan kebijaksanaan dan keberuntungan. Cocok sebagai pajangan di ruang meditasi atau ruang tamu. Detil ukirannya yang halus memberikan kesan spiritual yang kuat."
         }
     },
@@ -1205,7 +1495,10 @@
             "category": 3,
             "min_price": 1800000,
             "max_price": 4000000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Patung naga yang terbuat dari pahatan batu, simbol kekuatan dan keberanian. Cocok sebagai dekorasi di ruang tamu atau kantor. Ukiran yang detail memberikan nuansa mitologi Asia yang kuat."
         }
     },
@@ -1216,7 +1509,10 @@
             "category": 3,
             "min_price": 1200000,
             "max_price": 3000000,
-            "store": [5, 4],
+            "store": [
+                5,
+                4
+            ],
             "description": "Patung Dewi Sri, dewi kesuburan dalam tradisi Jawa, sering digunakan sebagai simbol kemakmuran. Cocok ditempatkan di rumah sebagai simbol keberuntungan dan kesejahteraan. Ukiran detilnya menambah estetika ruangan."
         }
     },
@@ -1227,8 +1523,11 @@
             "category": 3,
             "min_price": 2000000,
             "max_price": 4500000,
-            "store": [1, 4],
+            "store": [
+                1,
+                4
+            ],
             "description": "Patung Kuda Lari, simbol kebebasan dan kekuatan. Cocok sebagai dekorasi di rumah atau kantor. Detail ukiran yang halus memberikan nuansa artistik yang mendalam."
         }
     }
-]   
+]
