@@ -1,129 +1,197 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_http_methods
 from .forms import TokoForm, ProductForm
 from storepage.models import Toko
-from productpage.models import Product
-from django.views.decorators.http import require_http_methods
-import uuid
+from productpage.models import Product, Category
 
-@login_required
+@staff_member_required
 def adminDashboard(request):
-    # Pass initial data to template if needed (for non-AJAX loading)
     stores = Toko.objects.all()
     products = Product.objects.all()
-    return render(request, 'adminDashboard.html', {'stores': stores, 'products': products})
+    categories = Category.objects.all()
+    context = {
+        'stores': stores,
+        'products': products,
+        'categories': categories,
+        'store_form': TokoForm(),
+        'product_form': ProductForm()
+    }
+    return render(request, 'adminDashboard.html', context)
+
+@login_required
+@require_http_methods(["GET"])
+def product_list(request):
+    products = Product.objects.all()
+    products_data = [{
+        'id': str(product.id),
+        'name': product.name,
+        'description': product.description,
+        'min_price': str(product.min_price),
+        'max_price': str(product.max_price),
+        'category': product.category.name,  # Updated to match the model
+        'stores': [store.nama for store in product.store.all()],
+        'image_url': product.image.url if product.image else None
+    } for product in products]
+    return JsonResponse({'success': True, 'products': products_data})
+
+@login_required
+@require_http_methods(["POST"])
+def add_product(request):
+    form = ProductForm(request.POST, request.FILES)
+    if form.is_valid():
+        product = form.save()
+        return JsonResponse({
+            'success': True,
+            'product': {
+                'id': str(product.id),
+                'name': product.name,
+                'min_price': str(product.min_price),
+                'max_price': str(product.max_price),
+                'category': product.category.name,  # Updated to match the model
+                'stores': [store.nama for store in product.store.all()],
+                'image_url': product.image.url if product.image else None
+            }
+        })
+    return JsonResponse({'success': False, 'errors': form.errors})
 
 @login_required
 @require_http_methods(["GET", "POST"])
-def add_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            product = form.save()
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': True,
-                    'product': {
-                        'id': str(product.id),
-                        'name': product.name,
-                        'description': product.description,
-                        'min_price': product.min_price,
-                        'max_price': product.max_price,
-                        'categories': [cat.name for cat in product.category.all()],
-                        'stores': [store.nama for store in product.store.all()]
-                    }
-                })
-            return redirect('adminDashboard')
-        else:
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return JsonResponse({'success': False, 'errors': form.errors})
-            return render(request, 'adminDashboard/add_product.html', {'form': form})
-    else:
-        form = ProductForm()
-    return render(request, 'adminDashboard/add_product.html', {'form': form})
-
-@login_required
 def edit_product(request, product_id):
-    # Convert string UUID to UUID object
-    product_uuid = uuid.UUID(product_id)
-    product = get_object_or_404(Product, id=product_uuid)
+    product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
-            return redirect('adminDashboard')
-    else:
-        form = ProductForm(instance=product)
-    return render(request, 'adminDashboard/edit_product.html', {'form': form})
+            product = form.save()
+            return JsonResponse({
+                'success': True,
+                'product': {
+                    'id': str(product.id),
+                    'name': product.name,
+                    'min_price': str(product.min_price),
+                    'max_price': str(product.max_price),
+                    'category': product.category.name,  # Updated to match the model
+                    'stores': [store.nama for store in product.store.all()],
+                    'image_url': product.image.url if product.image else None
+                }
+            })
+        return JsonResponse({'success': False, 'errors': form.errors})
+    
+    # GET request - return product data for form population
+    return JsonResponse({
+        'success': True,
+        'product': {
+            'id': str(product.id),
+            'name': product.name,
+            'min_price': str(product.min_price),
+            'max_price': str(product.max_price),
+            'description': product.description,
+            'category': product.category.id,  # Updated to match the model
+            'stores': [store.id for store in product.store.all()],
+            'image_url': product.image.url if product.image else None
+        }
+    })
 
 @login_required
+@require_http_methods(["POST"])
 def delete_product(request, product_id):
-    # Convert string UUID to UUID object
-    product_uuid = uuid.UUID(product_id)
-    product = get_object_or_404(Product, id=product_uuid)
-    if request.method == 'POST':
-        product.delete()
-        return redirect('adminDashboard')
-    return render(request, 'adminDashboard/delete_product.html', {'product': product})
+    product = get_object_or_404(Product, id=product_id)
+    product.delete()
+    return JsonResponse({'success': True})
 
 @login_required
+@require_http_methods(["GET"])
+def store_list(request):
+    stores = Toko.objects.all()
+    stores_data = [{
+        'id': store.id,
+        'nama': store.nama,
+        'hari_buka': store.hari_buka,
+        'alamat': store.alamat,
+        'email': store.email,
+        'telepon': store.telepon,
+        'gmaps_link': store.gmaps_link,
+        'image_url': store.image.url if store.image else None
+    } for store in stores]
+    return JsonResponse({'success': True, 'stores': stores_data})
+
+@login_required
+@require_http_methods(["POST"])
 def add_store(request):
-    if request.method == 'POST':
-        form = TokoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('adminDashboard')  # Redirect to dashboard after adding store
-    else:
-        form = TokoForm()
-    return render(request, 'adminDashboard/add_store.html', {'form': form})
+    form = TokoForm(request.POST, request.FILES)
+    if form.is_valid():
+        store = form.save()
+        return JsonResponse({
+            'success': True,
+            'store': {
+                'id': store.id,
+                'nama': store.nama,
+                'hari_buka': store.hari_buka,
+                'alamat': store.alamat,
+                'email': store.email,
+                'telepon': store.telepon,
+                'gmaps_link': store.gmaps_link,
+                'image_url': store.image.url if store.image else None
+            }
+        })
+    return JsonResponse({'success': False, 'errors': form.errors})
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def edit_store(request, store_id):
     store = get_object_or_404(Toko, id=store_id)
     if request.method == 'POST':
-        form = TokoForm(request.POST, instance=store)
+        form = TokoForm(request.POST, request.FILES, instance=store)
         if form.is_valid():
-            form.save()
-            return redirect('adminDashboard')  # Redirect to dashboard after editing store
-    else:
-        form = TokoForm(instance=store)
-    return render(request, 'adminDashboard/edit_store.html', {'form': form})
+            store = form.save()
+            return JsonResponse({
+                'success': True,
+                'store': {
+                    'id': store.id,
+                    'nama': store.nama,
+                    'hari_buka': store.hari_buka,
+                    'alamat': store.alamat,
+                    'email': store.email,
+                    'telepon': store.telepon,
+                    'gmaps_link': store.gmaps_link,
+                    'image_url': store.image.url if store.image else None
+                }
+            })
+        return JsonResponse({'success': False, 'errors': form.errors})
+    
+    # GET request - return store data for form population
+    return JsonResponse({
+        'success': True,
+        'store': {
+            'id': store.id,
+            'nama': store.nama,
+            'hari_buka': store.hari_buka,
+            'alamat': store.alamat,
+            'email': store.email,
+            'telepon': store.telepon,
+            'gmaps_link': store.gmaps_link,
+            'image_url': store.image.url if store.image else None
+        }
+    })
 
 @login_required
+@require_http_methods(["POST"])
 def delete_store(request, store_id):
     store = get_object_or_404(Toko, id=store_id)
-    if request.method == 'POST':
-        store.delete()
-        return redirect('adminDashboard')  # Redirect to dashboard after deleting store
-    return render(request, 'adminDashboard/delete_store.html', {'store': store})
+    store.delete()
+    return JsonResponse({'success': True})
 
-# AJAX View to return list of stores
+# Summary endpoint to get counts for dashboard
 @login_required
-def product_list(request):
-    if request.method == 'GET':
-        products = Product.objects.all()
-        product_data = [{
-            'id': product.id,
-            'name': product.name,
-            'description': product.description,
-            'price': product.price,
-            'categories': [category.name for category in product.category.all()],
-            'stores': [store.name for store in product.stores.all()]
-        } for product in products]
-        return JsonResponse({'products': product_data})
-
-@login_required
-def store_list(request):
-    if request.method == 'GET':
-        stores = Toko.objects.all()
-        store_data = [{
-            'id': store.id,
-            'name': store.name,
-            'open_days': store.openDays,
-            'address': store.address,
-            'email': store.email,
-            'phone': store.phone,
-            'products': [product.name for product in store.product.all()]
-        } for store in stores]
-        return JsonResponse({'stores': store_data})
+@require_http_methods(["GET"])
+def get_dashboard_stats(request):
+    return JsonResponse({
+        'success': True,
+        'stats': {
+            'products_count': Product.objects.count(),
+            'stores_count': Toko.objects.count(),
+            'categories_count': Category.objects.count()
+        }
+    })

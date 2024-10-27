@@ -39,6 +39,9 @@
                 <li><a href="{% url 'forumandreviewpage:show_forum' %}" class="text-gray-700 hover:text-blue-500">Forum & Review</a></li>
                 <li><a href="{% url 'productpage:favorite_page' %}" class="text--700 hover:text-blue-500">Favorites</a></li>
                 <li><a href="{% url 'authentication:logout' %}" class="text-gray-700 hover:text-blue-500">Logout</a></li>
+                {% if user.is_staff %}
+                    <li><a href="{% url 'adminDashboard' %}" class="text-gray-700 hover:text-blue-500">Admin Dashboard</a></li>
+                {% endif %}
             {% else %}
                 <!-- Links for guests -->
                 <li><a href="{% url 'authentication:login' %}" class="text-gray-700 hover:text-blue-500">Login</a></li>
@@ -71,6 +74,9 @@
                 <li><a href="{% url 'productpage:favorite_page' %}">Favorites</a></li>
                 <li><a href="{% url 'forumandreviewpage:show_forum' %}">Forum & Review</a></li>
                 <li><a href="{% url 'authentication:logout' %}">Logout</a></li>
+                {% if user.is_staff %}
+                    <li><a href="{% url 'adminDashboard' %}">Admin Dashboard</a></li>
+                {% endif %}
             {% else %}
                 <!-- Links for guests -->
                 <li><a href="{% url 'authentication:login' %}">Login</a></li>
