@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "belva-ghani-lokakarya.pbp.cs.ui.ac.i
 # Application definition
 
 INSTALLED_APPS = [
+    'adminDashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
