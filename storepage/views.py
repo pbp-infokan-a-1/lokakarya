@@ -21,7 +21,6 @@ def storedetail(request, store_id):
         'user': request.user,
         'is_authenticated': request.user.is_authenticated,
     }
-
     return render(request, 'storedetail.html', context)
 
 def store_api_create(request):
