@@ -68,7 +68,16 @@ async function showEditStoreForm(storeId) {
         });
         
         // Handle image preview
-
+        const preview = document.getElementById('imagePreview');
+        if (data.image_url) {
+            preview.src = data.image_url;
+            preview.style.display = 'block';
+        } else {
+            // Set the image preview to a default image or hide it
+            preview.src = ''; // Atur ke string kosong jika tidak ada gambar
+            preview.style.display = 'none'; // Sembunyikan jika tidak ada gambar
+        }
+        
         document.getElementById('storeModal').classList.remove('hidden');
         
     } catch (error) {
