@@ -1,49 +1,83 @@
-// Open and close modal functions
-function openReviewModal(productId) {
-    document.querySelector('.review-section').dataset.productId = productId;
-    document.getElementById('reviewModal').classList.remove('hidden');
+function openReviewModal(productId, reviewId = null, existingReviewText = '', existingReviewRating = 0) {
+  document.querySelector('.review-section').dataset.productId = productId;
+
+  // If editing, populate the modal with existing review data
+  if (reviewId) {
+      document.getElementById('review-text').value = existingReviewText;
+      const ratingValue = document.querySelector('.rating input');
+      ratingValue.value = existingReviewRating;
+
+      // Set the stars based on the existing rating
+      const allStar = document.querySelectorAll('.rating .star');
+      allStar.forEach((item, idx) => {
+          if (idx < existingReviewRating) {
+              item.classList.replace('bx-star', 'bxs-star');
+              item.classList.add('active');
+          } else {
+              item.classList.replace('bxs-star', 'bx-star');
+              item.classList.remove('active');
+          }
+      });
+
+      // Store the reviewId for later use
+      document.querySelector('.review-section').dataset.reviewId = reviewId;
+  } else {
+      // Reset the modal if adding a new review
+      document.getElementById('review-text').value = '';
+      document.querySelector('.rating input').value = '';
+      allStar.forEach(item => {
+          item.classList.replace('bxs-star', 'bx-star');
+          item.classList.remove('active');
+      });
+  }
+
+  document.getElementById('reviewModal').classList.remove('hidden');
 }
 
 function closeReviewModal() {
-    document.getElementById('reviewModal').classList.add('hidden');
+  document.getElementById('reviewModal').classList.add('hidden');
 }
 
 // Submit review via AJAX
 async function submitReview() {
-    const productId = document.querySelector('.review-section').dataset.productId;
-    const reviewText = document.getElementById('review-text').value;
-    const reviewRating = document.querySelector('.rating input').value;
+  const productId = document.querySelector('.review-section').dataset.productId;
+  const reviewId = document.querySelector('.review-section').dataset.reviewId || null;
+  const reviewText = document.getElementById('review-text').value;
+  const reviewRating = document.querySelector('.rating input').value;
 
-    if (!reviewRating) {
-        alert('Please provide a rating.');
-        return;
-    }
+  if (!reviewRating) {
+      alert('Please provide a rating.');
+      return;
+  }
 
-    try {
-        const response = await fetch(`/api/products/${productId}/rate/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-            body: JSON.stringify({
-                review: reviewText,
-                rating: reviewRating
-            }),
-        });
+  const url = reviewId ? `/api/reviews/edit/${reviewId}/` : `/api/products/${productId}/rate/`;
+  const method = reviewId ? 'POST' : 'POST';
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+  try {
+      const response = await fetch(url, {
+          method: method,
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken'),
+          },
+          body: JSON.stringify({
+              review: reviewText,
+              rating: reviewRating
+          }),
+      });
 
-        const data = await response.json();
-        alert(data.message);
-        closeReviewModal();
-        window.location.reload();
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Something went wrong');
-    }
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      alert(data.message);
+      closeReviewModal();
+      window.location.reload();
+  } catch (error) {
+      console.error('Error:', error);
+      alert('Something went wrong');
+  }
 }
 
 // Star rating interaction
@@ -51,41 +85,42 @@ const allStar = document.querySelectorAll('.rating .star');
 const ratingValue = document.querySelector('.rating input');
 
 allStar.forEach((item, idx) => {
-    item.addEventListener('click', function () {
-        let click = 0;
-        ratingValue.value = idx + 1;
+  item.addEventListener('click', function () {
+      let click = 0;
+      ratingValue.value = idx + 1;
 
-        allStar.forEach(i => {
-            i.classList.replace('bxs-star', 'bx-star');
-            i.classList.remove('active');
-        });
-        for (let i = 0; i < allStar.length; i++) {
-            if (i <= idx) {
-                allStar[i].classList.replace('bx-star', 'bxs-star');
-                allStar[i].classList.add('active');
-            } else {
-                allStar[i].style.setProperty('--i', click);
-                click++;
-            }
-        }
-    });
+      allStar.forEach(i => {
+          i.classList.replace('bxs-star', 'bx-star');
+          i.classList.remove('active');
+      });
+      for (let i = 0; i < allStar.length; i++) {
+          if (i <= idx) {
+              allStar[i].classList.replace('bx-star', 'bxs-star');
+              allStar[i].classList.add('active');
+          } else {
+              allStar[i].style.setProperty('--i', click);
+              click++;
+          }
+      }
+  });
 });
 
 // CSRF Token Helper
 function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-};
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
 
 var swiper = new Swiper('.swiper-container', {
     slidesPerView: 5,  // Adjust the number of slides visible at once

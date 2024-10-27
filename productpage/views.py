@@ -66,19 +66,17 @@ def product_detail(request, product_id=None, product_name=None):
         return render(request, '404.html', status=404)
     
     # Prepare a list to store matching stores
-    reviews = Rating.objects.filter(product=product).order_by('-created_at')
     matching_stores = list(product.store.all())
 
     # Fetch products in the same category, excluding the current product
     same_category_products = Product.objects.filter(
         category=product.category
-    ).exclude(id=product_id)[:10]
+    ).exclude(id=product_id)[:5]
 
     is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
 
     context = {
         'product': product,
-        'ratings': reviews,
         'same_category_products': same_category_products,
         'matching_stores': matching_stores,
         'is_favorited': is_favorited,
@@ -112,6 +110,27 @@ def add_review_ajax(request, product_id):
             return JsonResponse({"error": "Invalid data"}, status=400)
 
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+def product_reviews(request, product_id):
+    page = request.GET.get('page', 1)
+    reviews = Rating.objects.filter(product_id=product_id).order_by('-created_at')
+    paginator = Paginator(reviews, 5)  # Show 5 reviews per page
+
+    reviews_list = []
+    for review in paginator.get_page(page):
+        reviews_list.append({
+            'username': review.user.username,
+            'profile_pic': review.user.profile_pic.url if review.user.profile_pic else '/default/path/to/avatar.jpg',
+            'created_at': review.created_at.strftime('%Y-%m-%d %H:%M'),
+            'rating': review.rating,
+            'comment': review.comment,
+        })
+
+    data = {
+        'reviews': reviews_list,
+        'has_next': paginator.get_page(page).has_next(),
+    }
+    return JsonResponse(data)
 
 @csrf_exempt
 @login_required
