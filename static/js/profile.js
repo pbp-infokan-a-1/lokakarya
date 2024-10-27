@@ -48,6 +48,7 @@ async function refreshProfile() {
         
         // Set the birth date with the formatted date
         document.getElementById("birth_date").innerHTML = `<i class="fas fa-birthday-cake ml-5"></i> ${birthDateFormatted}`;
+        document.getElementById("private").checked = profile.private;
     } else {
         console.error('Profile data is unavailable');
     }

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseForbidden
 from userprofile.models import Profile, Status
 from .forms import ProfileForm, StatusForm
 from django.core import serializers
@@ -21,12 +21,13 @@ def profile(request, username):
         user_profile = Profile.objects.create(user=user)
 
     last_login_cookie = request.COOKIES.get('last_login', None)
-
+    
     context = {
         'profile': user_profile,
         'last_login': last_login_cookie,
         'is_owner': request.user == user  # Check if the logged-in user owns this profile
     }
+    
     return render(request, 'profile.html', context)
 
 @csrf_exempt
@@ -49,7 +50,8 @@ def update_profile_ajax(request, username):
             "username": user.username,
             "bio": profile.bio,
             "location": profile.location,
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None
+            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
+            "private": profile.private,
         }
         return JsonResponse(profile_data, status=200)
     

@@ -23,7 +23,6 @@ def get_store(request, store_id):
         "email": store.email,
         "telepon": store.telepon,
         "gmaps_link": store.gmaps_link,
-        "page_link": store.page_link,
     }
     return JsonResponse(data)
 
@@ -40,7 +39,6 @@ def create_store(request):
             email=data['email'],
             telepon=data['telepon'],
             gmaps_link=data.get('gmaps_link', ''),
-            page_link=data.get('page_link', '')
         )
         return JsonResponse({'status': 'success', 'id': new_store.id})
     except Exception as e:
@@ -59,7 +57,6 @@ def update_store(request, store_id):
         store.email = data['email']
         store.telepon = data['telepon']
         store.gmaps_link = data.get('gmaps_link', '')
-        store.page_link = data.get('page_link', '')
         store.save()
         return JsonResponse({'status': 'success'})
     except Toko.DoesNotExist:

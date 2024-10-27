@@ -53,8 +53,9 @@
         <a href="#" class="tab-item px-4 py-2 text-black bg-brown-dark text-xl" onclick="showStatus()">Status</a>
         <a href="#" class="tab-item px-4 py-2 text-black bg-brown-dark text-xl" onclick="showActivity()">Activity</a>
     </div>
-
+    
     <div class="tab-content">
+        {% if is_owner or not profile.private %}
         <!-- Status Content -->
         <div id="status-section" class="tab-section">
             <div class="status-card bg-white shadow-lg rounded-lg p-4">
@@ -104,15 +105,23 @@
                     </div>
                 </div>
             </div>
+            
         </div>
-
+        {% else %}
+            <div class="flex flex-col items-center justify-center text-center">
+                <p style="font-family: 'tommy-soft-medium', sans-serif;">This user's profile is private.</p>
+                <img src="{% static 'images/private.png' %}" alt="No Status" class="w-1/4 md:w-1/6 lg:w-1/8 mt-4">
+            </div>
+        {% endif %}
         <!-- Activity Content (hidden by default) -->
+        {% if is_owner or not profile.private %}
         <div id="activity-section" class="tab-section hidden">
             <div class="activity-content">
                 <h3 class="font-bold text-lg">Activity</h3>
                 <p>BUAT ACTIVITY</p>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 
@@ -480,7 +489,7 @@
         refreshStatusForm();
         statusForm.reset();
         } else {
-        alert('Failed to add product');
+        alert('Failed to add status');
         }
     });
 </script>

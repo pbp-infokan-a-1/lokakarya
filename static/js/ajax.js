@@ -11,9 +11,9 @@ function showAddStoreForm() {
 function showEditStoreForm(storeId) {
     currentStoreId = storeId;
     document.getElementById('modalTitle').textContent = 'Edit Store';
-    
+
     // Fetch store data and populate form
-    fetch(`/api/store/${storeId}/`)
+    fetch(STORE_API.get(storeId))
         .then(response => response.json())
         .then(data => {
             const form = document.getElementById('storeForm');
@@ -24,35 +24,38 @@ function showEditStoreForm(storeId) {
             form.telepon.value = data.telepon;
             form.gmaps_link.value = data.gmaps_link || '';
         });
-    
+
     document.getElementById('storeModal').classList.remove('hidden');
 }
 
 function closeModal() {
     document.getElementById('storeModal').classList.add('hidden');
+    document.getElementById('storeForm').reset();
 }
 
 document.getElementById('storeForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    
-    const url = currentStoreId 
-        ? `/store/update/${currentStoreId}/`
-        : '/store/create/';
-        
+
+    // Determine whether to create or update
+    const url = currentStoreId ? STORE_API.update(currentStoreId) : STORE_API.create;
+    const method = currentStoreId ? 'PUT' : 'POST';
+
     try {
         const response = await fetch(url, {
-            method: 'POST',
+            method: method,
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify(data)
         });
-        
+
         if (response.ok) {
+            closeModal();
+            // Optionally refresh or dynamically reload store list
             window.location.reload();
         } else {
             alert('An error occurred');
@@ -65,15 +68,15 @@ document.getElementById('storeForm').addEventListener('submit', async (e) => {
 
 async function deleteStore(storeId) {
     if (!confirm('Are you sure you want to delete this store?')) return;
-    
+
     try {
-        const response = await fetch(`/store/delete/${storeId}/`, {
-            method: 'POST',
+        const response = await fetch(STORE_API.delete(storeId), {
+            method: 'DELETE',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken')
             }
         });
-        
+
         if (response.ok) {
             document.getElementById(`store-${storeId}`).remove();
         } else {
@@ -85,7 +88,7 @@ async function deleteStore(storeId) {
     }
 }
 
-// Tambahkan ini di file JavaScript
+// Helper function to get the CSRF token
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -100,47 +103,3 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
-// Gunakan saat membuat request
-const csrftoken = getCookie('csrftoken');
-fetch(url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrftoken
-    },
-    body: JSON.stringify(data)
-});
-
-document.getElementById('storeForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    
-    const url = currentStoreId 
-        ? `/store/update/${currentStoreId}/`
-        : '/store/create/';
-        
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-            window.location.reload();
-        } else {
-            alert('An error occurred');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred');
-    }
-});
-
-console.log("ajax.js loaded successfully");
