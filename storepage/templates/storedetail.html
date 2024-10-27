@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}{{ store.nama }}{% endblock %}
 {% block content %}
 
@@ -42,26 +41,35 @@
                 <p>{{ store.telepon }}</p>
             </div>
         </div>
-        
         <a href="{{ store.gmaps_link }}" target="_blank" class="gmaps-button">
             Buka di Google Maps
         </a>
-
     </div>
+    
     <div class="products-section">
         <h1 class="products-title">Products</h1>
         <div class="products-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="product-image">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <img src="{% static 'images/default-image.png' %}" alt="Default Product Image">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="product-price">Price: Rp {{ product.min_price }} - Rp {{ product.max_price }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No products available for this store.</p>
+            {% endfor %}
         </div>
     </div>
+    
 </div>
-
-{% if user.is_superuser %}
-<div class="fixed bottom-8 right-8">
-    <button onclick="showAddProductForm()" 
-            class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg hover:bg-orange-600 transition-colors">
-        +
-    </button>
-</div>
-{% endif %}
-
 {% endblock %}
