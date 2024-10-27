@@ -69,6 +69,11 @@ def upvote_post(request, post_id):
         post = get_object_or_404(PostForum, id=post_id)
         # Tambahkan user ke relasi upvotes
         post.upvotes.add(request.user)
+        Activity.objects.create(
+                user=request.user,
+                action="just upvote on a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': post.id})
+            )
         # Update total upvotes
         post.total_upvotes = post.calculate_total_upvotes()
         post.save()
@@ -91,6 +96,11 @@ def edit_post(request, post_id):
         form = ForumandReviewForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
+            Activity.objects.create(
+                user=request.user,
+                action="just edit on a forum",
+                related_url=reverse('forumandreviewpage:detail_post', kwargs={'post_id': post.id})
+            )
             return redirect('forumandreviewpage:detail_post', post_id=post.id)
     else:
         form = ForumandReviewForm(instance=post)

@@ -23,9 +23,9 @@ class Rating(models.Model):
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=None)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', default=None, null=True)
     image = models.ImageField(upload_to='media/', default='/avatars/defaults.jpeg') #default image
-    store = models.ManyToManyField(Toko, related_name='products')
+    store = models.ManyToManyField(Toko, related_name='products', default=None)
     min_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     max_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     description = models.TextField()
