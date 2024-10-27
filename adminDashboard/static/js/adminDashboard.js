@@ -217,8 +217,23 @@ function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
 }
 
+async function updateStats() {
+    const response = await fetch('/dashboard_stats/', {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
+    const data = await response.json();
+    if (data.success) {
+        document.getElementById('products-count').textContent = data.stats.products_count;
+        document.getElementById('stores-count').textContent = data.stats.stores_count;
+        document.getElementById('categories-count').textContent = data.stats.categories_count;
+    }
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
+    updateStats();
     // Product form submission
     document.querySelector('#productModal form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -319,3 +334,43 @@ function deleteStore(storeId) {
         .catch(error => console.error('Error:', error));
     }
 }
+
+// Function to fetch and append products
+async function loadMoreProducts(page) {
+    const response = await fetch(`/products/?page=${page}`, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
+    const data = await response.json();
+    if (data.success) {
+        const tbody = document.getElementById('productsTableBody');
+        tbody.innerHTML += data.products.map(product => `
+            <tr data-product-id="${product.id}">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    ${product.image_url ? `<img src="${product.image_url}" class="h-10 w-10 rounded-full">` : ''}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">${product.name}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${product.category}</td>
+                <td class="px-6 py-4 whitespace-nowrap">Rp${product.min_price} - Rp${product.max_price}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${product.stores.join(', ')}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <button onclick="editProduct('${product.id}')" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+                    <button onclick="deleteProduct('${product.id}')" class="ml-2 text-red-600 hover:text-red-900">Delete</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+}
+
+// Load more products on button click
+document.getElementById('loadMoreProducts').addEventListener('click', function() {
+    const currentPage = parseInt(this.dataset.page) || 1;
+    loadMoreProducts(currentPage + 1);
+    this.dataset.page = currentPage + 1;
+});
+
+// Initial load of products
+document.addEventListener('DOMContentLoaded', function() {
+    loadMoreProducts(1);
+});
