@@ -29,6 +29,29 @@
         {% endif %}
         </div>
 
+        <!-- Product Section -->
+        <div>
+            {% if stores %}
+            <h3 class="text-2xl font-bold mb-4 text-gray-900 border-b-2 border-blue-500 inline-block">Stores</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+            {% for store in stores %}
+                <div class="bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+                    <a href="{% url 'storepage:storedetail' store.id %}">
+                        <div class="p-4">
+                            <h4 class="text-lg font-semibold text-blue-600">{{ store.nama }}</h4>
+                            <p class="text-gray-700 mt-2">{{ store.alamat|truncatewords:10 }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="text-center text-gray-500">
+                    <p>No stores found.</p>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        </div>
+
         <!-- Profile Section -->
         <div>
         {% if profiles %}

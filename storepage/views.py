@@ -5,7 +5,6 @@ from .forms import StoreForm
 from django.views.decorators.http import require_http_methods
 import json
 
-
 # Menampilkan daftar toko
 def toko_list(request):
     toko_list = Toko.objects.all()
