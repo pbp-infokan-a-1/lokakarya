@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- reviews/templates/reviews/review_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ review.title }}</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>{{ review.title }}</h1>
+    <p>by {{ review.reviewer_name }} - {{ review.location }}</p>
+    <p>Rating: {{ review.rating }} / 5</p>
+    <div>{{ review.content }}</div>
+</div>
+
+</body>
+</html>
+
+{% endblock %}

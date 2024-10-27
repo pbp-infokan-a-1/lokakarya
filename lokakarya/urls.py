@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('productpage.urls')),
     path('', include('forumandreviewpage.urls')),
     path('', include('adminDashboard.urls')),
+    path('', include('reviewpage.urls')),
 ]
 
 # This will allow media files to be served in development mode

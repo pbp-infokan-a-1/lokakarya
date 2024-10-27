@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'header.html' %}
+{% load tz %}
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="min-h-full flex flex-col">
+<div class="max-w-7xl mx-auto p-6 mt-20 mb-10 w-full max-w-6xl">
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center space-x-4">
+            <a href="{% url 'landingpage:home' %}" class="text-gray-600 hover:text-gray-800">
+                <span class="material-icons">
+                    arrow_back
+                </span>
+            </a>
+        <h1 class="text-3xl font-bold">Product Review</h1>
+    </div>
+    <a href="{% url 'reviewpage:create_review' %}" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
+        Add a Review
+    </a>
+    </div>
+
+    <div class="flex">
+        <!-- Left column for reviews list -->
+        <div class="w-3/4 pr-6">
+            <!-- List of Reviews -->
+            {% if reviews %}
+                <ul class="space-y-6">
+                    {% for review in reviews %}
+                        <li class="bg-white p-4 rounded-lg shadow-md transition duration-200 ease-in-out hover:bg-gray-300 hover:shadow-lg">
+                            <div class="flex justify-between items-start">
+                                <div class="w-full">
+                                    <h2 class="text-2xl font-semibold mb-2">{{ review.title }}</h2>
+                                    <p class="text-gray-500 font-bold mb-2">{{ review.author }}</p>
+                                    <p class="text-sm text-gray-700 mb-2">{% timezone "Asia/Jakarta" %}{{ review.created_at|date:"F j, Y, g:i a" }}{% endtimezone %}</p>
+                                    
+                                    <div class="text-yellow-500 mb-2">
+                                        {% for star in "12345"|slice:review.rating %}
+                                            <span class="material-icons">star</span>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <p class="text-gray-500 mb-4">{{ review.content|truncatewords:30 }}</p>
+                                    <hr class="border-t border-gray-400 w-full mb-4">
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <form action="{% url 'reviewpage:helpful_review' review.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="text-gray-600 hover:text-gray-800">
+                                                    <span class="material-icons">
+                                                        thumb_up
+                                                    </span>
+                                                </button>
+                                            </form>
+                                            <span id="helpful-{{ review.id }}" class="mb-2 mr-2">{{ review.total_helpful }}</span>
+                                            <form action="{% url 'reviewpage:unhelpful_review' review.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="text-gray-600 hover:text-gray-800">
+                                                    <span class="material-icons">
+                                                        thumb_down
+                                                    </span>
+                                                </button>
+                                            </form>
+                                            <span id="unhelpful-{{ review.id }}" class="mb-2 mr-2">{{ review.total_unhelpful }}</span>
+                                        </div>
+
+                                        {% if review.author == user %}
+                                            <div class="flex items-center space-x-2 mt-4">
+                                                <a href="{% url 'reviewpage:edit_review' review.id %}" class="text-gray-600 hover:text-gray-800 cursor-pointer px-2 py-1">
+                                                    <span class="material-icons">edit</span>
+                                                </a>
+                                                <a href="{% url 'reviewpage:delete_review' review.id %}" class="text-gray-600 hover:text-gray-800 cursor-pointer px-2 py-1">
+                                                    <span class="material-icons">delete</span>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <!-- Message when there are no reviews -->
+                <div class="text-center text-gray-600 text-lg">
+                    No reviews available. Be the first to write one!
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Right column for "Recommended Reviews" -->
+        <div class="w-1/4">
+            <!-- Recommendation Section -->
+            <div class="bg-white p-4 mb-6 shadow-lg rounded-lg">
+                <h2 class="text-xl font-bold mb-4">Recommended Reviews</h2>
+                <hr class="border-t border-gray-400 w-full mb-4">
+                <ul class="text-gray-600 space-y-4">
+                    {% for rec_review in recommended_reviews %}
+                        <li class="flex justify-between items-start">
+                            <div>
+                                <a href="{% url 'reviewpage:review_list' %}" class="text-sm font-semibold hover:text-orange-600 underline cursor-pointer">
+                                    {{ rec_review.title }}
+                                </a>
+                                <p class="text-xs text-gray-500">{{ rec_review.content|truncatewords:10 }}</p>
+                            </div>
+                            <div class="flex items-center text-gray-600">
+                                <span class="material-icons text-sm mr-1">thumb_up</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    function updateHelpful(reviewId, isHelpful) {
+        const countSelector = isHelpful ? `#helpful-count-${reviewId}` : `#unhelpful-count-${reviewId}`;
+        const countElement = document.querySelector(countSelector);
+
+        let currentCount = parseInt(countElement.innerText, 10);
+        countElement.innerText = currentCount + 1;
+
+        fetch(`/review/${reviewId}/helpful/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({ isHelpful })
+        }).then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                countElement.innerText = currentCount; // revert if failed
+            }
+        });
+    }
+</script>
+
+{% endblock %}
