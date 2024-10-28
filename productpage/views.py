@@ -12,6 +12,7 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from userprofile.models import Activity
+import urllib.parse
 
 # Product listing with category filters
 def product_page(request):
@@ -61,7 +62,8 @@ def product_detail(request, product_id=None, product_name=None):
     if product_id:
         product = get_object_or_404(Product, id=product_id)
     elif product_name:
-        product = get_object_or_404(Product, name=product_name)
+        decoded_name = urllib.parse.unquote(product_name)
+        product = get_object_or_404(Product, name=decoded_name)
     else:
         return render(request, '404.html', status=404)
     

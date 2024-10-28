@@ -90,7 +90,15 @@
       <div class="container mx-auto bg-gray-50 shadow-lg rounded-lg p-4">
         <ul class="list-disc pl-5 space-y-2">
           {% for store in matching_stores %}
-          <a href="/toko/{{ store.pk }}/"><li>{{ store.nama }}</li></a>
+          <a href="/toko/{{ store.pk }}/">
+            <div class="flex border border-gray-300 rounded-lg p-3 shadow-md bg-transparent">
+              <img src="/static/{{ store.image }}" alt="{{ store.nama }}" class="w-11 h-11 rounded-full mr-1">
+              <span class="flex" style="flex-direction: column;">
+                <h5 class="text-b" style="padding-left:10px">{{ store.nama }}</h5>
+                <h3 class="text-xs" style="padding-left:10px">Address: {{ store.alamat }}</h3>
+              </span>
+            </div>
+          </a>
           {% endfor %}
         </ul>
       </div>
@@ -165,7 +173,7 @@
               </button>
               {% endif %}
             </div>
-        </div>
+          </div>
             {% empty %}
             <p style="text-align: center;">No reviews yet.</p>
           {% endfor %}
@@ -215,7 +223,7 @@
               <!-- Product Info -->
               <div class="relative border border-gray-100 bg-white p-6 transition-all duration-300 hover:bg-gray-100">
                 <!-- Product Price -->
-                <p class="text-gray-700 text-sm">
+                <p class="text-gray-700 text-sm truncate">
                   Rp.{{ same_product.min_price }} - Rp.{{ same_product.max_price }}
                 </p>
                 
@@ -237,7 +245,7 @@
                       </svg>
                     {% endif %}
                   {% endfor %}
-                  <span class="ml-2 text-sm font-medium text-gray-500">({{ same_product.num_reviews }} Reviews)</span>
+                  <span class="ml-2 text-sm font-medium text-gray-500 truncate">({{ same_product.num_reviews }} Reviews)</span>
                 </div>
               </div>
             </a>

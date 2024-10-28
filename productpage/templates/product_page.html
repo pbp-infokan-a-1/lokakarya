@@ -17,21 +17,30 @@
       </div>
 
       <div class="flex justify-center mb-8">
-        <form method="GET" action="{% url 'productpage:product_page' %}" class="flex space-x-2 w-full max-w-lg">
-          <input
-            type="text"
-            name="q"
-            id="search-input"
-            value="{{ query|default_if_none:'' }}"
-            placeholder="Search for {% if selected_category %}{{ selected_category.name }} Products{% else %}Products{% endif %}..."
-            class="border p-2 pl-4 rounded w-full">
-          
-          {% for category in request.GET.category %}
-            <input type="hidden" name="category" value="{{ category }}">
-          {% endfor %}
-          <button type="submit" class="p-2 bg-blue-500 text-white rounded">Search</button>
-        </form>
+        <div class="relative p-4 w-full sm:max-w-2xl sm:mx-auto">
+          <div class="overflow-hidden z-0 rounded-full relative">
+            <form method="GET" action="{% url 'productpage:product_page' %}" class="relative flex z-50 bg-white rounded-full border w-full" style="border-color: #694934;">
+              <input
+                type="text"
+                name="q"
+                id="search-input"
+                value="{{ query|default_if_none:'' }}"
+                placeholder="Search for {% if selected_category %}{{ selected_category.name }} Products{% else %}Products{% endif %}..."
+                class="rounded-full flex-1 px-4 py-2 text-gray-700 focus:outline-none">
+      
+              <!-- Hidden input fields for categories from request -->
+              {% for category in request.GET.category %}
+                <input type="hidden" name="category" value="{{ category }}">
+              {% endfor %}
+      
+              <button type="submit" class="text-white rounded-full font-semibold px-8 py-1 hover:bg-gray-800 focus:outline-none" style="background-color: #b98867; ">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
+      
     </section>
   </div>
 
@@ -52,7 +61,7 @@
               </div>
             {% endfor %}
           </div>
-          <button type="submit" class="p-2 bg-green-500 text-white rounded mt-2 w-full">Apply</button>
+          <button type="submit" class="border p-2 text-white rounded mt-2 w-full" style="background-color: #b98867; border-color: #694934;">Apply</button>
         </form>
         <hr class="my-4 border-t border-gray-400">
       </section>
@@ -76,7 +85,7 @@
               <!-- Product Info -->
               <div class="relative border border-gray-100 bg-white p-6">
                 <!-- Product Price -->
-                <p class="text-gray-700 text-sm">
+                <p class="text-gray-700 text-sm truncate">
                   Rp.{{ product.min_price }} - Rp.{{ product.max_price }}
                 </p>
           
@@ -96,7 +105,7 @@
                       </svg>
                     {% endif %}
                   {% endfor %}
-                  <span class="ml-2 text-sm font-medium text-gray-500">({{ product.num_reviews }} Reviews)</span>
+                  <span class="ml-2 text-sm font-medium text-gray-500 truncate">({{ product.num_reviews }} Reviews)</span>
                 </div>
               </div>
             </a>
@@ -142,14 +151,6 @@
         &times;
       </button>
       <p id="wishlistMessage" class="font-medium">Added to Favourites!</p>
-  </div>
-  
-    <!-- Popup Notification for Authentication -->
-  <div id="authPopup" class="fixed bottom-10 left-10 z-30 bg-red-600 bg-opacity-70 border border-red-800 text-white px-6 py-4 rounded-lg shadow-lg hidden">
-    <button onclick="closePopup('authPopup')" class="absolute top-1 right-2 text-white hover:text-gray-300">
-      &times;
-    </button>
-    <p id="authMessage" class="font-medium">You need to log in to add products to your favorites.</p>
   </div>
 
   <!-- Pagination Controls -->
