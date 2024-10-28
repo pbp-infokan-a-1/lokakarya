@@ -115,7 +115,7 @@
 
                 <div class="store-image-container">
                     {% if toko.image %}
-                    <img src="{{ toko.image.url }}" alt="{{ toko.nama }}" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
+                    <img src="/static/{{ toko.image }}" alt="{{ toko.nama }}" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
                     {% else %}
                     <img src="{% static 'images/default-bg.png' %}" alt="Default Store Image" class="w-full h-[400px] object-cover rounded-lg shadow-lg">
                     {% endif %}

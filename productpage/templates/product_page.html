@@ -68,7 +68,7 @@
             <a href="{% url 'productpage:product_detail' product.id %}" class="block">
               <!-- Product Image -->
               <img
-                src="{{ product.image.url }}"
+                src="/static/{{ product.image }}"
                 alt="{{ product.name }}"
                 class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
               />

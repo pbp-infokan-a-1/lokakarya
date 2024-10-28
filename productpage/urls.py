@@ -8,6 +8,7 @@ urlpatterns = [
     path('favorites/', views.favorite_page, name='favorite_page'),
     path('products/json/', views.show_json, name='show_json'),
     path('products/json/<uuid:product_id>/', views.show_json_by_id, name='show_json_by_id'),
+    path('products/<uuid:product_id>/redirect_to_store/', views.redirect_to_store, name='redirect_to_store'),
 
     # Non-API AJAX endpoints
     path('products/<uuid:product_id>/rate/', views.add_review_ajax, name='add_review_ajax'),
