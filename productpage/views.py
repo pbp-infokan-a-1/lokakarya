@@ -71,20 +71,28 @@ def product_detail(request, product_id=None, product_name=None):
     # Fetch products in the same category, excluding the current product
     same_category_products = Product.objects.filter(
         category=product.category
-    ).exclude(id=product_id)[:5]
-
-    is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+    ).exclude(id=product_id)[:10]
 
     context = {
         'product': product,
         'same_category_products': same_category_products,
         'matching_stores': matching_stores,
-        'is_favorited': is_favorited,
         'user': request.user,
         'is_authenticated': request.user.is_authenticated,
     }
 
+    if request.user.is_authenticated:
+        is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+        context.update({'is_favorited': is_favorited})
+
     return render(request, 'product_detail.html', context)
+
+def redirect_to_store(request, product_id, store_id):
+    product = get_object_or_404(Product, id=product_id)
+    store = product.store.filter(Toko, id=store_id)
+
+    if store:
+        return redirect('storepae:storedetail', store_id=store.id)
 
 @csrf_exempt
 @login_required
