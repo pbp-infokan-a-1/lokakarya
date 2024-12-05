@@ -163,4 +163,4 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://pbp.cs.ui.ac.id/belva.ghani/lokakarya", "https://pbp.cs.ui.ac.id/belva.ghani/lokakarya"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000","http://127.0.0.1", "https://belva-ghani-lokakarya.pbp.cs.ui.ac.id", "http://pbp.cs.ui.ac.id/belva.ghani/lokakarya", "https://pbp.cs.ui.ac.id/belva.ghani/lokakarya"]
