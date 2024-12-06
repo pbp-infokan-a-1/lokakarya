@@ -133,10 +133,10 @@ def delete_status(request, status_id):
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
 
 @csrf_exempt
-@login_required
 def get_profile_json(request):
     print("User authenticated:", request.user.is_authenticated)  # Debug print
     print("Session:", request.session.items())  # Debug print
+    print("Cookies:", request.COOKIES)  # Add this to debug cookies
     
     if not request.user.is_authenticated:
         return JsonResponse({
@@ -156,7 +156,10 @@ def get_profile_json(request):
             "status": 200,
             "authenticated": True
         }
-        return JsonResponse(profile_data)
+        response = JsonResponse(profile_data)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Credentials"] = "true"
+        return response
     except Profile.DoesNotExist:
         return JsonResponse({
             "username": request.user.username,

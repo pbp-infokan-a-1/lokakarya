@@ -53,12 +53,21 @@ def login_app(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            return JsonResponse({
+            session_id = request.session.session_key
+            response = JsonResponse({
                 "status": True,
                 "message": "Successfully Logged In!",
                 "username": user.username,
-                "token": request.session.session_key,
+                "sessionid": session_id,
             }, status=200)
+            response.set_cookie(
+                'sessionid',
+                session_id,
+                httponly=True,
+                samesite='None',
+                secure=True
+            )
+            return response
     return JsonResponse({
         "status": False,
         "message": "Failed to Login, check your email/password."
