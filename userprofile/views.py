@@ -8,6 +8,7 @@ from userprofile.models import Profile, Status, Activity
 from .forms import ProfileForm, StatusForm
 from django.core import serializers
 from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
 
 @login_required
 def profile(request, username):
@@ -112,16 +113,17 @@ def delete_status(request, status_id):
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
 
+@csrf_exempt
 @login_required
 def get_profile_json(request):
     try:
         profile = request.user.profile
         profile_data = {
             "username": request.user.username,
-            "bio": profile.bio,
-            "location": profile.location,
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
-            "private": profile.private,
+            "bio": profile.bio or "",
+            "location": profile.location or "",
+            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
+            "private": profile.private or False,
         }
         return JsonResponse(profile_data)
     except Profile.DoesNotExist:
@@ -129,6 +131,11 @@ def get_profile_json(request):
             "username": request.user.username,
             "bio": "",
             "location": "",
-            "birth_date": None,
+            "birth_date": "",
             "private": False,
         })
+    except Exception as e:
+        print(f"Error in get_profile_json: {e}")
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
