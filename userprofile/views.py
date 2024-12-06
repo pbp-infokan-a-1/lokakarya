@@ -37,7 +37,40 @@ def profile(request, username):
 @csrf_exempt
 @login_required
 def update_profile_ajax(request, username):
+    # Check authentication first
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'error': 'Authentication required',
+            'authenticated': False
+        }, status=401)
+
     user = get_object_or_404(User, username=username)
+
+    # For GET request, return the user's profile data as JSON
+    if request.method == "GET":
+        try:
+            profile = user.profile
+            profile_data = {
+                "username": user.username,
+                "bio": profile.bio or "",
+                "location": profile.location or "",
+                "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
+                "private": profile.private or False,
+                "authenticated": True
+            }
+            return JsonResponse(profile_data)
+        except Profile.DoesNotExist:
+            return JsonResponse({
+                "username": user.username,
+                "bio": "",
+                "location": "",
+                "birth_date": "",
+                "private": False,
+                "authenticated": True
+            })
+        except Exception as e:
+            print(f"Error in update_profile_ajax: {e}")
+            return JsonResponse({"error": str(e)}, status=500)
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=user.profile)
@@ -46,20 +79,6 @@ def update_profile_ajax(request, username):
             return JsonResponse({"message": "UPDATED"}, status=200)
         else:
             return JsonResponse({"error": "Invalid data"}, status=400)
-
-    # For GET request, return the user's profile data as JSON
-    if request.method == "GET":
-        profile = user.profile
-        profile_data = {
-            "username": user.username,
-            "bio": profile.bio,
-            "location": profile.location,
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
-            "private": profile.private,
-        }
-        return JsonResponse(profile_data, status=200)
-    
-    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 @require_POST
@@ -114,7 +133,6 @@ def delete_status(request, status_id):
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
 
 @csrf_exempt
-@login_required
 def get_profile_json(request):
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Not authenticated'}, status=401)
