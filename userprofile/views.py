@@ -111,3 +111,24 @@ def delete_status(request, status_id):
 
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
+
+@login_required
+def get_profile_json(request):
+    try:
+        profile = request.user.profile
+        profile_data = {
+            "username": request.user.username,
+            "bio": profile.bio,
+            "location": profile.location,
+            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
+            "private": profile.private,
+        }
+        return JsonResponse(profile_data)
+    except Profile.DoesNotExist:
+        return JsonResponse({
+            "username": request.user.username,
+            "bio": "",
+            "location": "",
+            "birth_date": None,
+            "private": False,
+        })
