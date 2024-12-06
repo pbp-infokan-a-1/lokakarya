@@ -134,9 +134,16 @@ def delete_status(request, status_id):
 
 @csrf_exempt
 def get_profile_json(request):
+    print("User authenticated:", request.user.is_authenticated)  # Debug print
+    print("Session:", request.session.items())  # Debug print
+    
     if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
-        
+        return JsonResponse({
+            'error': 'Not authenticated',
+            'status': 401,
+            'message': 'Please login first'
+        }, status=401)
+    
     try:
         profile = request.user.profile
         profile_data = {
@@ -145,24 +152,24 @@ def get_profile_json(request):
             "location": profile.location or "",
             "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
             "private": profile.private or False,
+            "status": 200,
+            "authenticated": True
         }
-        response = JsonResponse(profile_data)
-        response["Access-Control-Allow-Origin"] = "*"
-        return response
+        return JsonResponse(profile_data)
     except Profile.DoesNotExist:
-        response = JsonResponse({
+        return JsonResponse({
             "username": request.user.username,
             "bio": "",
             "location": "",
             "birth_date": "",
             "private": False,
+            "status": 200,
+            "authenticated": True
         })
-        response["Access-Control-Allow-Origin"] = "*"
-        return response
     except Exception as e:
         print(f"Error in get_profile_json: {e}")
-        response = JsonResponse({
-            "error": str(e)
+        return JsonResponse({
+            "error": str(e),
+            "status": 500,
+            "message": "Server error occurred"
         }, status=500)
-        response["Access-Control-Allow-Origin"] = "*"
-        return response

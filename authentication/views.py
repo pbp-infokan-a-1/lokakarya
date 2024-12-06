@@ -53,25 +53,17 @@ def login_app(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            # Status login sukses.
             return JsonResponse({
-                "username": user.username,
                 "status": True,
-                "message": "Login sukses!"
-                # Tambahkan data lainnya jika ingin mengirim data ke Flutter.
+                "message": "Successfully Logged In!",
+                "username": user.username,
+                "token": request.session.session_key,
             }, status=200)
-        else:
-            return JsonResponse({
-                "status": False,
-                "message": "Login gagal, akun dinonaktifkan."
-            }, status=401)
+    return JsonResponse({
+        "status": False,
+        "message": "Failed to Login, check your email/password."
+    }, status=401)
 
-    else:
-        return JsonResponse({
-            "status": False,
-            "message": "Login gagal, periksa kembali email atau kata sandi."
-        }, status=401)
-  
 @csrf_exempt
 def register_app(request):
     if request.method == 'POST':
