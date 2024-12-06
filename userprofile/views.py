@@ -116,6 +116,9 @@ def delete_status(request, status_id):
 @csrf_exempt
 @login_required
 def get_profile_json(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Not authenticated'}, status=401)
+        
     try:
         profile = request.user.profile
         profile_data = {
@@ -125,17 +128,23 @@ def get_profile_json(request):
             "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
             "private": profile.private or False,
         }
-        return JsonResponse(profile_data)
+        response = JsonResponse(profile_data)
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
     except Profile.DoesNotExist:
-        return JsonResponse({
+        response = JsonResponse({
             "username": request.user.username,
             "bio": "",
             "location": "",
             "birth_date": "",
             "private": False,
         })
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
     except Exception as e:
         print(f"Error in get_profile_json: {e}")
-        return JsonResponse({
+        response = JsonResponse({
             "error": str(e)
         }, status=500)
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
