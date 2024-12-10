@@ -9,6 +9,8 @@ from .forms import ProfileForm, StatusForm
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.middleware.csrf import get_token
+import json
+from datetime import datetime
 
 @login_required
 def profile(request, username):
@@ -135,5 +137,52 @@ def delete_status(request, status_id):
 
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
+
+@csrf_exempt
+def update_profile_app(request, username):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Get the user's profile
+            user = User.objects.get(username=username)
+            profile = Profile.objects.get(user=user)
+            
+            # Update the profile fields
+            profile.bio = data.get('bio', '')
+            profile.location = data.get('location', '')
+            profile.birth_date = datetime.strptime(data.get('birth_date', ''), '%Y-%m-%d').date()
+            profile.private = data.get('private', False)
+            
+            # Save the changes
+            profile.save()
+            
+            return JsonResponse({
+                "status": "success",
+                "message": "Profile updated successfully!"
+            })
+            
+        except User.DoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "User not found."
+            }, status=404)
+            
+        except Profile.DoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "Profile not found."
+            }, status=404)
+            
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            }, status=400)
+            
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
 
 
