@@ -9,6 +9,8 @@ from .forms import ProfileForm, StatusForm
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.middleware.csrf import get_token
+import json
+from datetime import datetime
 
 @login_required
 def profile(request, username):
@@ -96,6 +98,10 @@ def update_status_ajax(request, username):
 
     return HttpResponse(b"CREATED", status=201)
 
+def show_json_profile(request):
+    data = Profile.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
 @login_required
 def status_json(request, username):
     user = get_object_or_404(User, username=username)
@@ -133,47 +139,50 @@ def delete_status(request, status_id):
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
 
 @csrf_exempt
-def get_profile_json(request):
-    print("User authenticated:", request.user.is_authenticated)  # Debug print
-    print("Session:", request.session.items())  # Debug print
-    print("Cookies:", request.COOKIES)  # Add this to debug cookies
-    
-    if not request.user.is_authenticated:
-        return JsonResponse({
-            'error': 'Not authenticated',
-            'status': 401,
-            'message': 'Please login first'
-        }, status=401)
-    
-    try:
-        profile = request.user.profile
-        profile_data = {
-            "username": request.user.username,
-            "bio": profile.bio or "",
-            "location": profile.location or "",
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
-            "private": profile.private or False,
-            "status": 200,
-            "authenticated": True
-        }
-        response = JsonResponse(profile_data)
-        response["Access-Control-Allow-Origin"] = "*"
-        response["Access-Control-Allow-Credentials"] = "true"
-        return response
-    except Profile.DoesNotExist:
-        return JsonResponse({
-            "username": request.user.username,
-            "bio": "",
-            "location": "",
-            "birth_date": "",
-            "private": False,
-            "status": 200,
-            "authenticated": True
-        })
-    except Exception as e:
-        print(f"Error in get_profile_json: {e}")
-        return JsonResponse({
-            "error": str(e),
-            "status": 500,
-            "message": "Server error occurred"
-        }, status=500)
+def update_profile_app(request, username):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Get the user's profile
+            user = User.objects.get(username=username)
+            profile = Profile.objects.get(user=user)
+            
+            # Update the profile fields
+            profile.bio = data.get('bio', '')
+            profile.location = data.get('location', '')
+            profile.birth_date = datetime.strptime(data.get('birth_date', ''), '%Y-%m-%d').date()
+            profile.private = data.get('private', False)
+            
+            # Save the changes
+            profile.save()
+            
+            return JsonResponse({
+                "status": "success",
+                "message": "Profile updated successfully!"
+            })
+            
+        except User.DoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "User not found."
+            }, status=404)
+            
+        except Profile.DoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "Profile not found."
+            }, status=404)
+            
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            }, status=400)
+            
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
+
+
