@@ -8,7 +8,6 @@
             </a>
         </div>
 
-        {% if user.is_authenticated %}
         <!-- Search Bar in the Middle -->
         <div class="flex-grow mx-10 ml-100">
             <form method="GET" action="{% url 'landingpage:search' %}" class="flex">
@@ -21,7 +20,7 @@
                     style="border-color: #694934; color: #694934; ::placeholder { color: #0000; }">
             </form>
         </div>
-        {% endif %}
+        
         <!-- Navigation Links on the Right (only for desktop) -->
         <ul class="nav-links hidden md:flex space-x-10 ml-0">
             <!-- Dropdown for Categories -->

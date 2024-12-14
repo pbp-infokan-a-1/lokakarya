@@ -8,6 +8,7 @@ from userprofile.models import Profile, Status, Activity
 from .forms import ProfileForm, StatusForm
 from django.core import serializers
 from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
 
 @login_required
 def profile(request, username):
@@ -36,7 +37,40 @@ def profile(request, username):
 @csrf_exempt
 @login_required
 def update_profile_ajax(request, username):
+    # Check authentication first
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'error': 'Authentication required',
+            'authenticated': False
+        }, status=401)
+
     user = get_object_or_404(User, username=username)
+
+    # For GET request, return the user's profile data as JSON
+    if request.method == "GET":
+        try:
+            profile = user.profile
+            profile_data = {
+                "username": user.username,
+                "bio": profile.bio or "",
+                "location": profile.location or "",
+                "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
+                "private": profile.private or False,
+                "authenticated": True
+            }
+            return JsonResponse(profile_data)
+        except Profile.DoesNotExist:
+            return JsonResponse({
+                "username": user.username,
+                "bio": "",
+                "location": "",
+                "birth_date": "",
+                "private": False,
+                "authenticated": True
+            })
+        except Exception as e:
+            print(f"Error in update_profile_ajax: {e}")
+            return JsonResponse({"error": str(e)}, status=500)
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=user.profile)
@@ -45,20 +79,6 @@ def update_profile_ajax(request, username):
             return JsonResponse({"message": "UPDATED"}, status=200)
         else:
             return JsonResponse({"error": "Invalid data"}, status=400)
-
-    # For GET request, return the user's profile data as JSON
-    if request.method == "GET":
-        profile = user.profile
-        profile_data = {
-            "username": user.username,
-            "bio": profile.bio,
-            "location": profile.location,
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
-            "private": profile.private,
-        }
-        return JsonResponse(profile_data, status=200)
-    
-    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 @require_POST
@@ -111,3 +131,49 @@ def delete_status(request, status_id):
 
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
+
+@csrf_exempt
+def get_profile_json(request):
+    print("User authenticated:", request.user.is_authenticated)  # Debug print
+    print("Session:", request.session.items())  # Debug print
+    print("Cookies:", request.COOKIES)  # Add this to debug cookies
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'error': 'Not authenticated',
+            'status': 401,
+            'message': 'Please login first'
+        }, status=401)
+    
+    try:
+        profile = request.user.profile
+        profile_data = {
+            "username": request.user.username,
+            "bio": profile.bio or "",
+            "location": profile.location or "",
+            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
+            "private": profile.private or False,
+            "status": 200,
+            "authenticated": True
+        }
+        response = JsonResponse(profile_data)
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Credentials"] = "true"
+        return response
+    except Profile.DoesNotExist:
+        return JsonResponse({
+            "username": request.user.username,
+            "bio": "",
+            "location": "",
+            "birth_date": "",
+            "private": False,
+            "status": 200,
+            "authenticated": True
+        })
+    except Exception as e:
+        print(f"Error in get_profile_json: {e}")
+        return JsonResponse({
+            "error": str(e),
+            "status": 500,
+            "message": "Server error occurred"
+        }, status=500)

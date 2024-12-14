@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-!n5f81yk&+d50p$z1jq(6x51k@ek@#y%8#l!2+cg0qwg2*uv!z
 
 # SECURITY WARNING: don't run with debug turned on in production!
 PRODUCTION = os.getenv("PRODUCTION", False)
-DEBUG = False
+DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "belva-ghani-lokakarya.pbp.cs.ui.ac.id"]
 
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'userprofile',
     'productpage',
     'forumandreviewpage',
-    'favourites'
+    'favourites',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'lokakarya.urls'
@@ -154,4 +156,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://pbp.cs.ui.ac.id/belva.ghani/lokakarya", "https://pbp.cs.ui.ac.id/belva.ghani/lokakarya"]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000","http://127.0.0.1", "http://belva-ghani-lokakarya.pbp.cs.ui.ac.id", "https://belva-ghani-lokakarya.pbp.cs.ui.ac.id", "http://pbp.cs.ui.ac.id/belva.ghani/lokakarya", "https://pbp.cs.ui.ac.id/belva.ghani/lokakarya"]

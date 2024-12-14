@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!n5f81yk&+d50p$z1jq(6x51k@ek@#y%8#l!2+cg0qwg2*uv!z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "belva-ghani-lokakarya.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.0.2.2", "belva-ghani-lokakarya.pbp.cs.ui.ac.id"]
 
 
 # Application definition
@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storepage.apps.StorepageConfig',
     'productpage.apps.ProductpageConfig',
-    'lokakarya.productpage'
-
+    'lokakarya.productpage',
+    'lokakarya.authenticaton',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,10 +54,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'storepage.middleware.LoadDataMiddleware',
-    'productpage.middleware.LoadDataMiddleware'
+    'productpage.middleware.LoadDataMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'lokakarya.urls'
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 TEMPLATES = [
     {
