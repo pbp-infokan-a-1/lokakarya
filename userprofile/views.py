@@ -8,6 +8,9 @@ from userprofile.models import Profile, Status, Activity
 from .forms import ProfileForm, StatusForm
 from django.core import serializers
 from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
+import json
+from datetime import datetime
 
 @login_required
 def profile(request, username):
@@ -36,7 +39,40 @@ def profile(request, username):
 @csrf_exempt
 @login_required
 def update_profile_ajax(request, username):
+    # Check authentication first
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'error': 'Authentication required',
+            'authenticated': False
+        }, status=401)
+
     user = get_object_or_404(User, username=username)
+
+    # For GET request, return the user's profile data as JSON
+    if request.method == "GET":
+        try:
+            profile = user.profile
+            profile_data = {
+                "username": user.username,
+                "bio": profile.bio or "",
+                "location": profile.location or "",
+                "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else "",
+                "private": profile.private or False,
+                "authenticated": True
+            }
+            return JsonResponse(profile_data)
+        except Profile.DoesNotExist:
+            return JsonResponse({
+                "username": user.username,
+                "bio": "",
+                "location": "",
+                "birth_date": "",
+                "private": False,
+                "authenticated": True
+            })
+        except Exception as e:
+            print(f"Error in update_profile_ajax: {e}")
+            return JsonResponse({"error": str(e)}, status=500)
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=user.profile)
@@ -45,20 +81,6 @@ def update_profile_ajax(request, username):
             return JsonResponse({"message": "UPDATED"}, status=200)
         else:
             return JsonResponse({"error": "Invalid data"}, status=400)
-
-    # For GET request, return the user's profile data as JSON
-    if request.method == "GET":
-        profile = user.profile
-        profile_data = {
-            "username": user.username,
-            "bio": profile.bio,
-            "location": profile.location,
-            "birth_date": profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else None,
-            "private": profile.private,
-        }
-        return JsonResponse(profile_data, status=200)
-    
-    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 @require_POST
@@ -75,6 +97,10 @@ def update_status_ajax(request, username):
     new_status.save()
 
     return HttpResponse(b"CREATED", status=201)
+
+def show_json_profile(request):
+    data = Profile.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 @login_required
 def status_json(request, username):
@@ -111,3 +137,52 @@ def delete_status(request, status_id):
 
     # Redirect back to the user's profile
     return HttpResponseRedirect(reverse('userprofile:profile', kwargs={'username': status.user.username}))
+
+@csrf_exempt
+def update_profile_app(request, username):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Get the user's profile
+            user = User.objects.get(username=username)
+            profile = Profile.objects.get(user=user)
+            
+            # Update the profile fields
+            profile.bio = data.get('bio', '')
+            profile.location = data.get('location', '')
+            profile.birth_date = datetime.strptime(data.get('birth_date', ''), '%Y-%m-%d').date()
+            profile.private = data.get('private', False)
+            
+            # Save the changes
+            profile.save()
+            
+            return JsonResponse({
+                "status": "success",
+                "message": "Profile updated successfully!"
+            })
+            
+        except User.DoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "User not found."
+            }, status=404)
+            
+        except Profile.DoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "Profile not found."
+            }, status=404)
+            
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": str(e)
+            }, status=400)
+            
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
+
+

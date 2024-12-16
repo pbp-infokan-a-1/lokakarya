@@ -21,10 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('authentication.urls')),
+    path('auth/', include('authentication.urls')),
     path('', include('landingpage.urls')),
     path('', include('storepage.urls')),
-    path('', include('userprofile.urls')),
+    path('userprofile/', include('userprofile.urls')),
     path('', include('productpage.urls')),
     path('', include('forumandreviewpage.urls')),
     path('', include('adminDashboard.urls')),
@@ -33,4 +33,5 @@ urlpatterns = [
 
 # This will allow media files to be served in development mode
 if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
