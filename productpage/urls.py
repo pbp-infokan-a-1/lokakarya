@@ -23,6 +23,11 @@ urlpatterns = [
     path('api/products/<uuid:product_id>/rate/', views.add_review_ajax, name='api_add_review'),
     path('api/products/<uuid:product_id>/update_rate/<int:review_id>/', views.edit_review_ajax, name='api_edit_review'),
     path('api/products/<uuid:product_id>/delete_rate/<int:review_id>/', views.delete_review_ajax, name='api_delete_review'),
-    re_path(r'^media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
+
+    # Flutter API
+    path('flutterproducts/', views.product_list_view, name='product-list'),
+    path('fluttercategories/', views.category_list_view, name='category-list'),
     re_path(r'^static/(?P<path>.*)$',serve,{'document_root':settings.STATIC_ROOT}),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

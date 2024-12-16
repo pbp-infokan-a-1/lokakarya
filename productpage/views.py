@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
 from productpage.models import Product, Rating, Category, Favorite
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
@@ -184,6 +185,85 @@ def delete_review_ajax(request, product_id, review_id):
     except Exception as e:
         print(e)  # For debugging purposes
         return JsonResponse({"error": "Internal server error"}, status=500)
+
+@require_http_methods(["GET"])
+def product_list_view(request):
+    products = Product.objects.all().prefetch_related('ratings', 'category', 'store')
+    product_list = []
+    for product in products:
+        ratings = []
+        for rating in product.ratings.all():
+            ratings.append({
+                "model": "productpage.rating",
+                "pk": rating.pk,
+                "fields": {
+                    "user": rating.user.username,
+                    "product": str(product.id),
+                    "rating": rating.rating,
+                    "review": rating.review,
+                    "created_at": rating.created_at.isoformat(),
+                }
+            })
+
+        # Serialize stores
+        stores = []
+        for toko in product.store.all():
+            stores.append({
+                "model": "storepage.Toko",
+                "pk": toko.pk,
+                "fields": {
+                    "nama": toko.nama,
+                    "hari_buka": toko.hari_buka,
+                    "alamat": toko.alamat,
+                    "email": toko.email,
+                    "telepon": toko.telepon,
+                    "image": toko.image.url,
+                    "gmaps_link": toko.gmaps_link,
+                }
+            })
+        # Serialize product data
+        product_data = {
+            "model": "productpage.product",
+            "pk": str(product.id),
+            "fields": {
+                "name": product.name,
+                "category": category_json(product.category),
+                "min_price": float(product.min_price),
+                "max_price": float(product.max_price),
+                "description": product.description,
+                "store": [toko['pk'] for toko in stores],
+                "image": product.image.name,
+                "average_rating": product.count_average_rating(),
+                "num_reviews": product.num_reviews(),
+                "ratings": ratings,
+            }
+        }
+        product_list.append(product_data)
+
+    return JsonResponse(product_list, safe=False)
+
+def category_json(category):
+    return {
+        "model": "productpage.category",
+        "pk": category.pk,
+        "fields": {
+            "name": category.name,
+        }
+    }
+
+@require_http_methods(["GET"])
+def category_list_view(request):
+    categories = Category.objects.all()
+    category_list = []
+    for category in categories:
+        category_list.append({
+            "model": "productpage.category",
+            "pk": category.pk,
+            "fields": {
+                "name": category.name,
+            }
+        })
+    return JsonResponse(category_list, safe=False)
 
 @login_required
 def favorite_page(request):
