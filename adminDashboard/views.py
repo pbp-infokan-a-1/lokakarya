@@ -24,9 +24,7 @@ def adminDashboard(request):
 @login_required
 @require_http_methods(["GET"])
 def product_list(request):
-    page = int(request.GET.get('page', 1))
-    per_page = 10
-    products = Product.objects.all()[(page-1)*per_page:page*per_page]
+    products = Product.objects.all()
     products_data = [{
         'id': str(product.id),
         'name': product.name,
@@ -80,10 +78,10 @@ def delete_product(_, product_id):
     product = get_object_or_404(Product, id=product_id)
     product.delete()
     return JsonResponse({'success': True})
-    product.delete()
-    return JsonResponse({'success': True})
 
-def store_list(_):
+@login_required
+@require_http_methods(["GET"])
+def store_list(request):
     stores = Toko.objects.all()
     stores_data = [{
         'id': store.id,
@@ -134,8 +132,6 @@ def edit_store(request, store_id):
 
 def delete_store(_, store_id):
     store = get_object_or_404(Toko, id=store_id)
-    store.delete()
-    return JsonResponse({'success': True})
     store.delete()
     return JsonResponse({'success': True})
 
