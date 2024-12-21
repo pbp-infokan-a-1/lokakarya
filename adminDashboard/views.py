@@ -21,10 +21,12 @@ def adminDashboard(request):
     }
     return render(request, 'adminDashboard.html', context)
 
-@login_required
+
 @require_http_methods(["GET"])
 def product_list(request):
-    products = Product.objects.all()
+    page = int(request.GET.get('page', 1))
+    per_page = 10
+    products = Product.objects.all()[(page-1)*per_page:page*per_page]
     products_data = [{
         'id': str(product.id),
         'name': product.name,
@@ -79,9 +81,7 @@ def delete_product(_, product_id):
     product.delete()
     return JsonResponse({'success': True})
 
-@login_required
-@require_http_methods(["GET"])
-def store_list(request):
+def store_list(_):
     stores = Toko.objects.all()
     stores_data = [{
         'id': store.id,
@@ -146,3 +146,7 @@ def get_dashboard_stats(_):
         'stores_count': stores_count,
         'categories_count': categories_count
     })
+
+@login_required
+def is_superuser(request):
+    return JsonResponse({'is_superuser': request.user.is_superuser})
