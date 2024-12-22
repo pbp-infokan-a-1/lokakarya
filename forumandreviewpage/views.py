@@ -11,6 +11,10 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from userprofile.models import Activity
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 def show_forum(request):
     posts = PostForum.objects.all().order_by('-created_at')
@@ -139,3 +143,86 @@ def show_xml_by_id(request, id):
 def show_json_by_id(request, id):
     data = PostForum.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@csrf_exempt
+def create_forum_flutter(request):
+    if request.method == 'POST':
+        try:
+            # Parse data JSON
+            data = json.loads(request.body)
+            username = data.get("username")  # Ambil username dari request
+            if not username:
+                return JsonResponse({"status": "error", "message": "Username required"}, status=400)
+
+            # Cari user berdasarkan username
+            user = User.objects.get(username=username)
+
+            # Buat forum baru
+            new_forum = PostForum.objects.create(
+                user=user,
+                title=data["title"],
+                content=data["content"]
+            )
+            new_forum.save()
+
+            return JsonResponse({"status": "success"}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "User not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+    
+@csrf_exempt
+@login_required
+def edit_forum_flutter(request, forum_id):
+    if request.method == 'PUT':
+        try:
+            data = json.loads(request.body)
+            forum = PostForum.objects.get(id=forum_id)
+
+            # Verifikasi apakah user yang sedang login adalah pemilik postingan
+            if forum.user != request.user:
+                return JsonResponse({"status": "error", "message": "You are not authorized to edit this forum."}, status=403)
+
+            # Update forum
+            forum.title = data.get("title", forum.title)
+            forum.content = data.get("content", forum.content)
+            forum.save()
+
+            return JsonResponse({"status": "success", "message": "Forum updated successfully."}, status=200)
+        except PostForum.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Forum not found."}, status=404)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
+
+@csrf_exempt
+@login_required
+def delete_forum_flutter(request, forum_id):
+    if request.method == 'DELETE' or request.headers.get('X-HTTP-Method-Override') == 'DELETE':
+        try:
+            forum = PostForum.objects.get(id=forum_id)
+            if forum.user != request.user:
+                return JsonResponse({"status": "error", "message": "Unauthorized"}, status=403)
+            forum.delete()
+            return JsonResponse({"status": "success"}, status=200)
+        except PostForum.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Not found"}, status=404)
+    return JsonResponse({"status": "error"}, status=405)
+    
+@csrf_exempt
+@login_required
+def upvote_forum_flutter(request, forum_id):
+    if request.method == 'POST':
+        try:
+            forum = PostForum.objects.get(id=forum_id)
+            if request.user.id in forum.upvotes:
+                return JsonResponse({"status": "error", "message": "Already upvoted"}, status=400)
+            forum.upvotes.append(request.user.id)
+            forum.total_upvotes += 1
+            forum.save()
+            return JsonResponse({"status": "success", "upvotes": forum.total_upvotes}, status=200)
+        except PostForum.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Not found"}, status=404)
+    return JsonResponse({"status": "error"}, status=405)
