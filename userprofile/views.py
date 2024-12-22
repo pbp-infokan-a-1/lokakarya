@@ -102,7 +102,6 @@ def show_json_profile(request):
     data = Profile.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-@login_required
 def status_json(request, username):
     user = get_object_or_404(User, username=username)
     data = Status.objects.filter(user=user)
@@ -185,4 +184,18 @@ def update_profile_app(request, username):
         "message": "Invalid request method."
     }, status=405)
 
+@csrf_exempt
+def create_status_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_status = Status.objects.create(
+            user=request.user,
+            title=data["title"],
+            description=data["description"]
+        )
 
+        new_status.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
