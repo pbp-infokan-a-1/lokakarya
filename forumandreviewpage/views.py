@@ -145,12 +145,13 @@ def show_json_by_id(request, id):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 @csrf_exempt
+@login_required
 def create_forum_flutter(request):
     if request.method == 'POST':
         try:
             # Parse data JSON
             data = json.loads(request.body)
-            username = data.get("username")  # Ambil username dari request
+            username = request.user.username if request.user.is_authenticated else data.get("username")
             if not username:
                 return JsonResponse({"status": "error", "message": "Username required"}, status=400)
 
@@ -159,11 +160,10 @@ def create_forum_flutter(request):
 
             # Buat forum baru
             new_forum = PostForum.objects.create(
-                user=user,
+                author=user,
                 title=data["title"],
                 content=data["content"]
             )
-            new_forum.save()
 
             return JsonResponse({"status": "success"}, status=200)
         except User.DoesNotExist:
@@ -171,6 +171,7 @@ def create_forum_flutter(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
     return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
     
 @csrf_exempt
 @login_required
