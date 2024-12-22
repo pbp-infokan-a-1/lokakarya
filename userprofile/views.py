@@ -199,3 +199,37 @@ def create_status_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+def get_profile(request, username):
+    try:
+        user = User.objects.get(username=username)
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            # Create a default profile if one doesn't exist
+            profile = Profile.objects.create(
+                user=user,
+                bio='',
+                location='',
+                private=False
+            )
+        
+        # Format profile data
+        profile_data = [{
+            'model': 'userprofile.profile',
+            'pk': profile.pk,
+            'fields': {
+                'user': profile.user.id,
+                'bio': profile.bio or '',
+                'location': profile.location or '',
+                'birth_date': profile.birth_date.strftime('%Y-%m-%d') if profile.birth_date else '',
+                'private': profile.private,
+            }
+        }]
+        
+        return JsonResponse(profile_data, safe=False)
+        
+    except User.DoesNotExist:
+        return JsonResponse({
+            'error': 'User not found'
+        }, status=404)

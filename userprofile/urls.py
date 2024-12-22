@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import profile, update_profile_ajax, update_status_ajax, status_json, edit_status, delete_status, create_status_flutter, show_json_profile, update_profile_app
+from .views import profile, update_profile_ajax, update_status_ajax, status_json, edit_status, delete_status, create_status_flutter, show_json_profile, update_profile_app, get_profile
 
 app_name = 'userprofile'
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('delete/<int:status_id>', delete_status, name='delete_status'),
     path('profile/<str:username>/status/update/ajax', update_status_ajax, name='update_status_ajax'),
     path('create-flutter/', create_status_flutter, name='create_status_flutter'),
+    path('profile/<str:username>/get/', get_profile, name='get_profile'),
 ]
