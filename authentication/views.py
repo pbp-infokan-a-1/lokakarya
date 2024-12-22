@@ -58,6 +58,7 @@ def login_app(request):
                 "status": True,
                 "message": "Successfully Logged In!",
                 "username": user.username,
+                "is_superuser": user.is_superuser,
                 "sessionid": session_id,
             }, status=200)
             response.set_cookie(
