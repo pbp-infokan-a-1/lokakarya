@@ -12,4 +12,5 @@ urlpatterns = [
     path('edit_store/<int:store_id>/', views.edit_store, name='edit_store'),
     path('delete_store/<int:store_id>/', views.delete_store, name='delete_store'),
     path('dashboard_stats/', views.get_dashboard_stats, name='dashboard_stats'),
+    path('is_superuser/', views.is_superuser, name='is_superuser'),
 ]
