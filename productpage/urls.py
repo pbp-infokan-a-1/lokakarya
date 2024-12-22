@@ -27,6 +27,11 @@ urlpatterns = [
     # Flutter API
     path('flutterproducts/', views.product_list_view, name='product-list'),
     path('fluttercategories/', views.category_list_view, name='category-list'),
+    path('api/products/<uuid:product_id>/', views.product_detail_flutter, name='product_detail_flutter'),
+    path('api/products/<uuid:product_id>/reviews/', views.add_review_flutter, name='add_review_flutter'),
+    path('api/products/<uuid:product_id>/edit_reviews/<int:review_id>/', views.edit_review_flutter, name='edit_review_flutter'),
+    path('api/products/<uuid:product_id>/delete_reviews/<int:review_id>/', views.delete_review_flutter, name='delete_review_flutter'),
+
     re_path(r'^static/(?P<path>.*)$',serve,{'document_root':settings.STATIC_ROOT}),
 ]
 if settings.DEBUG:
