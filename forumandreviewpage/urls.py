@@ -20,4 +20,6 @@ urlpatterns = [
     path('edit/<int:forum_id>/', views.edit_forum_flutter, name='edit_forum_flutter'),
     path('delete/<int:forum_id>/', views.delete_forum_flutter, name='delete_forum_flutter'),
     path('upvote/<int:forum_id>/', views.upvote_forum_flutter, name='upvote_forum_flutter'),
+    path('post-comment/', views.post_comment_json, name='post_comment_json'),
+    path('login/', views.login_flutter, name='login_flutter'),
 ]

@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 def show_forum(request):
     posts = PostForum.objects.all().order_by('-created_at')
@@ -148,28 +149,26 @@ def show_json_by_id(request, id):
 def create_forum_flutter(request):
     if request.method == 'POST':
         try:
-            # Parse data JSON
             data = json.loads(request.body)
-            username = data.get("username")  # Ambil username dari request
-            if not username:
-                return JsonResponse({"status": "error", "message": "Username required"}, status=400)
+            user = request.user  # Ambil user dari sesi atau autentikasi
+            title = data.get('title', '')
+            content = data.get('content', '')
 
-            # Cari user berdasarkan username
-            user = User.objects.get(username=username)
+            # Validasi input
+            if not title or not content:
+                return JsonResponse({"status": "error", "message": "Title or content cannot be empty"}, status=400)
 
-            # Buat forum baru
+            # Buat forum baru, gunakan 'author' karena itu nama field di model
             new_forum = PostForum.objects.create(
-                user=user,
-                title=data["title"],
-                content=data["content"]
+                author=user,  # Gunakan 'author' di sini
+                title=title,
+                content=content,
             )
-            new_forum.save()
-
             return JsonResponse({"status": "success"}, status=200)
-        except User.DoesNotExist:
-            return JsonResponse({"status": "error", "message": "User not found"}, status=404)
+
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
     return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
     
 @csrf_exempt
@@ -210,7 +209,7 @@ def delete_forum_flutter(request, forum_id):
         except PostForum.DoesNotExist:
             return JsonResponse({"status": "error", "message": "Not found"}, status=404)
     return JsonResponse({"status": "error"}, status=405)
-    
+
 @csrf_exempt
 @login_required
 def upvote_forum_flutter(request, forum_id):
@@ -226,3 +225,76 @@ def upvote_forum_flutter(request, forum_id):
         except PostForum.DoesNotExist:
             return JsonResponse({"status": "error", "message": "Not found"}, status=404)
     return JsonResponse({"status": "error"}, status=405)
+
+def post_comment_json(request):
+    forums = PostForum.objects.all().select_related('author')
+    response_data = []
+    for forum in forums:
+        response_data.append({
+            "model": "forum.postforum",
+            "pk": forum.id,
+            "fields": {
+                "title": forum.title,
+                "content": forum.content,
+                "author": forum.author.id,
+                "author_name": forum.author.username if forum.author else "Unknown",
+                "created_at": forum.created_at.isoformat(),
+                "total_upvotes": forum.total_upvotes,
+                "upvotes": list(forum.upvotes.values_list('id', flat=True)),
+                "comments": [
+                    {
+                        "id": comment.id,
+                        "content": comment.content,
+                        "author_name": comment.author.username if comment.author else "Anonymous",
+                        "created_at": comment.created_at.isoformat(),
+                    }
+                    for comment in forum.comments.all()
+                ] if forum.comments.exists() else [],
+            },
+        })
+    return JsonResponse(response_data, safe=False)
+
+@csrf_exempt
+def login_flutter(request):
+    if request.method == 'POST':
+        try:
+            # Parse JSON dari request body
+            body = json.loads(request.body)
+            username = body.get('username', '')
+            password = body.get('password', '')
+
+            # Authenticate user
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                # Login user dan buat session
+                login(request, user)
+
+                # Kirim respons dengan data user
+                return JsonResponse({
+                    "status": True,
+                    "message": "Successfully Logged In!",
+                    "username": user.username,
+                    "is_superuser": user.is_superuser,
+                    "sessionid": request.session.session_key,  # Session ID untuk autentikasi lanjutan
+                    "user_id": user.id,  # Kirim user ID untuk Flutter
+                }, status=200)
+            else:
+                # Jika login gagal
+                return JsonResponse({
+                    "status": False,
+                    "message": "Invalid login credentials!",
+                }, status=401)
+
+        except json.JSONDecodeError:
+            # Jika JSON yang dikirimkan tidak valid
+            return JsonResponse({
+                "status": False,
+                "message": "Invalid JSON format!",
+            }, status=400)
+    else:
+        # Jika method selain POST digunakan
+        return JsonResponse({
+            "status": False,
+            "message": "Method not allowed!",
+        }, status=405)
