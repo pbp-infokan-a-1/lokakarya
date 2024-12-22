@@ -219,7 +219,7 @@ def upvote_forum_flutter(request, forum_id):
         try:
             forum = PostForum.objects.get(id=forum_id)
             if request.user.id in forum.upvotes:
-                return JsonResponse({"status": "error", "message": "Already upvoted"}, status=400)
+                return JsonResponse({"status": "error", "message": "Already upvoted!"}, status=400)
             forum.upvotes.append(request.user.id)
             forum.total_upvotes += 1
             forum.save()
