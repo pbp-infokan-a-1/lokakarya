@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
+from productpage import models
 from productpage.models import Product, Rating, Category, Favorite
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
@@ -186,6 +187,7 @@ def delete_review_ajax(request, product_id, review_id):
         print(e)  # For debugging purposes
         return JsonResponse({"error": "Internal server error"}, status=500)
 
+@csrf_exempt
 @require_http_methods(["GET"])
 def product_list_view(request):
     products = Product.objects.all().prefetch_related('ratings', 'category', 'store')
@@ -217,7 +219,7 @@ def product_list_view(request):
                     "alamat": toko.alamat,
                     "email": toko.email,
                     "telepon": toko.telepon,
-                    "image": toko.image.url,
+                    "image": toko.image.name,
                     "gmaps_link": toko.gmaps_link,
                 }
             })
@@ -231,7 +233,7 @@ def product_list_view(request):
                 "min_price": float(product.min_price),
                 "max_price": float(product.max_price),
                 "description": product.description,
-                "store": [toko['pk'] for toko in stores],
+                "store": stores,
                 "image": product.image.name,
                 "average_rating": product.count_average_rating(),
                 "num_reviews": product.num_reviews(),
@@ -241,6 +243,151 @@ def product_list_view(request):
         product_list.append(product_data)
 
     return JsonResponse(product_list, safe=False)
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def product_detail_flutter(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    reviews = product.ratings.all().order_by('-created_at')
+
+    reviews_data = []
+    for review in reviews:
+        reviews_data.append({
+                "model": "productpage.rating",
+                "pk": review.pk,
+                "fields": {
+                    "user": review.user.username,
+                    "product": str(product.id),
+                    "rating": review.rating,
+                    "review": review.review,
+                    "created_at": review.created_at.isoformat(),
+                }
+            })
+
+    # Serialize stores
+        stores = []
+        for toko in product.store.all():
+            stores.append({
+                "model": "storepage.Toko",
+                "pk": toko.pk,
+                "fields": {
+                    "nama": toko.nama,
+                    "hari_buka": toko.hari_buka,
+                    "alamat": toko.alamat,
+                    "email": toko.email,
+                    "telepon": toko.telepon,
+                    "image": toko.image.name,
+                    "gmaps_link": toko.gmaps_link,
+                }
+            })
+
+    data = {
+            "model": "productpage.product",
+            "pk": str(product.id),
+            "fields": {
+                "name": product.name,
+                "category": category_json(product.category),
+                "min_price": float(product.min_price),
+                "max_price": float(product.max_price),
+                "description": product.description,
+                "store": stores,
+                "image": product.image.name,
+                "average_rating": product.count_average_rating(),
+                "num_reviews": product.num_reviews(),
+                "ratings": reviews_data,
+            }
+    }
+
+    return JsonResponse(data)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def add_review_flutter(request, product_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to add a review.")
+
+    product = get_object_or_404(Product, pk=product_id)
+    try:
+        body = json.loads(request.body)
+        rating = int(body.get('rating', 0))
+        review_text = body.get('review', '')
+
+        if rating < 1 or rating > 5:
+            return JsonResponse({'error': 'Rating must be between 1 and 5.'}, status=400)
+
+        review = Rating.objects.create(
+            product=product,
+            user=request.user,
+            rating=rating,
+            review=review_text,
+        )
+        review.save()
+        data = {
+            "model": "productpage.rating",
+            "pk": review.pk,
+            "fields": {
+                "user": review.user.username,
+                "product": str(product.id),
+                "rating": review.rating,
+                "review": review.review,
+                "created_at": review.created_at.isoformat(),
+            }
+        }
+        return JsonResponse(data, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON.'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+        
+@csrf_exempt
+@require_http_methods(["POST","GET"])
+def edit_review_flutter(request, product_id, review_id):
+    product = get_object_or_404(Product, pk=product_id)
+    review = get_object_or_404(Rating, pk=review_id, product=product)
+
+    if request.method == 'POST':
+        try:
+            body = json.loads(request.body)
+            rating = body.get('rating', review.rating)
+            review_text = body.get('review', review.review)
+
+            if not (1 <= rating <= 5):
+                return JsonResponse({'error': 'Rating must be between 1 and 5.'}, status=400)
+
+            review.rating = rating
+            review.review = review_text.strip()
+            
+            review.save()
+
+            data = {
+                'pk': review.pk,
+                'model': 'productpage.rating',
+                'fields': {
+                    'user': review.user.username,
+                    'product': str(review.product.pk),
+                    'rating': review.rating,
+                    'review': review.review,
+                    'created_at': review.created_at.isoformat(),
+                }
+            }
+
+            return JsonResponse(data, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': str(e)}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def delete_review_flutter(request, product_id, review_id):
+    product = get_object_or_404(Product, pk=product_id)
+    review = get_object_or_404(Rating, pk=review_id, product=product)
+
+    review.delete()
+
+    return JsonResponse({'message': 'Review deleted successfully.'}, status=200)
 
 def category_json(category):
     return {

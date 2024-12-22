@@ -469,10 +469,10 @@
                         <!-- Footer Card: Tombol Aksi -->
                         <div class="flex justify-between p-4">
                             {% if is_owner %}
-                            <a href="/edit-status/${item.pk}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
+                            <a href="/userprofile/edit-status/${item.pk}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
                             Edit
                             </a>
-                            <a href="/delete/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
+                            <a href="/userprofile/delete/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
                             Delete
                             </a>
                             {% endif %}
