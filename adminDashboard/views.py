@@ -80,8 +80,7 @@ def delete_product(_, product_id):
     product = get_object_or_404(Product, id=product_id)
     product.delete()
     return JsonResponse({'success': True})
-    product.delete()
-    return JsonResponse({'success': True})
+
 
 def store_list(_):
     stores = Toko.objects.all()
